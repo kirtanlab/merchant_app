@@ -1,0 +1,2 @@
+1) Prices: validation
+2) Button Gen ERror display
