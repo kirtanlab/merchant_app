@@ -17,14 +17,22 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {COLORS, SIZES} from '../../constants/theme';
 import InputField from '../InputField';
 import {connect} from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as newproperty_actions from '../../store/Newproperty/newproperty_action';
-
+// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [terms_pg_copy, setTerms_pg_copy] = useState(terms_pg);
   const [term, setTerms] = useState();
   const [about, setAbout] = useState('');
+  const [selected_term, setSelected_term] = useState('');
+  const [selected_term_id, setSelected_term_id] = useState('');
+  const [aboutpg, setaboutpg] = useState('sd');
+  let [focused, setonfocused] = useState(false);
+  const generateID = () => {
+    return Math.random().toString(36).slice(2);
+  };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     // fetchDishess();
@@ -48,7 +56,24 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View
+            style={{
+              height: focused ? '25.4%' : '15.6%',
+              backgroundColor: 'white',
+              borderRadius: 20,
+              width: '80%',
+
+              borderWidth: 2,
+              borderColor: COLORS.mobile_theme_back,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+            }}>
             {/* <Text style={styles.modalText}>Hello World!</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
@@ -83,7 +108,11 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
                 }}>
                 <TouchableOpacity
                   onPress={async () => {
-                    terms_pg_copy.push({text: term});
+                    console.log('selected_term_id', selected_term_id);
+
+                    const id = generateID();
+                    terms_pg_copy.push({id: id, text: term});
+                    console.log('terms_pg_copy', terms_pg_copy);
                     setTerms_pg_copy(terms_pg_copy);
                     await setTerms_pg(terms_pg_copy);
                     setModalVisible(false);
@@ -104,21 +133,32 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
             {/* TextBox */}
             <View
               style={{
-                marginBottom: 60,
-                height: '100%',
+                marginBottom: 0,
+                height: '50%',
                 borderRadius: SIZES.form_button_borderRadius,
               }}>
-              <InputField
-                label={'Add Terms Here'}
-                type={'Terms_pg'}
-                keyboardType={'default'}
-                value={term}
-                onChange={e => {
-                  setTerms(e.nativeEvent.text);
-                  console.log('hey', e.nativeEvent.text);
-                }}
-                multiline
-              />
+              <KeyboardAvoidingView>
+                <InputField
+                  label={'Add Terms Here'}
+                  type={'Terms_pg'}
+                  keyboardType={'default'}
+                  onFocus={() => {
+                    console.log('changed');
+                    setonfocused(true);
+                  }}
+                  onBlur={() => {
+                    console.log('changed');
+                    setonfocused(false);
+                  }}
+                  value={selected_term ? selected_term : term}
+                  onChange={async e => {
+                    setTerms(e.nativeEvent.text);
+
+                    console.log('hey', e.nativeEvent.text);
+                  }}
+                  multiline
+                />
+              </KeyboardAvoidingView>
             </View>
           </View>
         </View>
@@ -126,45 +166,85 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
     );
   };
   const RenderBox = item => {
-    console.log(item);
+    console.log('isthis', item);
     return (
-      <View
-        style={{
-          marginTop: 3,
-          fontSize: 19,
-          // paddingRight: 10,
-          lineHeight: 23,
-          maxHeight: 100,
-          width: SIZES.width * 0.82,
-          //   borderRadius: SIZES.form_button_borderRadius,
-          backgroundColor: COLORS.white,
-          //   borderTopWidth: 0.5,
-          borderWidth: 1,
-          borderColor: COLORS.mobile_theme_back,
-        }}>
-        <TouchableOpacity
+      <ScrollView>
+        <View
           style={{
-            marginTop: 0,
-
-            width: SIZES.width * 0.9,
-
-            maxHeight: SIZES.form_button_maxHeight,
-          }}
-          onPress={async () => {
-            setModalVisible(true);
-            console.log('Pressed0');
+            marginTop: 3,
+            fontSize: 19,
+            // paddingRight: 10,
+            lineHeight: 23,
+            maxHeight: 100,
+            width: SIZES.width * 0.82,
+            //   borderRadius: SIZES.form_button_borderRadius,
+            backgroundColor: COLORS.white,
+            //   borderTopWidth: 0.5,
+            borderWidth: 1,
+            borderColor: COLORS.mobile_theme_back,
+            flexDirection: 'row',
           }}>
-          <Text
-            style={{
-              fontSize: SIZES.custom1,
-              fontWeight: SIZES.form_button_text_fontWeight,
-              color: COLORS.black,
-              left: 4,
-            }}>
-            {item.itemTitle.text}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <View style={{flex: 1}}>
+            <TouchableOpacity
+              style={{
+                marginTop: 3,
+
+                width: SIZES.width * 0.9,
+
+                maxHeight: SIZES.form_button_maxHeight,
+              }}
+              onPress={async () => {
+                console.log('temselected');
+                // setSelected_term(item.itemTitle.text);
+                // setSelected_term_id(item.itemTitle.id);
+                // setModalVisible(true);
+                console.log('Pressed0');
+              }}>
+              <Text
+                style={{
+                  fontSize: SIZES.custom1,
+                  fontWeight: SIZES.form_button_text_fontWeight,
+                  color: COLORS.black,
+                  left: 4,
+                }}>
+                {item.itemTitle.text}
+              </Text>
+              {/* <Ionicons
+              name="trash"
+              size={20}
+              color={COLORS.mobile_theme_back}
+              style={{marginTop: 18}}
+            /> */}
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.1}}>
+            <TouchableOpacity
+              onPress={async () => {
+                //  let obj = terms_pg_copy.find(
+                //   o => o.id === item.id,
+                // );
+                // obj.text = term;
+                console.log('clicked', item.itemTitle.id);
+                let copy_temp = terms_pg_copy;
+                copy_temp = copy_temp.filter(
+                  obj => obj.id !== item.itemTitle.id,
+                );
+
+                await setTerms_pg(copy_temp);
+                // setTerms_pg_copy(copy_temp);
+                console.log('terms_pg_copy', copy_temp);
+                setTerms_pg_copy(copy_temp);
+              }}>
+              <Ionicons
+                name="trash-outline"
+                size={25}
+                color={COLORS.mobile_theme_back}
+                style={{}}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
     );
   };
 
@@ -187,7 +267,7 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
     // <ScrollView style={{backgroundColor: 'white'}}>
     <View style={{marginTop: 30}}>
       <View style={{flexDirection: 'row'}}>
-        <View style={{flex: 1, marginTop: 6}}>
+        <View style={{flex: 1, marginTop: 8}}>
           <Text
             style={{
               color: COLORS.black,
@@ -216,6 +296,7 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
               //   flex: 2,
             }}
             onPress={async () => {
+              setSelected_term('');
               setModalVisible(true);
               console.log('Pressed0');
             }}>
@@ -271,10 +352,11 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
         <View style={{marginTop: 15}}>
           <KeyboardAvoidingView>
             <InputField
-              label={'Add About pg Here'}
+              // label={'Add About pg Here'}
               type={'About_pg'}
               keyboardType={'default'}
-              value={about_pg}
+              // value={aboutpg}
+              defaultValue={aboutpg}
               onChange={e => {
                 setAbout_pg(e.nativeEvent.text);
                 console.log('hey', e.nativeEvent.text);
@@ -295,22 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  modalView: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    width: '80%',
-    height: '50%',
-    borderWidth: 2,
-    borderColor: COLORS.mobile_theme_back,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
+
   button: {
     borderRadius: 20,
     padding: 10,

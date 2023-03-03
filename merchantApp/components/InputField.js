@@ -669,22 +669,27 @@ function InputField({
           multiline={multiline ? true : false}
           style={{
             // flex: 1,
-            paddingVertical: -2,
-            borderBottomColor: COLORS.lightGray4,
-            borderBottomWidth: 1,
+            paddingVertical: 5,
+            // borderBottomColor: COLORS.lightGray4,
+            // borderBottomWidth: 1,
             // paddingBottom: 4,
             fontSize: 19,
             // paddingRight: 10,
             lineHeight: 23,
             flex: 2,
             textAlignVertical: 'top',
-            height: 180,
-
+            height: 64,
+            borderRadius: SIZES.form_button_borderRadius,
             borderWidth: 1,
             borderColor: COLORS.lightGray4,
+            // shadowColor: '#000',
+
+            // elevation: 5,
           }}
           // secureTextEntry={true}
           onChange={onChange}
+          onBlur={onBlur}
+          onFocus={onFocus}
         />
       );
     }
@@ -704,20 +709,16 @@ function InputField({
           keyboardType={keyboardType}
           multiline={multiline ? true : false}
           style={{
-            // flex: 1,
             paddingVertical: -2,
             borderBottomColor: COLORS.lightGray4,
             borderBottomWidth: 1,
-            // paddingBottom: 4,
             fontSize: 19,
-            // paddingRight: 10,
             lineHeight: 23,
-            // flex: 2,
             width: SIZES.width * 0.88,
             textAlignVertical: 'top',
             minHeight: 50,
             maxHeight: 180,
-
+            fontWeight: 'bold',
             borderWidth: 1,
             borderColor: COLORS.lightGray4,
           }}
