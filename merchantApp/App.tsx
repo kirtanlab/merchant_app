@@ -40,11 +40,6 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen
           options={{headerShown: false}}
-          name="MoreProperty"
-          component={more_property}
-        />
-        <Stack.Screen
-          options={{headerShown: false}}
           name="BasicDetails"
           component={BasicDetails}
         />
@@ -53,7 +48,11 @@ const App = () => {
           name="Location"
           component={Location}
         />
-
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="MoreProperty"
+          component={more_property}
+        />
         <Stack.Screen
           options={{headerShown: false}}
           name="Thankyou"
@@ -134,7 +133,7 @@ const App = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={'Newproperty'}>
+          initialRouteName={'NewRooms'}>
           <Stack.Screen
             name="Root"
             component={Root}

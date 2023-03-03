@@ -41,14 +41,14 @@ const NumericInput = ({
               fontSize: SIZES.custom1,
               fontWeight: 'bold',
             }}>
-            Enter House Number
+            Enter House Number or Flat Number
           </Text>
         </View>
         <View>
           <View style={{marginTop: 6}}>
             <View style={{width: SIZES.width * 0.8}}>
               <InputField
-                label={'House No.'}
+                label={'House No/Flat No'}
                 type={'House_No'}
                 keyboardType={'default'}
                 value={house_no}
@@ -114,7 +114,7 @@ const NumericInput = ({
               fontSize: SIZES.custom1,
               fontWeight: 'bold',
             }}>
-            Enter Landmark
+            Enter Landmark / Address
           </Text>
         </View>
         <View>

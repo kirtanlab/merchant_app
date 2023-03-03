@@ -21,7 +21,14 @@ import CustomButton_form from '../../components/NewProperty/CustomButton_form';
 import NumericInput from '../../components/NewProperty/NumericInput';
 import Floor_prices from '../../components/NewRooms.js/Floor_prices';
 import Ac_attached from '../../components/NewRooms.js/Ac_attached';
-const Basic1 = ({checked_floor_no, checked_price, navigation}) => {
+const Basic1 = ({
+  checked_totalRooms,
+  checked_title,
+  checked_occpancy,
+  checked_floor_no,
+  checked_price,
+  navigation,
+}) => {
   function next_page() {
     navigation.navigate('Basic2');
     console.log('next pagee');
@@ -45,7 +52,7 @@ const Basic1 = ({checked_floor_no, checked_price, navigation}) => {
     }
   };
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
+    <ScrollView style={{backgroundColor: 'white', padding: 0}}>
       {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
@@ -71,11 +78,11 @@ const Basic1 = ({checked_floor_no, checked_price, navigation}) => {
           style={{position: 'absolute', top: -1}}
         />
       </View>
-      <View style={{padding: 15, marginTop: 45}}>
+      <View style={{padding: 18, marginTop: 45}}>
         <View>
           <Header
             step={1}
-            subtitle={'Floor Number, Ac/Non AC, images/Videos, prices'}
+            subtitle={'Room Title, Ac/Non AC, images/Videos, prices'}
             title={'Add Room Details'}
           />
         </View>
@@ -85,7 +92,7 @@ const Basic1 = ({checked_floor_no, checked_price, navigation}) => {
         <View style={{marginTop: 8}}>
           <Ac_attached />
         </View>
-        {/* Videos of Images */}
+        {/* Videos of Images
         <View style={{marginTop: 35}}>
           <Text
             style={{
@@ -122,29 +129,29 @@ const Basic1 = ({checked_floor_no, checked_price, navigation}) => {
               Select fles
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
       <View style={{marginTop: 60}}>
         <CustomButton_form
           fontColor={
-            checked_floor_no && checked_price
+            checked_occpancy && checked_totalRooms && checked_title
               ? COLORS.font_color
               : COLORS.lightGray3
           }
           backgroundColor={
-            checked_floor_no && checked_price
+            checked_occpancy && checked_totalRooms && checked_title
               ? COLORS.mobile_theme_back
               : COLORS.lightGray4
           }
           label={'Go for Next Step '}
           _borderColor={
-            checked_floor_no && checked_price
+            checked_occpancy && checked_totalRooms && checked_title
               ? COLORS.mobile_theme_back
               : COLORS.lightGray4
           }
           borderRadius
           onPress={() => {
-            if (checked_floor_no && checked_price) {
+            if (checked_occpancy && checked_totalRooms && checked_title) {
               console.log('Done');
               next_page();
             } else {
@@ -159,8 +166,11 @@ const Basic1 = ({checked_floor_no, checked_price, navigation}) => {
 };
 function mapStateToProps(state) {
   return {
+    checked_title: state.Newrooms_reducer.checked_title_no,
     checked_floor_no: state.Newrooms_reducer.checked_floor_no,
     checked_price: state.Newrooms_reducer.checked_price,
+    checked_occpancy: state.Newrooms_reducer.checked_occupancy,
+    checked_totalRooms: state.Newrooms_reducer.checked_totalRooms,
   };
 }
 

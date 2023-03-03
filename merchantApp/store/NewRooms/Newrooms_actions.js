@@ -1,20 +1,26 @@
-export const UPDATE_FLOOR = 'UPDATE_FLOOR';
+export const UPDATE_title = 'UPDATE_title';
 export const UPDATE_AC = 'UPDATE_AC';
 export const UPDATE_ATTACHED = 'UPDATE_ATTACHED';
 export const UPDATE_PRICES = 'UPDATE_PRICES';
 export const UPDATE_EXTRA_DESCRIPTORS = 'UPDATE_EXTRA_DESCRIPTORS';
 export const UPDATE_BASE_TERMS = 'UPDATE_BASE_TERMS';
+export const UPDATE_TOTAL_AVAILABLE = 'UPDATE_TOTAL_AVAILABLE';
+export const UPDATE_OCCUPANCY = 'UPDATE_OCCUPANCY';
 
-export const CHECKED_FLOOR = 'CHECKED_FLOOR';
+export const CHECKED_title = 'CHECKED_title';
 export const CHECKED_AC = 'CHECKED_AC';
 export const CHECKED_ATTACHED = 'CHECKED_ATTACHED';
 export const CHECKED_PRICES = 'CHECKED_PRICES';
 export const CHECKED_BASE_TERMS = 'CHECKED_BASE_TERMS';
+export const CHECKED_TOTAL_AVAILABLE = 'CHECKED_TOTAL_AVAILABLE';
+export const CHECKED_OCCUPANCY = 'CHECKED_OCCUPANCY';
 
-export const FOCUSED_FLOOR = 'FOCUSED_FLOOR';
+export const FOCUSED_title = 'FOCUSED_title';
 export const FOCUSED_AC = 'FOCUSED_AC';
 export const FOCUSED_ATTACHED = 'FOCUSED_ATTACHED';
 export const FOCUSED_PRICES = 'FOCUSED_PRICES';
+export const FOCUSED_TOTAL_AVAILABLE = 'FOCUSED_TOTAL_AVAILABLE';
+export const FOCUSED_OCCUPANCY = 'FOCUSED_OCCUPANCY';
 
 export const updateBaseTerms = value => {
   return {
@@ -39,8 +45,8 @@ export const udpateAttached = value => ({
   type: UPDATE_ATTACHED,
   value: value,
 });
-export const updateFloor = value => ({
-  type: UPDATE_FLOOR,
+export const updatetitle = value => ({
+  type: UPDATE_title,
   value: value,
 });
 export const updateAC = value => ({
@@ -52,8 +58,17 @@ export const updatePrices = value => ({
   value: value,
 });
 
-export const checkedFloor = value => ({
-  type: CHECKED_FLOOR,
+export const updatetotalAval = value => ({
+  type: UPDATE_TOTAL_AVAILABLE,
+  value: value,
+});
+export const updateOccupancy = value => ({
+  type: UPDATE_OCCUPANCY,
+  value: value,
+});
+
+export const checkedtitle = value => ({
+  type: CHECKED_title,
   value: value,
 });
 export const checkedAC = value => ({
@@ -68,9 +83,17 @@ export const checkedPrices = value => ({
   type: CHECKED_PRICES,
   value: value,
 });
+export const checkedAvailableRoom = value => ({
+  type: CHECKED_TOTAL_AVAILABLE,
+  value: value,
+});
+export const checkedoccupancy = value => ({
+  type: CHECKED_OCCUPANCY,
+  value: value,
+});
 
-export const focusedFloor = value => ({
-  type: FOCUSED_FLOOR,
+export const focusedtitle = value => ({
+  type: FOCUSED_title,
   value: value,
 });
 export const focusedAC = value => ({
@@ -83,5 +106,14 @@ export const focusedAttached = value => ({
 });
 export const focusedPrices = value => ({
   type: FOCUSED_PRICES,
+  value: value,
+});
+
+export const focusedTotalAvai = value => ({
+  type: FOCUSED_TOTAL_AVAILABLE,
+  value: value,
+});
+export const focusedOccupancy = value => ({
+  type: FOCUSED_OCCUPANCY,
   value: value,
 });

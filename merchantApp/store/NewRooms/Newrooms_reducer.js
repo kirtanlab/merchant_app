@@ -1,7 +1,7 @@
 import * as Newrooms_Actions from './Newrooms_actions';
 let initialState = {
   AC: false,
-  Floor_no: 1,
+  title_no: 1,
   attached: false,
   price: 5400,
   extra_description: '',
@@ -11,19 +11,56 @@ let initialState = {
     govt: false,
     myApp: false,
   },
+  totalRooms: 1,
+  occupancy: 1,
   checked_base_terms: false,
   checked_ac: false,
-  checked_floor_no: false,
+  checked_title_no: false,
   checked_attached: false,
   checked_price: false,
-  focused_ac: false,
-  focused_floor_no: false,
+  checked_attached: false,
+  checked_totalRooms: false,
+  checked_occupancy: false,
+  focused_title_no: false,
   focused_attached: false,
   focused_price: false,
+  focused_totalRooms: false,
+  focused_occpancy: false,
 };
 const newRoom_reducer = (state = initialState, action) => {
   switch (action.type) {
     //NewRooms Form
+    case Newrooms_Actions.UPDATE_OCCUPANCY:
+      return {
+        ...state,
+        occupancy: action.value,
+      };
+    case Newrooms_Actions.UPDATE_TOTAL_AVAILABLE:
+      return {
+        ...state,
+        totalRooms: action.value,
+      };
+    case Newrooms_Actions.CHECKED_OCCUPANCY:
+      return {
+        ...state,
+        checked_occupancy: action.value,
+      };
+    case Newrooms_Actions.CHECKED_TOTAL_AVAILABLE:
+      return {
+        ...state,
+        checked_totalRooms: action.value,
+      };
+    case Newrooms_Actions.FOCUSED_OCCUPANCY:
+      return {
+        ...state,
+        focused_occpancy: action.value,
+      };
+    case Newrooms_Actions.FOCUSED_TOTAL_AVAILABLE:
+      return {
+        ...state,
+        focused_totalRooms: action.value,
+      };
+
     case Newrooms_Actions.UPDATE_BASE_TERMS:
       return {
         ...state,
@@ -49,10 +86,10 @@ const newRoom_reducer = (state = initialState, action) => {
         ...state,
         checked_ac: action.value,
       };
-    case Newrooms_Actions.CHECKED_FLOOR:
+    case Newrooms_Actions.CHECKED_title:
       return {
         ...state,
-        checked_floor_no: action.value,
+        checked_title_no: action.value,
       };
     case Newrooms_Actions.CHECKED_PRICES:
       return {
@@ -64,10 +101,10 @@ const newRoom_reducer = (state = initialState, action) => {
         ...state,
         focused_ac: action.value,
       };
-    case Newrooms_Actions.FOCUSED_FLOOR:
+    case Newrooms_Actions.FOCUSED_title:
       return {
         ...state,
-        focused_floor_no: action.value,
+        focused_title_no: action.value,
       };
     case Newrooms_Actions.FOCUSED_PRICES:
       return {
@@ -89,10 +126,10 @@ const newRoom_reducer = (state = initialState, action) => {
         ...state,
         AC: action.value,
       };
-    case Newrooms_Actions.UPDATE_FLOOR:
+    case Newrooms_Actions.UPDATE_title:
       return {
         ...state,
-        Floor_no: action.value,
+        title_no: action.value,
       };
     case Newrooms_Actions.UPDATE_ATTACHED:
       return {

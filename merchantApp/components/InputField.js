@@ -55,18 +55,24 @@ function InputField({
   update_location,
   updateAC,
   updatePrices,
-  updateFloor,
+  updatetitle,
   updateAttached,
-  checkedFloor,
+  checkedtitle,
   checkedAC,
   checkedAttached,
   checkedPrices,
   focusedAC,
   focusedAttached,
   focusedPrices,
-  focusedFloor,
+  focusedtitle,
   onBlur,
   onFocus,
+  focusedOccupancy,
+  focusedTotalAvai,
+  updateOccupancy,
+  updatetotalAval,
+  checkedAvailableRoom,
+  checkedoccupancy,
 }) {
   let [sign_name_color, set_sign_name_color] = useState('#ccc');
   let err = false;
@@ -416,6 +422,94 @@ function InputField({
         />
       );
     }
+    if (type == 'totalRooms') {
+      return (
+        <TextInput
+          onFocus={() => {
+            console.log('Entering totalRooms');
+            focusedTotalAvai(true);
+            // gen_sign_err_method(false);
+          }}
+          onBlur={() => {
+            console.log('!Entering focued');
+            focusedTotalAvai(false);
+          }}
+          placeholder={label}
+          keyboardType={keyboardType}
+          style={{
+            height: 40,
+            marginLeft: 4,
+            flex: 1,
+            borderBottomWidth: 1,
+            borderColor: '#d1cfcf',
+            marginTop: 5,
+            borderRadius: 8,
+            paddingHorizontal: 10,
+            paddingBottom: 9,
+            fontSize: 18,
+            color: '#212121',
+          }}
+          // secureTextEntry={true}
+          onChange={value => {
+            // console.log('handeled', value.nativeEvent.text);
+            value = Number(value.nativeEvent.text);
+            if (value >= 1) {
+              console.log('etnereed green');
+              checkedAvailableRoom(true);
+              // gen_sign_err_method(false);
+              // sign_password_focused(false);
+              updatetotalAval(value);
+            } else {
+              checkedAvailableRoom(false);
+            }
+          }}
+        />
+      );
+    }
+    if (type == 'occupancy') {
+      return (
+        <TextInput
+          onFocus={() => {
+            console.log('Entering occupacny');
+            focusedOccupancy(true);
+            // gen_sign_err_method(false);
+          }}
+          onBlur={() => {
+            console.log('!Entering focued');
+            focusedOccupancy(false);
+          }}
+          placeholder={label}
+          keyboardType={keyboardType}
+          style={{
+            height: 40,
+            marginLeft: 4,
+            flex: 1,
+            borderBottomWidth: 1,
+            borderColor: '#d1cfcf',
+            marginTop: 5,
+            borderRadius: 8,
+            paddingHorizontal: 10,
+            paddingBottom: 9,
+            fontSize: 18,
+            color: '#212121',
+          }}
+          // secureTextEntry={true}
+          onChange={value => {
+            // console.log('handeled', value.nativeEvent.text);
+            value = Number(value.nativeEvent.text);
+            if (value >= 1) {
+              console.log('etnereed green');
+              checkedoccupancy(true);
+              // gen_sign_err_method(false);
+              // sign_password_focused(false);
+              updateOccupancy(value);
+            } else {
+              checkedoccupancy(false);
+            }
+          }}
+        />
+      );
+    }
     if (type == 'phone') {
       return (
         <TextInput
@@ -484,10 +578,11 @@ function InputField({
           }}
           // secureTextEntry={true}
           onChange={value => {
-            // console.log('handeled', value.nativeEvent.text);
+            let value_string = value.nativeEvent.text;
+            // console.log('handeled', value.nativeEvent.text.length);
             value = Number(value.nativeEvent.text);
             console.log('value_prices', value);
-            if (value !== ' ' && value !== 0) {
+            if (value !== ' ' && value !== 0 && value_string.length >= 3) {
               console.log('etnereed green');
               checkedPrices(true);
               // gen_sign_err_method(false);
@@ -500,27 +595,32 @@ function InputField({
         />
       );
     }
-    if (type == 'Floor_No') {
+    if (type == 'room_title') {
       return (
         <TextInput
           onFocus={() => {
             console.log('Entering focued House No');
-            focusedFloor(true);
+            focusedtitle(true);
             // gen_sign_err_method(false);
           }}
           onBlur={() => {
             console.log('!Entering focued House No');
-            focusedFloor(false);
+            focusedtitle(false);
           }}
           placeholder={label}
           keyboardType={keyboardType}
           style={{
+            height: 40,
+            marginLeft: 4,
             flex: 1,
-            paddingVertical: 0,
-            borderBottomColor: '#ccc',
             borderBottomWidth: 1,
-            paddingBottom: 4,
-            fontSize: 19,
+            borderColor: '#d1cfcf',
+            marginTop: 5,
+            borderRadius: 8,
+            paddingHorizontal: 10,
+            paddingBottom: 9,
+            fontSize: 18,
+            color: '#212121',
           }}
           // secureTextEntry={true}
           onChange={value => {
@@ -530,12 +630,12 @@ function InputField({
             // value = Number(value.nativeEvent.text);
             if (value !== '') {
               console.log('etnereed house no');
-              checkedFloor(true);
+              checkedtitle(true);
               // gen_sign_err_method(false);
               // sign_password_focused(false);
-              updateFloor(value);
+              updatetitle(value);
             } else {
-              checkedFloor(false);
+              checkedtitle(false);
             }
           }}
         />
@@ -858,22 +958,39 @@ function mapDispatchToProps(dispatch) {
       dispatch(NewRoomActions.updateExtraDescription(value));
     },
 
-    checkedFloor: value => {
-      return dispatch(NewRoomActions.checkedFloor(value));
+    checkedtitle: value => {
+      return dispatch(NewRoomActions.checkedtitle(value));
     },
     checkedPrices: value => {
       return dispatch(NewRoomActions.checkedPrices(value));
     },
-    focusedFloor: value => {
-      return dispatch(NewRoomActions.focusedFloor(value));
+    focusedtitle: value => {
+      return dispatch(NewRoomActions.focusedtitle(value));
     },
     focusedPrices: value => {
       return dispatch(NewRoomActions.focusedPrices(value));
     },
-    updateFloor: value => {
-      return dispatch(NewRoomActions.updateFloor(value));
+    updatetitle: value => {
+      return dispatch(NewRoomActions.updatetitle(value));
     },
-
+    updatetotalAval: value => {
+      return dispatch(NewRoomActions.updatetotalAval(value));
+    },
+    updateOccupancy: value => {
+      return dispatch(NewRoomActions.updateOccupancy(value));
+    },
+    focusedTotalAvai: value => {
+      return dispatch(NewRoomActions.focusedTotalAvai(value));
+    },
+    focusedOccupancy: value => {
+      return dispatch(NewRoomActions.focusedOccupancy(value));
+    },
+    checkedAvailableRoom: value => {
+      return dispatch(NewRoomActions.checkedAvailableRoom(value));
+    },
+    checkedoccupancy: value => {
+      return dispatch(NewRoomActions.checkedoccupancy(value));
+    },
     updatePrices: value => {
       return dispatch(NewRoomActions.updatePrices(value));
     },

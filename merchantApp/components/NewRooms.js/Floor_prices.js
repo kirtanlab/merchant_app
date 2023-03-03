@@ -9,16 +9,21 @@ import {
 } from 'react-native';
 import InputField from '../../components/InputField';
 import {COLORS, SIZES} from '../../constants/theme';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {phone_checked} from '../../store/auth/authActions';
 import {connect} from 'react-redux';
 const Floor_price = ({
   focused_price,
-  focused_floor_no,
+  focused_title,
   checked_price,
-  checked_floor_no,
-  Floor_no,
+  checked_title,
+  title,
   price,
+  focused_occpancy,
+  focused_totalRooms,
+  checked_totalRooms,
+  checked_occpancy,
+  occupancy,
+  totalRooms,
 }) => {
   let [name, setName] = useState();
   let [err, setErr] = useState(true);
@@ -26,7 +31,7 @@ const Floor_price = ({
   //   console.log(focused_adhar_name);
   return (
     <KeyboardAvoidingView>
-      <SafeAreaView>
+      <SafeAreaView style={{padding: 0}}>
         <View>
           <Text
             style={{
@@ -34,7 +39,7 @@ const Floor_price = ({
               fontSize: SIZES.custom1,
               fontWeight: 'bold',
             }}>
-            Enter Floor Number
+            Enter title for room
           </Text>
         </View>
         <View>
@@ -42,10 +47,10 @@ const Floor_price = ({
           <View style={{marginTop: 6}}>
             <View style={{width: SIZES.width * 0.8}}>
               <InputField
-                label={'Floor No.'}
-                type={'Floor_No'}
+                label={'Title'}
+                type={'room_title'}
                 keyboardType={'default'}
-                value={Floor_no}
+                value={title}
                 // icon={
                 //   <Ionicons
                 //     name="person-outline"
@@ -56,8 +61,8 @@ const Floor_price = ({
                 // }
               />
             </View>
-            {focused_floor_no && !checked_floor_no && (
-              <View style={{marginTop: -30, marginBottom: 20}}>
+            {focused_title && !checked_title && (
+              <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
                 <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
                   Fill this
                 </Text>
@@ -65,7 +70,80 @@ const Floor_price = ({
             )}
           </View>
         </View>
-        {/* Prices */}
+        {/* Total Available Rooms Number */}
+        <View>
+          <Text
+            style={{
+              color: COLORS.black,
+              fontSize: SIZES.custom1,
+              fontWeight: 'bold',
+            }}>
+            Enter Total Number of this type of Rooms
+          </Text>
+        </View>
+        <View style={{marginTop: 6}}>
+          <View style={{width: SIZES.width * 0.8}}>
+            <InputField
+              label={'Total Rooms'}
+              type={'totalRooms'}
+              keyboardType={'default'}
+              value={totalRooms}
+              // icon={
+              //   <Ionicons
+              //     name="person-outline"
+              //     size={30}
+              //     color={err ? COLORS.mobile_theme_back : 'red'}
+              //     style={{marginRight: 15, marginTop: 5, marginLeft: 5}}
+              //   />
+              // }
+            />
+          </View>
+          {focused_totalRooms && !checked_totalRooms && (
+            <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
+              <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
+                Make it atleast 1
+              </Text>
+            </View>
+          )}
+        </View>
+        {/* Total Occupancy of Rooms Number */}
+        <View>
+          <Text
+            style={{
+              color: COLORS.black,
+              fontSize: SIZES.custom1,
+              fontWeight: 'bold',
+            }}>
+            Enter Occupancy Rooms
+          </Text>
+        </View>
+        <View style={{marginTop: 6}}>
+          <View style={{width: SIZES.width * 0.8}}>
+            <InputField
+              label={'Total Occupancy'}
+              type={'occupancy'}
+              keyboardType={'default'}
+              value={occupancy}
+              // icon={
+              //   <Ionicons
+              //     name="person-outline"
+              //     size={30}
+              //     color={err ? COLORS.mobile_theme_back : 'red'}
+              //     style={{marginRight: 15, marginTop: 5, marginLeft: 5}}
+              //   />
+              // }
+            />
+          </View>
+          {focused_occpancy && !checked_occpancy && (
+            <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
+              <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
+                Make it atleast 1
+              </Text>
+            </View>
+          )}
+        </View>
+
+        {/* Prices
         <View style={{marginTop: 0}}>
           <Text
             style={{
@@ -127,7 +205,7 @@ const Floor_price = ({
           <View style={{marginTop: -30, left: 50, marginBottom: 20}}>
             <Text style={{color: COLORS.lightGray3}}>Enter Valid Prices</Text>
           </View>
-        )}
+        )} */}
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -135,12 +213,18 @@ const Floor_price = ({
 
 function mapStateToProps(state) {
   return {
-    Floor_no: state.Newrooms_reducer.Floor_no,
-    price: state.Newrooms_reducer.price,
-    checked_floor_no: state.Newrooms_reducer.checked_floor_no,
-    checked_price: state.Newrooms_reducer.checked_price,
-    focused_floor_no: state.Newrooms_reducer.focused_floor_no,
-    focused_price: state.Newrooms_reducer.focused_price,
+    title: state.Newrooms_reducer.title_no,
+
+    totalRooms: state.Newrooms_reducer.totalRooms,
+    occupancy: state.Newrooms_reducer.occupancy,
+    checked_title: state.Newrooms_reducer.checked_title_no,
+    checked_occpancy: state.Newrooms_reducer.checked_occupancy,
+    checked_totalRooms: state.Newrooms_reducer.checked_totalRooms,
+
+    focused_title: state.Newrooms_reducer.focused_title_no,
+
+    focused_occpancy: state.Newrooms_reducer.focused_occpancy,
+    focused_totalRooms: state.Newrooms_reducer.focused_totalRooms,
   };
 }
 
