@@ -25,9 +25,14 @@ import Ac_attached from '../../components/NewRooms.js/Ac_attached';
 import InputField from '../../components/InputField';
 // import {Checkbox} from 'react-native-paper';
 import CheckBox from '../../components/CheckBox';
-
+import Nav_Header from '../../components/NewProperty/Nav_Header';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Terms from '../../components/Terms';
+import Toast from 'react-native-toast-message';
+import {
+  toastConfig,
+  showErrorToast,
+} from '../../components/NewProperty/ToastConfig';
 const Basic2 = ({
   navigation,
   extra_description,
@@ -40,6 +45,19 @@ const Basic2 = ({
   function next_page() {
     navigation.navigate('Basic3');
   }
+  function onPress_for() {
+    if (checked_price) {
+      console.log('Done');
+      next_page();
+    } else {
+      showErrorToast((title = 'Fill All Required Details'));
+      console.log('ckicked');
+    }
+  }
+  function back_page() {
+    navigation.navigate('Basic1');
+  }
+
   const selectDoc_multiple = async () => {
     try {
       const res = await DocumentPicker.pickMultiple({
@@ -59,10 +77,13 @@ const Basic2 = ({
     }
   };
   return (
-    <KeyboardAvoidingView
-      // behavior="position"
-      style={{backgroundColor: 'white'}}>
+    <ScrollView style={{backgroundColor: 'white'}}>
+      {/* <KeyboardAvoidingView */}
+      {/* // behavior="position" */}
       {/* <ScrollView style={{backgroundColor: 'white'}}> */}
+      <View style={{right: 12}}>
+        <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
+      </View>
       <StatusBar
         animated={true}
         backgroundColor={COLORS.mobile_theme_back}
@@ -84,8 +105,23 @@ const Basic2 = ({
           height={SIZES.height * 0.006}
           style={{position: 'absolute', top: -1}}
         />
+        <Nav_Header
+          onPress_forward={onPress_for}
+          onPress_back={back_page}
+          color={
+            checked_price && checked_base_terms
+              ? COLORS.mobile_theme_back
+              : COLORS.lightGray3
+          }
+          icon_color={
+            checked_price && checked_base_terms
+              ? COLORS.mobile_theme_back
+              : COLORS.lightGray3
+          }
+          back={true}
+        />
       </View>
-      <View style={{padding: 15, marginTop: 45}}>
+      <View style={{padding: 15, marginTop: 15}}>
         <View>
           <Header
             step={2}
@@ -95,74 +131,68 @@ const Basic2 = ({
         </View>
         {/* Prices */}
         <View>
-          <KeyboardAvoidingView>
-            <View style={{marginTop: 30}}>
-              <Text
-                style={{
-                  color: COLORS.black,
-                  fontSize: SIZES.custom1,
-                  fontWeight: 'bold',
-                }}>
-                Enter Room Price
+          <View style={{marginTop: 30}}>
+            <Text
+              style={{
+                color: COLORS.black,
+                fontSize: SIZES.custom1,
+                fontWeight: 'bold',
+              }}>
+              Enter Room Price
+            </Text>
+          </View>
+          <View style={{marginTop: 8, flexDirection: 'row'}}>
+            <View
+              style={{
+                borderColor: COLORS.mobile_theme_back,
+                // borderWidth: 2,
+                borderTopEndRadius: 5,
+                borderTopStartRadius: 5,
+                borderBottomStartRadius: 5,
+                borderBottomEndRadius: 5,
+                backgroundColor: COLORS.mobile_theme_back,
+                height: 30,
+                width: 40,
+                marginTop: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={{color: COLORS.font_color, fontSize: SIZES.h1}}>
+                ₹
               </Text>
             </View>
-            <View style={{marginTop: 8, flexDirection: 'row'}}>
-              <View
-                style={{
-                  borderColor: COLORS.mobile_theme_back,
-                  // borderWidth: 2,
-                  borderTopEndRadius: 5,
-                  borderTopStartRadius: 5,
-                  borderBottomStartRadius: 5,
-                  borderBottomEndRadius: 5,
-                  backgroundColor: COLORS.mobile_theme_back,
-                  height: 30,
-                  width: 40,
-                  marginTop: 2,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{color: COLORS.font_color, fontSize: SIZES.h1}}>
-                  ₹
-                </Text>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{width: SIZES.width * 0.7, marginLeft: 7}}>
+                <InputField
+                  label={'Enter Prices'}
+                  type={'prices'}
+                  keyboardType={'phone-pad'}
+                  value={price}
+                  //   icon={
+                  //     <Ionicons
+                  //       name="call-outline"
+                  //       size={20}
+                  //       color={err ? '#666' : 'red'}
+                  //       style={{marginRight: 5, marginTop: 5}}
+                  //     />
+                  //   }
+                />
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{width: SIZES.width * 0.7, marginLeft: 7}}>
-                  <InputField
-                    label={'Enter Prices'}
-                    type={'prices'}
-                    keyboardType={'phone-pad'}
-                    value={price}
-                    //   icon={
-                    //     <Ionicons
-                    //       name="call-outline"
-                    //       size={20}
-                    //       color={err ? '#666' : 'red'}
-                    //       style={{marginRight: 5, marginTop: 5}}
-                    //     />
-                    //   }
-                  />
-                </View>
-                <TouchableOpacity>
-                  <Ionicons
-                    name="checkmark-done-outline"
-                    size={25}
-                    color={
-                      checked_price ? COLORS.mobile_theme_back : 'lightgray'
-                    }
-                    style={{marginRight: 5, marginTop: 2}}
-                  />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity>
+                <Ionicons
+                  name="checkmark-done-outline"
+                  size={25}
+                  color={checked_price ? COLORS.mobile_theme_back : 'lightgray'}
+                  style={{marginRight: 5, marginTop: 2}}
+                />
+              </TouchableOpacity>
             </View>
-            {focused_price && !checked_price && (
-              <View style={{marginTop: -30, left: 50, marginBottom: 20}}>
-                <Text style={{color: COLORS.lightGray3}}>
-                  Enter Valid Prices
-                </Text>
-              </View>
-            )}
-          </KeyboardAvoidingView>
+          </View>
+          {focused_price && !checked_price && (
+            <View style={{marginTop: -30, left: 50, marginBottom: 20}}>
+              <Text style={{color: COLORS.lightGray3}}>Enter Valid Prices</Text>
+            </View>
+          )}
         </View>
 
         {/* Extra Description */}
@@ -269,45 +299,45 @@ const Basic2 = ({
         <View style={{marginTop: '50%'}}>
           <Terms />
         </View>
-        <View
-          style={{
-            marginTop: 20,
-            position: 'relative',
-            justifyContent: 'center',
-            marginLeft: -15,
-          }}>
-          <CustomButton_form
-            fontColor={
-              checked_base_terms && checked_price
-                ? COLORS.font_color
-                : COLORS.lightGray3
-            }
-            backgroundColor={
-              checked_base_terms && checked_price
-                ? COLORS.mobile_theme_back
-                : COLORS.lightGray4
-            }
-            label={'Go for Next Step '}
-            _borderColor={
-              checked_base_terms && checked_price
-                ? COLORS.mobile_theme_back
-                : COLORS.lightGray4
-            }
-            borderRadius
-            onPress={() => {
-              if (checked_base_terms && checked_price) {
-                console.log('Done');
-                next_page();
-              } else {
-                // gen_login_err_method(true);
-                console.log('ckicked');
+        {/* <View
+            style={{
+              marginTop: 20,
+              position: 'relative',
+              justifyContent: 'center',
+              marginLeft: -15,
+            }}>
+            <CustomButton_form
+              fontColor={
+                checked_base_terms && checked_price
+                  ? COLORS.font_color
+                  : COLORS.lightGray3
               }
-            }}
-          />
-        </View>
+              backgroundColor={
+                checked_base_terms && checked_price
+                  ? COLORS.mobile_theme_back
+                  : COLORS.lightGray4
+              }
+              label={'Go for Next Step '}
+              _borderColor={
+                checked_base_terms && checked_price
+                  ? COLORS.mobile_theme_back
+                  : COLORS.lightGray4
+              }
+              borderRadius
+              onPress={() => {
+                if (checked_base_terms && checked_price) {
+                  console.log('Done');
+                  next_page();
+                } else {
+                  // gen_login_err_method(true);
+                  console.log('ckicked');
+                }
+              }}
+            />
+          </View> */}
       </View>
       {/* </ScrollView> */}
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

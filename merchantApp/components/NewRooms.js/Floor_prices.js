@@ -86,7 +86,7 @@ const Floor_price = ({
             <InputField
               label={'Total Rooms'}
               type={'totalRooms'}
-              keyboardType={'default'}
+              keyboardType={'numeric'}
               value={totalRooms}
               // icon={
               //   <Ionicons
@@ -101,7 +101,7 @@ const Floor_price = ({
           {focused_totalRooms && !checked_totalRooms && (
             <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
               <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
-                Make it atleast 1
+                Enter Valid Number
               </Text>
             </View>
           )}
@@ -122,7 +122,7 @@ const Floor_price = ({
             <InputField
               label={'Total Occupancy'}
               type={'occupancy'}
-              keyboardType={'default'}
+              keyboardType={'number-pad'}
               value={occupancy}
               // icon={
               //   <Ionicons
@@ -137,7 +137,7 @@ const Floor_price = ({
           {focused_occpancy && !checked_occpancy && (
             <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
               <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
-                Make it atleast 1
+                Enter Valid Number
               </Text>
             </View>
           )}

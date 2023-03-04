@@ -19,6 +19,13 @@ import Text_Input from '../../components/NewProperty/Text_Input';
 import DocumentPicker from 'react-native-document-picker';
 import CustomButton_form from '../../components/NewProperty/CustomButton_form';
 import NumericInput from '../../components/NewProperty/NumericInput';
+import Toast from 'react-native-toast-message';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  toastConfig,
+  showErrorToast,
+} from '../../components/NewProperty/ToastConfig';
+import Nav_Header from '../../components/NewProperty/Nav_Header';
 const Location = ({
   checked_Description_pg,
   checked_Location,
@@ -26,10 +33,121 @@ const Location = ({
   checked_house_no,
   checked_Landmark,
 }) => {
+  // const Nav_Header = () => {
+  //   return (
+  // <View
+  //   style={{
+  //     flexDirection: 'row',
+  //     position: 'relative',
+  //     top: '6%',
+  //     paddingBottom: 7,
+  //     borderBottomColor: COLORS.lightGray4,
+  //     borderBottomWidth: 1,
+  //   }}>
+  //   <View
+  //     style={{
+  //       right: SIZES.width * 0.35,
+  //       width: 70,
+  //     }}>
+  //     <TouchableOpacity
+  //       onPress={() => {
+  //         console.log('back');
+  //         navigation.navigate('BasicDetails');
+  //       }}>
+  //       <View style={{flexDirection: 'row'}}>
+  //         <View style={{flex: 1, top: 2}}>
+  //           <Text
+  //             style={{
+  //               color:
+  //                 checked_Landmark && checked_house_no
+  //                   ? COLORS.mobile_theme_back
+  //                   : COLORS.lightGray2,
+  //               fontSize: 23,
+  //             }}>
+  //             Back
+  //           </Text>
+  //         </View>
+  //         <View style={{}}>
+  //           <Ionicons
+  //             name="arrow-back-outline"
+  //             size={30}
+  //             color={
+  //               checked_Landmark && checked_house_no
+  //                 ? COLORS.mobile_theme_back
+  //                 : COLORS.lightGray3
+  //             }
+  //             style={{}}
+  //           />
+  //         </View>
+  //       </View>
+  //     </TouchableOpacity>
+  //   </View>
+  //   {/* Forward */}
+  //   <View
+  //     style={{
+  //       left: SIZES.width * 0.6,
+  //       width: 70,
+  //       // backgroundColor: COLORS.mobile_theme_back,
+  //     }}>
+  //     <TouchableOpacity
+  //       onPress={() => {
+  //         if (checked_Landmark && checked_house_no) {
+  //           console.log('Done');
+  //           next_page();
+  //         } else {
+  //           showErrorToast((title = 'Fill All Required Details'));
+  //           console.log('ckicked');
+  //         }
+  //       }}>
+  //       <View style={{flexDirection: 'row'}}>
+  //         <View style={{flex: 1, top: 2}}>
+  //           <Text
+  //             style={{
+  //               color:
+  //                 checked_Landmark && checked_house_no
+  //                   ? COLORS.mobile_theme_back
+  //                   : COLORS.lightGray2,
+  //               fontSize: 23,
+  //             }}>
+  //             Next
+  //           </Text>
+  //         </View>
+  //         <View style={{}}>
+  //           <Ionicons
+  //             name="arrow-forward-outline"
+  //             size={30}
+  //             color={
+
+  //                 ? COLORS.mobile_theme_back
+  //                 : COLORS.lightGray3
+  //             }
+  //             style={{}}
+  //           />
+  //         </View>
+  //       </View>
+  //     </TouchableOpacity>
+  //   </View>
+  // </View>
+  //   );
+  // };
   function next_page() {
     navigation.navigate('MoreProperty');
     console.log('next pagee');
   }
+  function onPress_for() {
+    if (checked_Landmark && checked_house_no) {
+      console.log('Done');
+      next_page();
+    } else {
+      showErrorToast((title = 'Fill All Required Details'));
+      console.log('ckicked');
+    }
+  }
+  function back_page() {
+    navigation.navigate('BasicDetails');
+    console.log('back pagee');
+  }
+
   const selectDoc = async () => {
     try {
       const res = await DocumentPicker.pickSingle({
@@ -63,6 +181,9 @@ const Location = ({
       {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
+      <View style={{right: 12}}>
+        <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
+      </View>
       <StatusBar
         animated={true}
         backgroundColor={COLORS.mobile_theme_back}
@@ -84,8 +205,23 @@ const Location = ({
           height={SIZES.height * 0.01}
           style={{position: 'absolute', top: -1}}
         />
+        <Nav_Header
+          onPress_forward={onPress_for}
+          onPress_back={back_page}
+          color={
+            checked_Landmark && checked_house_no
+              ? COLORS.mobile_theme_back
+              : COLORS.lightGray3
+          }
+          icon_color={
+            checked_Landmark && checked_house_no
+              ? COLORS.mobile_theme_back
+              : COLORS.lightGray3
+          }
+          back={true}
+        />
       </View>
-      <View style={{padding: 15, marginTop: 45}}>
+      <View style={{padding: 15, marginTop: 25}}>
         <View>
           <Header
             step={2}
@@ -174,7 +310,7 @@ const Location = ({
         </View> */}
       </View>
 
-      <View style={{marginTop: '55%'}}>
+      {/* <View style={{marginTop: '55%'}}>
         <CustomButton_form
           fontColor={
             checked_Landmark && checked_house_no
@@ -202,8 +338,8 @@ const Location = ({
               console.log('ckicked');
             }
           }}
-        />
-      </View>
+        /> 
+      </View>*/}
     </ScrollView>
   );
 };

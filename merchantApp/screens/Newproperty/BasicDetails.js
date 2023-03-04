@@ -6,6 +6,10 @@ import {
   ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ToastAndroid,
+  Platform,
+  AlertIOS,
+  Alert,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/NewProperty/Header';
@@ -19,6 +23,14 @@ import Text_Input from '../../components/NewProperty/Text_Input';
 import DocumentPicker from 'react-native-document-picker';
 import CustomButton_form from '../../components/NewProperty/CustomButton_form';
 import Gender from '../../components/NewProperty/Gender';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Toast from 'react-native-toast-message';
+import {
+  toastConfig,
+  showErrorToast,
+} from '../../components/NewProperty/ToastConfig';
+import Nav_Header from '../../components/NewProperty/Nav_Header';
+
 const BasicDetails = ({
   change_state,
   test,
@@ -26,7 +38,6 @@ const BasicDetails = ({
   checked_phone,
   navigation,
 }) => {
-  // let navigate = useNavigation();
   useEffect(() => {
     change_state();
     // console.log('test',test)
@@ -35,6 +46,16 @@ const BasicDetails = ({
     navigation.navigate('Location');
     console.log('next pagee');
   }
+  function onPress_for() {
+    if (checked_adhar_name) {
+      console.log('Done');
+      next_page();
+    } else {
+      showErrorToast((title = 'Fill All Required Details'));
+      console.log('ckicked');
+    }
+  }
+  function back_page() {}
 
   const selectDoc = async () => {
     try {
@@ -55,6 +76,9 @@ const BasicDetails = ({
       {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
+      <View style={{right: 12}}>
+        <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
+      </View>
       <StatusBar
         animated={true}
         backgroundColor={COLORS.mobile_theme_back}
@@ -77,7 +101,17 @@ const BasicDetails = ({
           style={{position: 'absolute', top: -1}}
         />
       </View>
-      <View style={{padding: 15, marginTop: 45}}>
+      <Nav_Header
+        icon_color={
+          checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray3
+        }
+        color={
+          checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray3
+        }
+        back={false}
+        onPress_forward={onPress_for}
+      />
+      <View style={{padding: 15, marginTop: 25}}>
         <View>
           <Header
             step={1}
@@ -136,28 +170,28 @@ const BasicDetails = ({
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{marginTop: '30%'}}>
+      {/* <View style={{marginTop: '30%'}}>
         <CustomButton_form
-          fontColor={checked_adhar_name ? COLORS.font_color : COLORS.lightGray3}
-          backgroundColor={
-            checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray4
-          }
-          label={'Go for Next Step '}
-          _borderColor={
-            checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray4
-          }
-          borderRadius
-          onPress={() => {
-            if (checked_adhar_name) {
-              console.log('Done');
-              next_page();
-            } else {
-              // gen_login_err_method(true);
-              console.log('ckicked');
-            }
-          }}
+          // fontColor={checked_adhar_name ? COLORS.font_color : COLORS.lightGray3}
+          // backgroundColor={
+          //   checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray4
+          // }
+          // label={'Go for Next Step '}
+          // _borderColor={
+          //   checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray4
+          // }
+          // borderRadius
+          // onPress={() => {
+          //   if (checked_adhar_name) {
+          //     console.log('Done');
+          //     next_page();
+          //   } else {
+          //     // gen_login_err_method(true);
+          //     console.log('ckicked');
+          //   }
+          // }}
         />
-      </View>
+      </View> */}
       {/* </KeyboardAvoidingView> */}
     </ScrollView>
   );

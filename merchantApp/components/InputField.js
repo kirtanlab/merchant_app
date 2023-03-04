@@ -412,7 +412,7 @@ function InputField({
             console.log('handeled', value.nativeEvent.text);
             // updatesign_password(value.nativeEvent.text);
             value = value.nativeEvent.text;
-            if (value !== ' ') {
+            if (value !== '') {
               checked_adhar_name(true);
               update_adhar_name(value);
             } else {
@@ -453,7 +453,7 @@ function InputField({
           onChange={value => {
             // console.log('handeled', value.nativeEvent.text);
             value = Number(value.nativeEvent.text);
-            if (value >= 1) {
+            if (value >= 1 && value % 1 == 0) {
               console.log('etnereed green');
               checkedAvailableRoom(true);
               // gen_sign_err_method(false);
@@ -497,7 +497,7 @@ function InputField({
           onChange={value => {
             // console.log('handeled', value.nativeEvent.text);
             value = Number(value.nativeEvent.text);
-            if (value >= 1) {
+            if (value >= 1 && value % 1 == 0) {
               console.log('etnereed green');
               checkedoccupancy(true);
               // gen_sign_err_method(false);

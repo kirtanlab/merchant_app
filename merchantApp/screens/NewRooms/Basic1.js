@@ -21,6 +21,12 @@ import CustomButton_form from '../../components/NewProperty/CustomButton_form';
 import NumericInput from '../../components/NewProperty/NumericInput';
 import Floor_prices from '../../components/NewRooms.js/Floor_prices';
 import Ac_attached from '../../components/NewRooms.js/Ac_attached';
+import Nav_Header from '../../components/NewProperty/Nav_Header';
+import Toast from 'react-native-toast-message';
+import {
+  toastConfig,
+  showErrorToast,
+} from '../../components/NewProperty/ToastConfig';
 const Basic1 = ({
   checked_totalRooms,
   checked_title,
@@ -33,6 +39,19 @@ const Basic1 = ({
     navigation.navigate('Basic2');
     console.log('next pagee');
   }
+  function onPress_for() {
+    if (checked_occpancy && checked_title && checked_totalRooms) {
+      console.log('Done');
+      next_page();
+    } else {
+      showErrorToast((title = 'Fill All Required Details'));
+      console.log('ckicked');
+    }
+  }
+  // function back_page() {
+  //   navigation.navigate('Location');
+  //   console.log('back pagee');
+  // }
   const selectDoc_multiple = async () => {
     try {
       const res = await DocumentPicker.pickMultiple({
@@ -56,6 +75,9 @@ const Basic1 = ({
       {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
+      <View style={{right: 12}}>
+        <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
+      </View>
       <StatusBar
         animated={true}
         backgroundColor={COLORS.mobile_theme_back}
@@ -77,8 +99,23 @@ const Basic1 = ({
           height={SIZES.height * 0.01}
           style={{position: 'absolute', top: -1}}
         />
+        <Nav_Header
+          onPress_forward={onPress_for}
+          // onPress_back={back_page}
+          color={
+            checked_occpancy && checked_title && checked_totalRooms
+              ? COLORS.mobile_theme_back
+              : COLORS.lightGray3
+          }
+          icon_color={
+            checked_occpancy && checked_title && checked_totalRooms
+              ? COLORS.mobile_theme_back
+              : COLORS.lightGray3
+          }
+          back={false}
+        />
       </View>
-      <View style={{padding: 18, marginTop: 45}}>
+      <View style={{padding: 18, marginTop: 25}}>
         <View>
           <Header
             step={1}
@@ -131,7 +168,7 @@ const Basic1 = ({
           </TouchableOpacity>
         </View> */}
       </View>
-      <View style={{marginTop: 60}}>
+      {/* <View style={{marginTop: 60}}>
         <CustomButton_form
           fontColor={
             checked_occpancy && checked_totalRooms && checked_title
@@ -160,7 +197,7 @@ const Basic1 = ({
             }
           }}
         />
-      </View>
+      </View> */}
     </ScrollView>
   );
 };

@@ -15,11 +15,30 @@ import {connect} from 'react-redux';
 import DocumentPicker from 'react-native-document-picker';
 import CustomButton_form from '../../components/NewProperty/CustomButton_form';
 import Amneties from '../../components/NewProperty/Amneties';
+import Nav_Header from '../../components/NewProperty/Nav_Header';
 import AddText from '../../components/NewProperty/AddText';
+import Toast from 'react-native-toast-message';
+import {
+  toastConfig,
+  showErrorToast,
+} from '../../components/NewProperty/ToastConfig';
 const more_property = ({navigation}) => {
   function next_page() {
     navigation.navigate('Thankyou');
     console.log('next pagee');
+  }
+  function onPress_for() {
+    if (true) {
+      console.log('Done');
+      next_page();
+    } else {
+      showErrorToast((title = 'Fill All Required Details'));
+      console.log('ckicked');
+    }
+  }
+  function back_page() {
+    navigation.navigate('Location');
+    console.log('back pagee');
   }
   //   const selectDoc = async () => {
   //     try {
@@ -68,6 +87,9 @@ const more_property = ({navigation}) => {
       {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
+      <View style={{right: 12}}>
+        <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
+      </View>
       <StatusBar
         animated={true}
         backgroundColor={COLORS.mobile_theme_back}
@@ -89,8 +111,15 @@ const more_property = ({navigation}) => {
           height={SIZES.height * 0.01}
           style={{position: 'absolute', top: -1}}
         />
+        <Nav_Header
+          onPress_forward={onPress_for}
+          onPress_back={back_page}
+          color={COLORS.mobile_theme_back}
+          icon_color={COLORS.mobile_theme_back}
+          back={true}
+        />
       </View>
-      <View style={{padding: 15, marginTop: 45}}>
+      <View style={{padding: 15, marginTop: 25}}>
         <View>
           <Header
             step={3}
@@ -222,7 +251,7 @@ const more_property = ({navigation}) => {
         </View> */}
       </View>
 
-      <View style={{marginTop: '15%'}}>
+      {/* <View style={{marginTop: '15%'}}>
         <CustomButton_form
           fontColor={true ? COLORS.font_color : COLORS.lightGray3}
           backgroundColor={true ? COLORS.mobile_theme_back : COLORS.lightGray4}
@@ -237,7 +266,7 @@ const more_property = ({navigation}) => {
             }
           }}
         />
-      </View>
+      </View> */}
     </ScrollView>
   );
 };

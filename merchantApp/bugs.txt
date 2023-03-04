@@ -1,2 +1,4 @@
 1) Prices: validation
 2) Button Gen ERror display
+3)Remains Same state of textinput in email
+4)Adding Header

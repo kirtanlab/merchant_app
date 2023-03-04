@@ -72,6 +72,7 @@ const App = () => {
           name="Basic2"
           component={Basic2}
         />
+
         <Stack.Screen
           options={{headerShown: false}}
           name="Basic1"
@@ -141,7 +142,7 @@ const App = () => {
           />
 
           <Stack.Screen
-            // options={{headerShown: false}}
+            options={{}}
             name="Newproperty"
             component={Newproperty}
           />
