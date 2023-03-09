@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import SvgUri from 'react-native-svg-uri';
 import {
   ActivityIndicator,
   Image,
@@ -38,7 +37,8 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 
-const ForgetPass = ({navigation}) => {
+const ForgetPass = ({route, navigation}) => {
+  const {email} = route.params;
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   //   const [err, setError] = useState(false);
@@ -164,7 +164,7 @@ const ForgetPass = ({navigation}) => {
                   // marginTop: '',
                   marginBottom: 30,
                 }}>
-                check your inbox, check spam folder also
+                OTP sent to {email}
               </Text>
             </View>
             <View style={{}}>
@@ -244,9 +244,9 @@ const ForgetPass = ({navigation}) => {
           />
         */}
 
-            <View style={{marginTop: '30%'}}>
+            <View style={{marginTop: '25%'}}>
               <CustomButton
-                label={'Login'}
+                label={'submit'}
                 color={done ? COLORS.mobile_theme_back : 'gray'}
                 onPress={() => {
                   if (done) {
@@ -286,20 +286,22 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingVertical: 15,
-    marginTop: 20,
+    // paddingVertical: 15,
+    // marginTop: 20,
   },
   title: {textAlign: 'center', fontSize: 30},
   //   codeFieldRoot: {marginTop: 20},
   cell: {
     width: 40,
     height: 40,
-    lineHeight: 45,
+    // lineHeight: 45,
     fontSize: 30,
     borderWidth: 2,
     color: COLORS.black,
     borderColor: COLORS.mobile_theme_back,
     textAlign: 'center',
+    // justifyContent: 'center',
+    alignItems: 'center',
   },
   focusCell: {
     borderColor: '#000',

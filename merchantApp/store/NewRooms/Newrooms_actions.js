@@ -6,6 +6,7 @@ export const UPDATE_EXTRA_DESCRIPTORS = 'UPDATE_EXTRA_DESCRIPTORS';
 export const UPDATE_BASE_TERMS = 'UPDATE_BASE_TERMS';
 export const UPDATE_TOTAL_AVAILABLE = 'UPDATE_TOTAL_AVAILABLE';
 export const UPDATE_OCCUPANCY = 'UPDATE_OCCUPANCY';
+export const UPDATE_ABOUT_ROOM = 'UPDATE_ABOUT_ROOM';
 
 export const CHECKED_title = 'CHECKED_title';
 export const CHECKED_AC = 'CHECKED_AC';
@@ -21,6 +22,13 @@ export const FOCUSED_ATTACHED = 'FOCUSED_ATTACHED';
 export const FOCUSED_PRICES = 'FOCUSED_PRICES';
 export const FOCUSED_TOTAL_AVAILABLE = 'FOCUSED_TOTAL_AVAILABLE';
 export const FOCUSED_OCCUPANCY = 'FOCUSED_OCCUPANCY';
+
+export const updateAboutRoom = value => {
+  return {
+    type: UPDATE_ABOUT_ROOM,
+    value: value,
+  };
+};
 
 export const updateBaseTerms = value => {
   return {

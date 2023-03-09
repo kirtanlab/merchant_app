@@ -44,7 +44,7 @@ const Basic1 = ({
       console.log('Done');
       next_page();
     } else {
-      showErrorToast((title = 'Fill All Required Details'));
+      showErrorToast((title = 'Fill Required Fields'));
       console.log('ckicked');
     }
   }

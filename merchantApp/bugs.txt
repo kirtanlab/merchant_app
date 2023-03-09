@@ -2,3 +2,11 @@
 2) Button Gen ERror display
 3)Remains Same state of textinput in email
 4)Adding Header
+5)More about property having overlapping text on recycle bin
+6)Space between Next button 
+7)State details gone wihle clicked on back button
+8)timings
+
+
+--> Bugs 2.0
+ 

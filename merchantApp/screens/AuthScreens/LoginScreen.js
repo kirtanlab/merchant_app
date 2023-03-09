@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import SvgUri from 'react-native-svg-uri';
 import {
   ActivityIndicator,
   Image,
@@ -11,9 +10,11 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   View,
+  ScrollView,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-
+import {StatusBar} from 'react-native';
+import {SIZES} from '../../constants';
 // import {auth} from '../../firebase';
 // import {signInWithEmailAndPassword} from 'firebase/auth';
 // import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -38,12 +39,17 @@ const LoginScreen = ({
   reset_checked,
   email,
   password,
+  login_email_checked,
   update_user,
+  route,
+  login_pass_checked,
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [err, setError] = useState(false);
-
+  const [done, setDone] = useState(false);
+  const [_email, setEmail] = useState('');
+  const [_password, setPass] = useState('');
   // const persistUserData = user => {
   //   return new Promise(function (resolve, reject) {
   //     AsyncStorage.setItem('user', JSON.stringify(user))
@@ -145,17 +151,59 @@ const LoginScreen = ({
       alert('Email or Password is empty.');
     }
   };
+  // useEffect(() => {
+  //   reset_checked();
+  // }, []);
   useEffect(() => {
-    reset_checked();
+    console.log('Please enter');
+    // console.log(checked_login_pass, checked_login_email);
   }, []);
+
+  // React.useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', async e => {
+  //     console.log(e);
+  //     function validate_email(val) {
+  //       var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+  //       return regex.test(val);
+  //     }
+  //     function validate_password(val) {
+  //       var regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+  //       return regex.test(val);
+  //     }
+  //     if (validate_email(email) && validate_password(password)) {
+  //       console.log('entered good', email, password);
+  //       setDone(true);
+  //       await login_email_checked(true);
+  //       await login_pass_checked(true);
+  //       // console.log('entered good', checked_login_email, checked_login_pass);
+  //     } else {
+  //       // console.log('entered bad', email, password);
+  //       setDone(false);
+  //       await login_email_checked(false);
+  //     }
+
+  //     //Put your Data loading function here instead of my loadData()
+  //   });
+
+  //   return unsubscribe;
+  // }, [navigation]);
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        // padding: 20,
-      }}>
+    <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+      <StatusBar
+        animated={true}
+        backgroundColor={COLORS.mobile_theme_back}
+        barStyle={'light-content'}
+      />
+
+      <SafeAreaView
+        style={{
+          height: SIZES.height * 0.03,
+          backgroundColor: COLORS.mobile_theme_back,
+          elevation: 1,
+        }}
+      />
+
       <View style={{paddingHorizontal: 25}}>
         <View style={{alignItems: 'center'}}>
           {/* <SvgUri
@@ -191,6 +239,12 @@ const LoginScreen = ({
         <InputField
           label={'Email ID'}
           type={'login_email'}
+          // value={email}
+          defaultValue={email}
+          // onChange={value => {
+          //   console.log(value);
+          //   setEmail(value.nativeEvent.text);
+          // }}
           icon={
             <MaterialIcons
               name="alternate-email"
@@ -209,6 +263,8 @@ const LoginScreen = ({
         <InputField
           label={'Password'}
           type={'login_password'}
+          defaultValue={password}
+          // defaultValue=""
           icon={
             <MaterialIcons
               name="lock-outline"
@@ -217,6 +273,9 @@ const LoginScreen = ({
               style={{marginTop: 18}}
             />
           }
+          onChange={value => {
+            setPass(value.nativeEvent.text);
+          }}
           inputType="password"
           fieldType={'Button'}
           fieldButtonLabel=" Forget?"
@@ -237,7 +296,7 @@ const LoginScreen = ({
               ? COLORS.mobile_theme_back
               : 'gray'
           }
-          onPress={() => {
+          onPress={e => {
             if (checked_login_email && checked_login_pass) {
               console.log('Done');
               handleLogin();
@@ -256,7 +315,7 @@ const LoginScreen = ({
           <TouchableOpacity
             onPress={() => {
               handlelogin_google();
-            }}
+            }}console.log('OnPressed')
             style={{
               borderColor: '#ddd',
               borderWidth: 1,
@@ -334,7 +393,11 @@ const LoginScreen = ({
             marginBottom: 30,
           }}>
           <Text>New to the app?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
+          <TouchableOpacity
+            onPress={value => {
+              // value.preventDefault();
+              navigation.navigate('SignupScreen');
+            }}>
             <Text style={{color: COLORS.mobile_theme_back, fontWeight: '700'}}>
               {' '}
               Register
@@ -342,7 +405,7 @@ const LoginScreen = ({
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -366,6 +429,12 @@ function mapDispatchToProps(dispatch) {
     },
     update_user: auth_states => {
       return dispatch(AuthActions.updateUser(auth_states));
+    },
+    login_email_checked: value => {
+      return dispatch(AuthActions.login_email_checked(value));
+    },
+    login_pass_checked: value => {
+      return dispatch(AuthActions.login_pass_checked(value));
     },
   };
 }

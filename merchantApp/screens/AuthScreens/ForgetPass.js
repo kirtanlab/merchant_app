@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import SvgUri from 'react-native-svg-uri';
+
 import {
   ActivityIndicator,
   Image,
@@ -69,7 +69,9 @@ const ForgetPass = ({navigation}) => {
       //     alert('Could not Sign In.. : ' + e.code);
       //     console.log(e.code);
       //   });
-      navigation.navigate('OTPScreen');
+      navigation.navigate('OTPScreen', {
+        email: email,
+      });
       // .finally(() => setLoading(false));
     } else {
       alert('Email or Password is empty.');
@@ -160,7 +162,11 @@ const ForgetPass = ({navigation}) => {
                   style={{marginTop: 18}}
                 />
               }
-              onChange={value => handle_email(value.nativeEvent.text)}
+              onChange={value => {
+                value = value.nativeEvent.text;
+                value = value.trimEnd();
+                handle_email(value);
+              }}
               keyboardType="email-address"
             />
 
@@ -172,7 +178,7 @@ const ForgetPass = ({navigation}) => {
               </View>
             )}
             <CustomButton
-              label={'Login'}
+              label={'Submit'}
               color={done ? COLORS.mobile_theme_back : 'gray'}
               onPress={() => {
                 if (done && email) {

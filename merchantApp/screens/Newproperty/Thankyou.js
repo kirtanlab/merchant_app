@@ -57,7 +57,7 @@ const Thankyou = ({navigation}) => {
               fontWeight: 'bold',
               color: COLORS.mobile_theme_back,
             }}>
-            Thank you for Registering
+            Thank you for Registering Property
           </Text>
         </View>
         <View>

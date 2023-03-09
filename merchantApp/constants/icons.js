@@ -20,10 +20,12 @@ const facebook = require('../assets/icons/facebook.svg');
 const registration = require('../assets/icons/registration.svg');
 const twitter = require('../assets/icons/twitter.svg');
 const logo_rent = require('../assets/icons/logo_rent.png');
+const hotel_png = require('../assets/icons/hotel.png');
 export default {
   logo_rent,
   briefcase,
   briefcase_Dark,
+  hotel_png,
   close,
   Home,
   Home_Dark,

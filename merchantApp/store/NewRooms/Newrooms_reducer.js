@@ -7,6 +7,7 @@ let initialState = {
   extra_description: '',
   terms_property: '',
   about_property: '',
+  about_room: '',
   baseTerms: {
     govt: false,
     myApp: false,

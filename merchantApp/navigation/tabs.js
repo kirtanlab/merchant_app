@@ -8,6 +8,11 @@ import {Home, Portfolio, Market, Profile} from '../screens';
 import {COLORS, icons} from '../constants';
 import {TabIcon} from '../components';
 import {useSelector} from 'react-redux';
+import HomeScreen from '../screens/HomeScreen';
+import NotificationScreen from '../screens/NotificationScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const Tab = createBottomTabNavigator();
 
 const TabBarCustomButton = ({children, onPress}) => {
@@ -23,12 +28,12 @@ const TabBarCustomButton = ({children, onPress}) => {
     </TouchableOpacity>
   );
 };
-
-const Tabs = ({setTradeModelVisibility, isTradeModalVisible}) => {
-  function tradeTabButtonOnClickHandler() {
-    setTradeModelVisibility(!isTradeModalVisible);
-  }
-  const userData = useSelector(state => state.authReducer.userData);
+// {setTradeModelVisibility, isTradeModalVisible}
+const Tabs = () => {
+  // function tradeTabButtonOnClickHandler() {
+  //   setTradeModelVisibility(!isTradeModalVisible);
+  // }
+  // const userData = useSelector(state => state.authReducer.userData);
   // let theme = userData.Appearance ? userData.Appearance : 'white';
   let theme = 'white';
   let home_icon;
@@ -47,7 +52,7 @@ const Tabs = ({setTradeModelVisibility, isTradeModalVisible}) => {
   // }
   return (
     <Tab.Navigator
-      tabBarOptions={{
+      screenOptions={{
         showLabel: false,
         style: {
           height: 70,
@@ -56,128 +61,56 @@ const Tabs = ({setTradeModelVisibility, isTradeModalVisible}) => {
         },
       }}>
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeScreen"
+        component={HomeScreen}
         options={{
-          tabBarIcon: ({focused}) => {
-            if (!isTradeModalVisible) {
-              return (
-                <TabIcon
-                  focused={focused}
-                  icon={focused ? icons.Home_Dark : icons.Home}
-                  label="Home"
-                />
-              );
-            }
+          tabBarLabel: () => {
+            return null;
           },
-        }}
-        listeners={{
-          tabPress: e => {
-            if (isTradeModalVisible) {
-              e.preventDefault();
-            }
+          headerShown: false,
+          tabBarIcon: ({focused}) => {
+            return (
+              <TabIcon focused={focused} icon_name={'home'} subtitle="Home" />
+            );
           },
         }}
       />
       <Tab.Screen
-        name="Portfolio"
-        component={Portfolio}
+        name="NotificationsScreen"
+        component={NotificationScreen}
         options={{
-          tabBarIcon: ({focused}) => {
-            if (!isTradeModalVisible) {
-              return (
-                <TabIcon
-                  focused={focused}
-                  icon={focused ? icons.briefcase_Dark : icons.briefcase}
-                  label="Listing" //change it for change below icons
-                />
-              );
-            }
+          tabBarLabel: () => {
+            return null;
           },
-        }}
-        listeners={{
-          tabPress: e => {
-            if (isTradeModalVisible) {
-              e.preventDefault();
-            }
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Trade"
-        component={Home}
-        options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => {
             return (
               <TabIcon
                 focused={focused}
-                icon={isTradeModalVisible ? icons.close : icons.trade}
-                iconStyle={
-                  isTradeModalVisible
-                    ? {
-                        width: 15,
-                        height: 15,
-                      }
-                    : null
-                }
-                label="Rent "
-                isTrade={true}
+                icon_name={'notifications'}
+                subtitle="Notifications"
               />
             );
           },
-          tabBarButton: props => (
-            <TabBarCustomButton
-              {...props}
-              onPress={() => tradeTabButtonOnClickHandler()}
-            />
-          ),
         }}
       />
+
       <Tab.Screen
-        name="Market"
-        component={Market}
+        name="ProfileScreen"
+        component={ProfileScreen}
         options={{
+          tabBarLabel: () => {
+            return null;
+          },
+          headerShown: false,
           tabBarIcon: ({focused}) => {
-            if (!isTradeModalVisible) {
-              return (
-                <TabIcon
-                  focused={focused}
-                  icon={focused ? icons.market_Dark : icons.market}
-                  label="Notifications" //change it for change below icons
-                />
-              );
-            }
-          },
-        }}
-        listeners={{
-          tabPress: e => {
-            if (isTradeModalVisible) {
-              e.preventDefault();
-            }
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({focused}) => {
-            if (!isTradeModalVisible) {
-              return (
-                <TabIcon
-                  focused={focused}
-                  icon={focused ? icons.profile_Dark : icons.profile}
-                  label="Profile"
-                />
-              );
-            }
-          },
-        }}
-        listeners={{
-          tabPress: e => {
-            if (isTradeModalVisible) {
-              e.preventDefault();
-            }
+            return (
+              <TabIcon
+                focused={focused}
+                icon_name={'person'}
+                subtitle="Profile"
+              />
+            );
           },
         }}
       />
@@ -189,18 +122,18 @@ const Tabs = ({setTradeModelVisibility, isTradeModalVisible}) => {
 
 // //export defualt Tabs;
 
-function mapStateToProps(state) {
-  return {
-    isTradeModalVisible: state.tabReducer.isTradeModalVisible,
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     isTradeModalVisible: state.tabReducer.isTradeModalVisible,
+//   };
+// }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    setTradeModelVisibility: isVisible => {
-      return dispatch(setTradeModelVisibility(isVisible));
-    },
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     setTradeModelVisibility: isVisible => {
+//       return dispatch(setTradeModelVisibility(isVisible));
+//     },
+//   };
+// }
+// connect(mapStateToProps, mapDispatchToProps)
+export default Tabs;

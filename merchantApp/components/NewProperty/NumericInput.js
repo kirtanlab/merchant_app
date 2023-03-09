@@ -25,6 +25,7 @@ const NumericInput = ({
   // Description_pg,
   house_no,
   Location,
+  navigation,
 }) => {
   let [name, setName] = useState();
   let [err, setErr] = useState(true);
@@ -38,7 +39,7 @@ const NumericInput = ({
           <Text
             style={{
               color: COLORS.black,
-              fontSize: SIZES.custom1,
+              fontSize: SIZES.h2,
               fontWeight: 'bold',
             }}>
             Enter House Number or Flat Number
@@ -69,6 +70,71 @@ const NumericInput = ({
             )}
           </View>
         </View>
+        {/* Google Map */}
+        <View>
+          <Text
+            style={{
+              color: COLORS.black,
+              fontSize: SIZES.h2,
+              fontWeight: 'bold',
+            }}>
+            Selet Location
+          </Text>
+          <TouchableOpacity
+            style={{
+              marginTop: 15,
+              borderColor: COLORS.mobile_theme,
+              borderWidth: SIZES.form_button_borderWidth,
+              borderRadius: SIZES.form_button_borderRadius,
+              minWidth: SIZES.form_button_minWidth,
+              maxWidth: SIZES.form_button_maxWidth,
+              maxHeight: SIZES.form_button_maxHeight,
+              padding: SIZES.form_button_padding,
+              alignItems: SIZES.form_button_alignItems,
+              justifyContent: SIZES.form_button_justifyContent,
+              backgroundColor: COLORS.mobile_theme_back,
+            }}
+            onPress={() => {
+              // selectDoc();
+              // console.log('doc clicked');
+              navigation.navigate('MapsTest');
+            }}>
+            <Text
+              style={{
+                fontSize: SIZES.form_button_text_fontSize,
+                fontWeight: SIZES.form_button_text_fontWeight,
+                color: COLORS.font_color,
+              }}>
+              Select Location
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* <View>
+          <View style={{marginTop: 6}}>
+            <View style={{width: SIZES.width * 0.8}}>
+              <InputField
+                label={'House No/Flat No'}
+                type={'House_No'}
+                keyboardType={'default'}
+                value={house_no}
+                // icon={
+                //   <Ionicons
+                //     name="person-outline"
+                //     size={30}
+                //     color={err ? COLORS.mobile_theme : 'red'}
+                //     style={{marginRight: 15, marginTop: 5, marginLeft: 5}}
+                //   />
+                // }
+              />
+            </View>
+            {focused_house_no && !checked_house_no && (
+              <View style={{marginTop: -30, left: 3, marginBottom: 20}}>
+                <Text style={{color: COLORS.lightGray3}}>Fill this</Text>
+              </View>
+            )}
+          </View>
+
+        </View> */}
         {/* Description pg
         <View style={{marginTop: 0}}>
           <Text
@@ -107,11 +173,11 @@ const NumericInput = ({
           </View>
         </View> */}
         {/* Landmark */}
-        <View style={{marginTop: 0}}>
+        <View style={{marginTop: 20}}>
           <Text
             style={{
               color: COLORS.black,
-              fontSize: SIZES.custom1,
+              fontSize: SIZES.h2,
               fontWeight: 'bold',
             }}>
             Enter Landmark / Address

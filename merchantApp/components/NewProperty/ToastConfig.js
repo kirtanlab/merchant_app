@@ -23,22 +23,22 @@ export const toastConfig = {
     <ErrorToast
       {...props}
       text1Style={{
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         color: 'red',
       }}
       text2Style={{
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         color: 'red',
       }}
+      // contentContainerStyle={{padding: 1}}
       style={{
-        width: 200,
-        // marginBottom: 50,
-        // bottom: 5,
+        width: 180,
         top: 9,
         height: 30,
       }}
+      // renderLeadingIcon={''}
     />
   ),
 
@@ -46,11 +46,11 @@ export const toastConfig = {
     <InfoToast
       {...props}
       text1Style={{
-        fontSize: 16,
+        fontSize: 13,
         fontWeight: '700',
       }}
       text2Style={{
-        fontSize: 16,
+        fontSize: 13,
       }}
     />
   ),

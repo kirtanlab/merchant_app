@@ -40,17 +40,18 @@ const Basic2 = ({
   checked_base_terms,
   focused_price,
   checked_price,
+  about_room,
   price,
 }) => {
   function next_page() {
     navigation.navigate('Basic3');
   }
   function onPress_for() {
-    if (checked_price) {
+    if (checked_price && checked_base_terms) {
       console.log('Done');
       next_page();
     } else {
-      showErrorToast((title = 'Fill All Required Details'));
+      showErrorToast((title = 'Fill Required Fields'));
       console.log('ckicked');
     }
   }
@@ -81,7 +82,7 @@ const Basic2 = ({
       {/* <KeyboardAvoidingView */}
       {/* // behavior="position" */}
       {/* <ScrollView style={{backgroundColor: 'white'}}> */}
-      <View style={{right: 12}}>
+      <View style={{left: 1}}>
         <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
       </View>
       <StatusBar
@@ -121,185 +122,198 @@ const Basic2 = ({
           back={true}
         />
       </View>
-      <View style={{padding: 15, marginTop: 15}}>
-        <View>
-          <Header
-            step={2}
-            subtitle={'Photo/Videos of Rooms,T&Cs'}
-            title={'Final Step! '}
-          />
-        </View>
-        {/* Prices */}
-        <View>
+      <View style={{flexDirection: 'column', height: SIZES.height}}>
+        <View
+          style={{
+            padding: 15,
+            marginTop: '10%',
+            // flexShrink: 2,
+            // flex: 1,
+            // position: 'relative',
+          }}>
+          <View>
+            <Header
+              step={2}
+              subtitle={'Photo/Videos of Rooms,T&Cs'}
+              title={'Add Room Details'}
+            />
+          </View>
+          {/* Prices */}
+          <View>
+            <View style={{marginTop: 30}}>
+              <Text
+                style={{
+                  color: COLORS.black,
+                  fontSize: SIZES.custom1,
+                  fontWeight: 'bold',
+                }}>
+                Enter Room Price
+              </Text>
+            </View>
+            <View style={{marginTop: 8, flexDirection: 'row'}}>
+              <View
+                style={{
+                  borderColor: COLORS.mobile_theme_back,
+                  // borderWidth: 2,
+                  borderTopEndRadius: 5,
+                  borderTopStartRadius: 5,
+                  borderBottomStartRadius: 5,
+                  borderBottomEndRadius: 5,
+                  backgroundColor: COLORS.mobile_theme_back,
+                  height: 35,
+                  width: 40,
+                  marginTop: 2,
+                  // paddingTop: 5,
+                  // padding: 1s,
+                  // justifyContent: 'center',
+                  // alignItems:',
+                  // justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: COLORS.font_color, fontSize: SIZES.h1}}>
+                  ₹
+                </Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <View style={{width: SIZES.width * 0.7, marginLeft: 7}}>
+                  <InputField
+                    label={'Enter Prices'}
+                    type={'prices'}
+                    keyboardType={'phone-pad'}
+                    value={price}
+                    //   icon={
+                    //     <Ionicons
+                    //       name="call-outline"
+                    //       size={20}
+                    //       color={err ? '#666' : 'red'}
+                    //       style={{marginRight: 5, marginTop: 5}}
+                    //     />
+                    //   }
+                  />
+                </View>
+                <TouchableOpacity>
+                  <Ionicons
+                    name="checkmark-done-outline"
+                    size={25}
+                    color={
+                      checked_price ? COLORS.mobile_theme_back : 'lightgray'
+                    }
+                    style={{marginRight: 5, marginTop: 2}}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {focused_price && !checked_price && (
+              <View style={{marginTop: -30, left: 50, marginBottom: 20}}>
+                <Text style={{color: COLORS.lightGray3}}>
+                  Enter Valid Prices
+                </Text>
+              </View>
+            )}
+          </View>
+          {/* Add ABout */}
           <View style={{marginTop: 30}}>
+            <View style={{marginTop: 0}}>
+              <Text
+                style={{
+                  color: COLORS.black,
+                  fontSize: SIZES.custom1,
+                  fontWeight: 'bold',
+                }}>
+                About Room
+              </Text>
+            </View>
+            <View style={{marginTop: 15}}>
+              <KeyboardAvoidingView>
+                <InputField
+                  label={'Add About Room Here'}
+                  type={'About_room'}
+                  keyboardType={'default'}
+                  // value={aboutpg}
+                  defaultValue={about_room}
+                  multiline
+                />
+              </KeyboardAvoidingView>
+            </View>
+          </View>
+          {/* Videos of Images
+          <View style={{marginTop: 10}}>
             <Text
               style={{
                 color: COLORS.black,
                 fontSize: SIZES.custom1,
                 fontWeight: 'bold',
               }}>
-              Enter Room Price
+              Upload Outer Photo & Videos of Rooms
             </Text>
-          </View>
-          <View style={{marginTop: 8, flexDirection: 'row'}}>
-            <View
+            <TouchableOpacity
               style={{
-                borderColor: COLORS.mobile_theme_back,
-                // borderWidth: 2,
-                borderTopEndRadius: 5,
-                borderTopStartRadius: 5,
-                borderBottomStartRadius: 5,
-                borderBottomEndRadius: 5,
+                marginTop: 15,
+                borderColor: COLORS.mobile_theme,
+                // borderWidth: SIZES.form_button_borderWidth,
+                borderRadius: SIZES.form_button_borderRadius,
+                minWidth: SIZES.form_button_minWidth,
+                maxWidth: SIZES.form_button_maxWidth,
+                maxHeight: SIZES.form_button_maxHeight,
+                padding: SIZES.form_button_padding,
+                alignItems: SIZES.form_button_alignItems,
+                justifyContent: SIZES.form_button_justifyContent,
                 backgroundColor: COLORS.mobile_theme_back,
-                height: 30,
-                width: 40,
-                marginTop: 2,
-                justifyContent: 'center',
-                alignItems: 'center',
+              }}
+              onPress={() => {
+                selectDoc_multiple();
+                console.log('doc clicked');
               }}>
-              <Text style={{color: COLORS.font_color, fontSize: SIZES.h1}}>
-                ₹
+              <Text
+                style={{
+                  fontSize: SIZES.form_button_text_fontSize,
+                  fontWeight: SIZES.form_button_text_fontWeight,
+                  color: COLORS.font_color,
+                }}>
+                Select fles
               </Text>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <View style={{width: SIZES.width * 0.7, marginLeft: 7}}>
-                <InputField
-                  label={'Enter Prices'}
-                  type={'prices'}
-                  keyboardType={'phone-pad'}
-                  value={price}
-                  //   icon={
-                  //     <Ionicons
-                  //       name="call-outline"
-                  //       size={20}
-                  //       color={err ? '#666' : 'red'}
-                  //       style={{marginRight: 5, marginTop: 5}}
-                  //     />
-                  //   }
-                />
-              </View>
-              <TouchableOpacity>
-                <Ionicons
-                  name="checkmark-done-outline"
-                  size={25}
-                  color={checked_price ? COLORS.mobile_theme_back : 'lightgray'}
-                  style={{marginRight: 5, marginTop: 2}}
-                />
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           </View>
-          {focused_price && !checked_price && (
-            <View style={{marginTop: -30, left: 50, marginBottom: 20}}>
-              <Text style={{color: COLORS.lightGray3}}>Enter Valid Prices</Text>
-            </View>
-          )}
-        </View>
-
-        {/* Extra Description */}
-        {/* <View style={{marginTop: 30}}>
-          <Text
-            style={{
-              color: COLORS.black,
-              fontSize: SIZES.custom1,
-              fontWeight: 'bold',
-            }}>
-            Enter Description
-          </Text>
-        </View> */}
-        {/* <View style={{marginTop: 6}}>
-          <View
-            style={{
-              width: SIZES.width * 0.8,
-            }}>
-            <InputField
-              label={'Extra Description'}
-              type={'Extra_description'}
-              keyboardType={'default'}
-              value={extra_description}
-              multiline
-            />
-          </View>
-        </View> */}
-        {/* Videos of Images */}
-        <View style={{marginTop: 10}}>
-          <Text
-            style={{
-              color: COLORS.black,
-              fontSize: SIZES.custom1,
-              fontWeight: 'bold',
-            }}>
-            Upload Outer Photo & Videos of Rooms
-          </Text>
-          <TouchableOpacity
-            style={{
-              marginTop: 15,
-              borderColor: COLORS.mobile_theme,
-              // borderWidth: SIZES.form_button_borderWidth,
-              borderRadius: SIZES.form_button_borderRadius,
-              minWidth: SIZES.form_button_minWidth,
-              maxWidth: SIZES.form_button_maxWidth,
-              maxHeight: SIZES.form_button_maxHeight,
-              padding: SIZES.form_button_padding,
-              alignItems: SIZES.form_button_alignItems,
-              justifyContent: SIZES.form_button_justifyContent,
-              backgroundColor: COLORS.mobile_theme_back,
-            }}
-            onPress={() => {
-              selectDoc_multiple();
-              console.log('doc clicked');
-            }}>
+          {/* Videos of Images */}
+          {/* <View style={{marginTop: 30}}>
             <Text
               style={{
-                fontSize: SIZES.form_button_text_fontSize,
-                fontWeight: SIZES.form_button_text_fontWeight,
-                color: COLORS.font_color,
+                color: COLORS.black,
+                fontSize: SIZES.custom1,
+                fontWeight: 'bold',
               }}>
-              Select fles
+              Upload Outer Photo & Videos of Rooms
             </Text>
-          </TouchableOpacity>
-        </View>
-        {/* Videos of Images */}
-        <View style={{marginTop: 30}}>
-          <Text
-            style={{
-              color: COLORS.black,
-              fontSize: SIZES.custom1,
-              fontWeight: 'bold',
-            }}>
-            Upload Outer Photo & Videos of Rooms
-          </Text>
-          <TouchableOpacity
-            style={{
-              marginTop: 15,
-              borderColor: COLORS.mobile_theme,
-              // borderWidth: SIZES.form_button_borderWidth,
-              borderRadius: SIZES.form_button_borderRadius,
-              minWidth: SIZES.form_button_minWidth,
-              maxWidth: SIZES.form_button_maxWidth,
-              maxHeight: SIZES.form_button_maxHeight,
-              padding: SIZES.form_button_padding,
-              alignItems: SIZES.form_button_alignItems,
-              justifyContent: SIZES.form_button_justifyContent,
-              backgroundColor: COLORS.mobile_theme_back,
-            }}
-            onPress={() => {
-              selectDoc_multiple();
-              console.log('doc clicked');
-            }}>
-            <Text
+            <TouchableOpacity
               style={{
-                fontSize: SIZES.form_button_text_fontSize,
-                fontWeight: SIZES.form_button_text_fontWeight,
-                color: COLORS.font_color,
+                marginTop: 15,
+                borderColor: COLORS.mobile_theme,
+                // borderWidth: SIZES.form_button_borderWidth,
+                borderRadius: SIZES.form_button_borderRadius,
+                minWidth: SIZES.form_button_minWidth,
+                maxWidth: SIZES.form_button_maxWidth,
+                maxHeight: SIZES.form_button_maxHeight,
+                padding: SIZES.form_button_padding,
+                alignItems: SIZES.form_button_alignItems,
+                justifyContent: SIZES.form_button_justifyContent,
+                backgroundColor: COLORS.mobile_theme_back,
+              }}
+              onPress={() => {
+                selectDoc_multiple();
+                console.log('doc clicked');
               }}>
-              Select fles
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{marginTop: '50%'}}>
-          <Terms />
-        </View>
-        {/* <View
+              <Text
+                style={{
+                  fontSize: SIZES.form_button_text_fontSize,
+                  fontWeight: SIZES.form_button_text_fontWeight,
+                  color: COLORS.font_color,
+                }}>
+                Select fles
+              </Text>
+            </TouchableOpacity>
+          </View>{' '}
+          */}
+          {/* <View
             style={{
               marginTop: 20,
               position: 'relative',
@@ -335,6 +349,15 @@ const Basic2 = ({
               }}
             />
           </View> */}
+        </View>
+        <View
+          style={{
+            marginLeft: 9,
+            marginTop: SIZES.height * 0.76,
+            position: 'absolute',
+          }}>
+          <Terms />
+        </View>
       </View>
       {/* </ScrollView> */}
     </ScrollView>
@@ -344,6 +367,7 @@ const Basic2 = ({
 function mapStateToProps(state) {
   return {
     price: state.Newrooms_reducer.price,
+    about_room: state.Newrooms_reducer.about_room,
     focused_price: state.Newrooms_reducer.focused_price,
     checked_price: state.Newrooms_reducer.checked_price,
     checked_base_terms: state.Newrooms_reducer.checked_base_terms,

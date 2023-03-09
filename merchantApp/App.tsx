@@ -24,6 +24,14 @@ import ForgetPass from './screens/AuthScreens/ForgetPass';
 import OTPScreen from './screens/AuthScreens/OTPScreen';
 import NewPassword from './screens/AuthScreens/NewPassword';
 import more_property from './screens/Newproperty/more_property';
+import HomeScreen from './screens/HomeScreen';
+import NotificationScreen from './screens/NotificationScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import ShowPDF from './screens/AppTerms';
+import ChangeProfile from './screens/ChangeProfile';
+import AppTerms from './screens/AppTerms';
+import GovtTerms from './screens/GovtTerms';
+import MapTest from './screens/MapsTest';
 const Loading = () => {
   return <Text>Loading New</Text>;
 };
@@ -58,6 +66,11 @@ const App = () => {
           name="Thankyou"
           component={Thankyou}
         />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="MapsTest"
+          component={MapTest}
+        />
       </Stack.Navigator>
       // </SafeAreaView>/
     );
@@ -69,14 +82,13 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen
           options={{headerShown: false}}
-          name="Basic2"
-          component={Basic2}
-        />
-
-        <Stack.Screen
-          options={{headerShown: false}}
           name="Basic1"
           component={Basic1}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Basic2"
+          component={Basic2}
         />
 
         <Stack.Screen
@@ -134,7 +146,7 @@ const App = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={'NewRooms'}>
+          initialRouteName={'Root'}>
           <Stack.Screen
             name="Root"
             component={Root}
@@ -151,7 +163,15 @@ const App = () => {
             name="NewRooms"
             component={NewRooms}
           />
-          {/* <Stack.Screen name="MainLayout" component={Tabs} /> */}
+          {/* <Stack.Screen
+            // options={{headerShown: false}}
+            name="MainScreens"
+            component={MainScreens}
+          /> */}
+          <Stack.Screen name="MainScreens" component={Tabs} />
+          <Stack.Screen name="Appterms" component={AppTerms} />
+          <Stack.Screen name="GovtTerms" component={GovtTerms} />
+          <Stack.Screen name="ChangeProfile" component={ChangeProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

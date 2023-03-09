@@ -1,29 +1,32 @@
 import React from 'react';
-import {
-    View,
-    Text,
-} from 'react-native';
-import {COLORS, SIZES, FONTS} from '../constants'
+import {View, Text, ScrollView} from 'react-native';
+import {COLORS, SIZES, FONTS} from '../constants';
 
-const HeaderBar = ({title }) => {
-    return(
-        <View
-            style={{
-                height: 100,
-                paddingHorizontal: SIZES.radius,
-                justifyContent: 'flex-end'
-            }}
-        >
-            <Text style={{
-                color: COLORS.white,
-                ...FONTS.largeTitle
-            }}
-            >
-                {title}
-            </Text>
-        
-        </View>
-    )
-}
+const HeaderBar = ({title}) => {
+  return (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{
+        backgroundColor: 'white',
 
-export default HeaderBar
+        paddingVertical: 17,
+      }}>
+      <View>
+        <Text
+          style={{
+            color: COLORS.mobile_theme_back,
+            // paddingHorizontal: 15,
+            fontSize: SIZES.h1,
+            fontWeight: 'bold',
+            borderBottomColor: COLORS.lightGray4,
+            borderBottomWidth: 1,
+            paddingBottom: 10,
+          }}>
+          {title}
+        </Text>
+      </View>
+    </ScrollView>
+  );
+};
+
+export default HeaderBar;

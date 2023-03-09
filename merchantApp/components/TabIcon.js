@@ -2,68 +2,41 @@ import React from 'react';
 import {View, Text, Image, Appearance} from 'react-native';
 import {useSelector} from 'react-redux';
 import {FONTS, COLORS} from '../constants';
-
-const TabIcon = ({focused, icon, iconStyle, label, isTrade}) => {
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+const TabIcon = ({focused, icon_name, iconStyle, subtitle, isTrade}) => {
   let userData = useSelector(state => state.authReducer.userData);
-  // let Appearance = userData.Appearance;
-  let Appearance = 'White';
+  let Color_mode = Appearance.getColorScheme();
   let text_color;
-  if (focused && Appearance == 'White') {
+  if (focused && Color_mode == 'White') {
     text_color = COLORS.black;
-  } else if (!focused && Appearance == 'White') {
+  } else if (!focused && Color_mode == 'light') {
+    text_color = COLORS.lightGray3;
+  } else if (focused && Color_mode == 'dark') {
     text_color = COLORS.black;
-  } else if (focused && Appearance == 'Dark') {
-    text_color = COLORS.white;
   } else {
-    text_color = COLORS.white;
+    text_color = COLORS.lightGray3;
   }
-  if (isTrade) {
-    return (
-      <View
+  console.log('Apperance', Color_mode);
+
+  return (
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <MaterialIcons
+        name={icon_name}
+        size={30}
+        color={focused ? COLORS.mobile_theme_back : COLORS.lightGray3}
+        style={{top: 4}}
+        // label="notifications"
+      />
+      <Text
         style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 60,
-          height: 60,
-          borderRadius: 30,
-          backgroundColor: COLORS.black,
+          color: focused ? COLORS.mobile_theme_back : text_color,
+          ...FONTS.h4,
+          fontWeight: 'bold',
         }}>
-        <Image
-          source={icon}
-          resizeMode="contain"
-          style={{
-            width: 25,
-            height: 25,
-            tintColor: COLORS.white,
-            ...iconStyle,
-          }}
-        />
-        <Text style={{color: COLORS.white, ...FONTS.h4}}>{label}</Text>
-      </View>
-    );
-  } else {
-    return (
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
-        <Image
-          source={icon}
-          resizeMode="contain"
-          style={{
-            width: 25,
-            height: 25,
-            tintColor: Appearance == 'White' ? COLORS.primary : COLORS.white,
-            ...iconStyle,
-          }}
-        />
-        <Text
-          style={{
-            color: text_color,
-            ...FONTS.h4,
-          }}>
-          {label}
-        </Text>
-      </View>
-    );
-  }
+        {subtitle}
+      </Text>
+    </View>
+  );
 };
 
 export default TabIcon;

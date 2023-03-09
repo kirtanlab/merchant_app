@@ -14,29 +14,31 @@ const Nav_Header = ({
       style={
         {
           // top: ,
+          // alignItems: 'space-betwe',
         }
       }>
       {back ? (
         <View
           style={{
-            // flexDirection: 'row',
-            // position: 'relative',
-            // top: '6%',
-            paddingBottom: 7,
+            flexDirection: 'row',
+            top: '6%',
+            // paddingBottom: 7,
             borderBottomColor: COLORS.lightGray4,
             borderBottomWidth: 1,
+            alignItems: 'center',
+            // justifyContent: 'space-evenly',
           }}>
-          {/* //for covering purpose */}
           <View
             style={{
-              left: SIZES.width * 0.04,
-              width: 70,
-              top: '50%',
-              // top: 2,/
+              left: SIZES.width * 0.05,
+              width: SIZES.width * 0.22,
+              top: 2,
+              height: 45,
+              // width: 100,
             }}>
-            <TouchableOpacity onPress={onPress_back}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{flex: 1}}>
+            <TouchableOpacity onPress={onPress_back} style={{height: 100}}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{}}>
                   <Ionicons
                     name="arrow-back-outline"
                     size={30}
@@ -44,7 +46,7 @@ const Nav_Header = ({
                     style={{}}
                   />
                 </View>
-                <View style={{top: 2}}>
+                <View style={{}}>
                   <Text
                     style={{
                       color: COLORS.mobile_theme_back,
@@ -59,13 +61,18 @@ const Nav_Header = ({
           {/* Forward */}
           <View
             style={{
-              left: SIZES.width * 0.76,
-              width: 70,
-              // backgroundColor: COLORS.mobile_theme_back,
+              left: SIZES.width * 0.53,
+              width: 80,
+              height: 45,
             }}>
             <TouchableOpacity onPress={onPress_forward}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{flex: 1, top: 2}}>
+              <View
+                style={{
+                  height: 37,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <View style={{}}>
                   <Text
                     style={{
                       color: color,
@@ -74,7 +81,7 @@ const Nav_Header = ({
                     Next
                   </Text>
                 </View>
-                <View style={{}}>
+                <View style={{leftL: 1, top: 1}}>
                   <Ionicons
                     name="arrow-forward-outline"
                     size={30}
@@ -90,22 +97,24 @@ const Nav_Header = ({
         <View
           style={{
             flexDirection: 'row',
-            position: 'relative',
+            // position: 'relative',
             top: '6%',
-            paddingBottom: 7,
+            // paddingBottom: 7,
             borderBottomColor: COLORS.lightGray4,
             borderBottomWidth: 1,
+            // bottom: -20,
             // top: ,
           }}>
           <View
             style={{
               left: SIZES.width * 0.75,
-              width: 70,
+              width: SIZES.width * 0.37,
+              height: 40,
               // backgroundColor: COLORS.mobile_theme_back,
             }}>
             <TouchableOpacity onPress={onPress_forward}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={{flex: 1, top: 2}}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{bottom: 2}}>
                   <Text
                     style={{
                       color: color,
@@ -115,7 +124,7 @@ const Nav_Header = ({
                   </Text>
                 </View>
                 {/* <View style={{marginLeft: 10}}>
-                
+
               </View> */}
 
                 <View style={{}}>
@@ -135,4 +144,24 @@ const Nav_Header = ({
   );
 };
 
+function mapStateToProps(state) {
+  return {
+    Landmark: state.newproperty_reducer.Landmark,
+    focused_Landmark: state.newproperty_reducer.focused_Landmark,
+    focused_Description_pg: state.newproperty_reducer.focused_Description_pg,
+    focused_Location: state.newproperty_reducer.focused_Location,
+    focused_house_no: state.newproperty_reducer.focused_house_no,
+    checked_house_no: state.newproperty_reducer.checked_house_no,
+    checked_Location: state.newproperty_reducer.checked_Location,
+    checked_Landmark: state.newproperty_reducer.checked_Landmark,
+    checked_Description_pg: state.newproperty_reducer.checked_Description_pg,
+    Description_pg: state.newproperty_reducer.Description_pg,
+    house_no: state.newproperty_reducer.house_no,
+    Location: state.newproperty_reducer.Location,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
 export default Nav_Header;

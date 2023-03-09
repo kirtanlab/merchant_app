@@ -114,7 +114,7 @@ const Floor_price = ({
               fontSize: SIZES.custom1,
               fontWeight: 'bold',
             }}>
-            Enter Occupancy Rooms
+            Enter Occupancy of Rooms
           </Text>
         </View>
         <View style={{marginTop: 6}}>

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import SvgUri from 'react-native-svg-uri';
 import {
   ActivityIndicator,
   Image,
@@ -90,11 +89,16 @@ const ForgetPass = ({navigation}) => {
     }
     if (validate_password(e)) {
       setChecked_new(true);
-      if (checked_conf) {
+      setChecked_conf(false);
+      if (conf_pass === e) {
         setDone(true);
+        setChecked_conf(true);
+      } else {
+        setDone(false);
       }
     } else {
       setChecked_new(false);
+      setChecked_conf(false);
       setDone(false);
     }
     // set(e);
@@ -195,10 +199,10 @@ const ForgetPass = ({navigation}) => {
                 }}
                 icon={
                   <MaterialIcons
-                    name="alternate-email"
-                    size={20}
+                    name="lock"
+                    size={25}
                     color={COLORS.mobile_theme_back}
-                    style={{marginTop: 18}}
+                    style={{marginTop: 14}}
                   />
                 }
                 // onChange={value => handle_email(value.nativeEvent.text)}
@@ -228,7 +232,7 @@ const ForgetPass = ({navigation}) => {
 
               <InputField
                 label={'New Password'}
-                type={'new_password'}
+                type={'new_conf_password'}
                 onFocus={() => {
                   setBlured_conf(false), setFocused_conf(true);
                 }}
@@ -240,10 +244,10 @@ const ForgetPass = ({navigation}) => {
                 }}
                 icon={
                   <MaterialIcons
-                    name="alternate-email"
-                    size={20}
+                    name="lock"
+                    size={25}
                     color={COLORS.mobile_theme_back}
-                    style={{marginTop: 18}}
+                    style={{marginTop: 14}}
                   />
                 }
                 // onChange={value => handle_email(value.nativeEvent.text)}
@@ -265,9 +269,9 @@ const ForgetPass = ({navigation}) => {
             </View>
           )}
           <View
-            style={{marginTop: '20%', width: SIZES.width * 0.8, left: '10%'}}>
+            style={{marginTop: '2%', width: SIZES.width * 0.8, left: '10%'}}>
             <CustomButton
-              label={'Login'}
+              label={'submit'}
               color={done ? COLORS.mobile_theme_back : 'gray'}
               onPress={() => {
                 if (checked_new && checked_conf) {

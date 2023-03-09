@@ -14,7 +14,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import RegistrationSVG from '../../assets/icons/registration.svg';
 import CustomButton from '../../components/CustomeButton';
-
+import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 
 // import {auth} from '../../firebase';
@@ -30,6 +30,11 @@ const SignupScreen = ({
   checked_phone,
   email,
   password,
+  login_email,
+  login_password,
+  checked_login_email,
+  checked_login_pass,
+  gen_login_err,
   confirmPassword,
   focused_sign_email,
   focused_sign_name,
@@ -91,15 +96,59 @@ const SignupScreen = ({
       console.error('else part');
     }
   }
-  useEffect(() => {
-    reset_checked();
-  }, []);
+  // useEffect(() => {
+  //   reset_checked();
+  // }, []);
+  // React.useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', async e => {
+  //     console.log(e);
+  //     function validate_email(val) {
+  //       var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+  //       return regex.test(val);
+  //     }
+  //     function validate_password(val) {
+  //       var regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+  //       return regex.test(val);
+  //     }
+  //     if (validate_email(email) && validate_password(password)) {
+  //       console.log('entered good', email, password);
+  //       setDone(true);
+  //       await login_email_checked(true);
+  //       await login_pass_checked(true);
+  //       // console.log('entered good', checked_login_email, checked_login_pass);
+  //     } else {
+  //       // console.log('entered bad', email, password);
+  //       setDone(false);
+  //       await login_email_checked(false);
+  //     }
+
+  //     //Put your Data loading function here instead of my loadData()
+  //   });
+
+  //   return unsubscribe;
+  // }, [navigation]);
+  console.log(phone);
   return (
+    // <SafeAreaView
+    //   style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
     <SafeAreaView
       style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
+      <StatusBar
+        animated={true}
+        backgroundColor={COLORS.mobile_theme_back}
+        barStyle={'light-content'}
+      />
+
+      <SafeAreaView
+        style={{
+          height: SIZES.height * 0.03,
+          backgroundColor: COLORS.mobile_theme_back,
+          elevation: 1,
+        }}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{paddingHorizontal: 20}}>
+        style={{paddingHorizontal: 15}}>
         <View style={{marginTop: 0, alignItems: 'center'}}>
           <Image
             source={icons.logo_rent}
@@ -126,17 +175,18 @@ const SignupScreen = ({
         </Text>
         {/* UserName */}
         <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.83, left: 6}}>
+          <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
             <InputField
               label={'User Name'}
               type={'sign_name'}
               value={name}
+              // style={{left: 10}}
               icon={
                 <Ionicons
                   name="person-outline"
-                  size={24}
+                  size={26}
                   color={err ? COLORS.mobile_theme_back : 'red'}
-                  style={{marginTop: 18}}
+                  style={{marginTop: 18, marginLeft: 7}}
                 />
               }
             />
@@ -151,8 +201,8 @@ const SignupScreen = ({
           </TouchableOpacity>
         </View>
         {focused_sign_name === true && checked_sign_name == false && (
-          <View style={{marginTop: -30, left: 35, marginBottom: 20}}>
-            <Text style={{color: 'red'}}>
+          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
+            <Text style={{color: COLORS.lightGray3}}>
               Enter Minimum 5 Letter{'\n'}Include at least one alphabet
             </Text>
           </View>
@@ -176,7 +226,7 @@ const SignupScreen = ({
                 borderBottomEndRadius: 5,
                 backgroundColor: COLORS.white,
                 height: 30,
-                width: 30,
+                width: 40,
                 marginTop: 4,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -185,7 +235,7 @@ const SignupScreen = ({
               <Text
                 style={{
                   color: COLORS.mobile_theme_back,
-                  fontSize: 19,
+                  fontSize: 17,
                   fontWeight: 'bold',
                 }}>
                 +91
@@ -197,7 +247,7 @@ const SignupScreen = ({
               label={'Enter Phone Number'}
               type={'phone'}
               keyboardType={'phone-pad'}
-              value={phone}
+              value={phone.toString()}
               //   icon={
               //     <Ionicons
               //       name="call-outline"
@@ -213,13 +263,13 @@ const SignupScreen = ({
               name="checkmark-done-outline"
               size={20}
               color={checked_phone ? COLORS.mobile_theme_back : 'lightgray'}
-              style={{marginTop: 18}}
+              style={{marginTop: 18, right: 9}}
             />
           </TouchableOpacity>
         </View>
 
         {focused_phone && !checked_phone && (
-          <View style={{marginTop: -30, left: 35, marginBottom: 20}}>
+          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
             <Text style={{color: COLORS.lightGray3}}>
               Enter 10 Digit Phone Number
             </Text>
@@ -227,14 +277,15 @@ const SignupScreen = ({
         )}
         {/* EmailSection */}
         <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.83, left: 6}}>
+          <View style={{width: SIZES.width * 0.81, marginLeft: 8}}>
             <InputField
               label={'Email ID'}
               type={'sign_email'}
+              value={email}
               icon={
                 <MaterialIcons
                   name="alternate-email"
-                  size={24}
+                  size={26}
                   color={err ? COLORS.mobile_theme_back : 'red'}
                   style={{marginTop: 18}}
                 />
@@ -254,21 +305,24 @@ const SignupScreen = ({
           </TouchableOpacity>
         </View>
         {focused_sign_email && !checked_sign_email && (
-          <View style={{marginTop: -30, left: 35, marginBottom: 20}}>
-            <Text style={{color: 'red'}}>Enter Your Valid Email ID</Text>
+          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
+            <Text style={{color: COLORS.lightGray3}}>
+              Enter Your Valid Email ID
+            </Text>
           </View>
         )}
 
         {/* PasswordField */}
         <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.83, left: 6}}>
+          <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
             <InputField
               label={'Password'}
               type={'sign_password'}
+              value={password}
               icon={
                 <Ionicons
                   name="ios-lock-closed-outline"
-                  size={24}
+                  size={26}
                   color={err ? COLORS.mobile_theme_back : 'red'}
                   style={{marginTop: 18}}
                 />
@@ -287,24 +341,25 @@ const SignupScreen = ({
           </TouchableOpacity>
         </View>
         {focused_sign_pass && !checked_sign_pass && (
-          <View style={{marginTop: -30, left: 35, marginBottom: 20}}>
-            <Text style={{color: 'red'}}>
-              Enter Atleast one number{'\n'} Enter Atleast One Symbol(!@#$%^&*){' '}
-              {'\n'} enter atleast 6 letters
+          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
+            <Text style={{color: COLORS.lightGray3}}>
+              Enter Atleast one number{'\n'}Enter Atleast One Symbol(!@#$%^&*)
+              {'\n'}Enter atleast 6 letters
             </Text>
           </View>
         )}
 
         {/* ConfirmPassword */}
         <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.83, left: 6}}>
+          <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
             <InputField
               label={'Confirm Password'}
               type={'sign_conf_password'}
+              value={confirmPassword}
               icon={
                 <Ionicons
                   name="ios-lock-closed-outline"
-                  size={24}
+                  size={26}
                   color={err ? COLORS.mobile_theme_back : 'red'}
                   style={{marginTop: 18}}
                 />
@@ -318,7 +373,9 @@ const SignupScreen = ({
               name="checkmark-done-outline"
               size={20}
               color={
-                password == confirmPassword && checked_sign_conf_pass
+                password == confirmPassword &&
+                checked_sign_conf_pass &&
+                checked_sign_pass
                   ? COLORS.mobile_theme_back
                   : 'lightgray'
               }
@@ -328,15 +385,16 @@ const SignupScreen = ({
         </View>
         {focused_sign_conf_pass &&
           checked_sign_conf_pass &&
+          checked_sign_pass &&
           !(password == confirmPassword) && (
-            <View style={{marginTop: -30, left: 35, marginBottom: 20}}>
-              <Text style={{color: 'red'}}>
+            <View style={{marginTop: -30, left: 40, marginBottom: 20}}>
+              <Text style={{color: COLORS.lightGray3s}}>
                 Shouldn't be empty {'\n'}Should match password entered above
               </Text>
             </View>
           )}
         {gen_sign_err && (
-          <View style={{marginTop: -30, left: 35, marginBottom: 20}}>
+          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
             <Text style={{color: 'red'}}>
               Fill all the blanks appropriately
             </Text>
@@ -351,7 +409,8 @@ const SignupScreen = ({
             checked_sign_name &&
             checked_sign_pass &&
             password == confirmPassword &&
-            checked_sign_conf_pass
+            checked_sign_conf_pass &&
+            checked_phone
               ? COLORS.mobile_theme_back
               : 'gray'
           }
@@ -361,7 +420,8 @@ const SignupScreen = ({
               checked_sign_email &&
               checked_sign_name &&
               checked_sign_pass &&
-              checked_sign_conf_pass
+              checked_sign_conf_pass &&
+              checked_phone
             ) {
               console.log('Done');
               handleSignUp();
@@ -379,7 +439,16 @@ const SignupScreen = ({
             marginBottom: 30,
           }}>
           <Text>Already registered?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('LoginScreen', {
+                __email: login_email,
+                __password: login_password,
+                _checked_login_email: checked_login_email,
+                _checked_login_pass: checked_login_pass,
+                _gen_login_err: gen_login_err,
+              })
+            }>
             <Text style={{color: COLORS.mobile_theme_back, fontWeight: '700'}}>
               {' '}
               Login
@@ -393,6 +462,11 @@ const SignupScreen = ({
 
 function mapStateToProps(state) {
   return {
+    gen_login_err: state.authReducer.gen_login_err,
+    checked_login_pass: state.authReducer.checked_login_pass,
+    checked_login_email: state.authReducer.checked_login_email,
+    login_email: state.authReducer.login_email,
+    login_password: state.authReducer.login_password,
     name: state.authReducer.sign_name,
     email: state.authReducer.sign_email,
     password: state.authReducer.sign_password,

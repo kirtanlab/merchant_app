@@ -33,103 +33,7 @@ const Location = ({
   checked_house_no,
   checked_Landmark,
 }) => {
-  // const Nav_Header = () => {
-  //   return (
-  // <View
-  //   style={{
-  //     flexDirection: 'row',
-  //     position: 'relative',
-  //     top: '6%',
-  //     paddingBottom: 7,
-  //     borderBottomColor: COLORS.lightGray4,
-  //     borderBottomWidth: 1,
-  //   }}>
-  //   <View
-  //     style={{
-  //       right: SIZES.width * 0.35,
-  //       width: 70,
-  //     }}>
-  //     <TouchableOpacity
-  //       onPress={() => {
-  //         console.log('back');
-  //         navigation.navigate('BasicDetails');
-  //       }}>
-  //       <View style={{flexDirection: 'row'}}>
-  //         <View style={{flex: 1, top: 2}}>
-  //           <Text
-  //             style={{
-  //               color:
-  //                 checked_Landmark && checked_house_no
-  //                   ? COLORS.mobile_theme_back
-  //                   : COLORS.lightGray2,
-  //               fontSize: 23,
-  //             }}>
-  //             Back
-  //           </Text>
-  //         </View>
-  //         <View style={{}}>
-  //           <Ionicons
-  //             name="arrow-back-outline"
-  //             size={30}
-  //             color={
-  //               checked_Landmark && checked_house_no
-  //                 ? COLORS.mobile_theme_back
-  //                 : COLORS.lightGray3
-  //             }
-  //             style={{}}
-  //           />
-  //         </View>
-  //       </View>
-  //     </TouchableOpacity>
-  //   </View>
-  //   {/* Forward */}
-  //   <View
-  //     style={{
-  //       left: SIZES.width * 0.6,
-  //       width: 70,
-  //       // backgroundColor: COLORS.mobile_theme_back,
-  //     }}>
-  //     <TouchableOpacity
-  //       onPress={() => {
-  //         if (checked_Landmark && checked_house_no) {
-  //           console.log('Done');
-  //           next_page();
-  //         } else {
-  //           showErrorToast((title = 'Fill All Required Details'));
-  //           console.log('ckicked');
-  //         }
-  //       }}>
-  //       <View style={{flexDirection: 'row'}}>
-  //         <View style={{flex: 1, top: 2}}>
-  //           <Text
-  //             style={{
-  //               color:
-  //                 checked_Landmark && checked_house_no
-  //                   ? COLORS.mobile_theme_back
-  //                   : COLORS.lightGray2,
-  //               fontSize: 23,
-  //             }}>
-  //             Next
-  //           </Text>
-  //         </View>
-  //         <View style={{}}>
-  //           <Ionicons
-  //             name="arrow-forward-outline"
-  //             size={30}
-  //             color={
-
-  //                 ? COLORS.mobile_theme_back
-  //                 : COLORS.lightGray3
-  //             }
-  //             style={{}}
-  //           />
-  //         </View>
-  //       </View>
-  //     </TouchableOpacity>
-  //   </View>
-  // </View>
-  //   );
-  // };
+  const [imgUri, setimgUri] = React.useState(undefined);
   function next_page() {
     navigation.navigate('MoreProperty');
     console.log('next pagee');
@@ -139,7 +43,7 @@ const Location = ({
       console.log('Done');
       next_page();
     } else {
-      showErrorToast((title = 'Fill All Required Details'));
+      showErrorToast((title = 'Fill Required Fields'));
       console.log('ckicked');
     }
   }
@@ -154,6 +58,7 @@ const Location = ({
         type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
       });
       console.log(res);
+      setimgUri(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled', err);
@@ -181,7 +86,7 @@ const Location = ({
       {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
-      <View style={{right: 12}}>
+      <View style={{}}>
         <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
       </View>
       <StatusBar
@@ -230,46 +135,107 @@ const Location = ({
           />
         </View>
         <View style={{marginTop: 30}}>
-          <NumericInput />
+          <NumericInput navigation={navigation} />
         </View>
         {/* Bijli ka bil */}
-        <View style={{marginTop: 25}}>
+        <View>
           <Text
             style={{
               color: COLORS.black,
-              fontSize: SIZES.custom1,
+              fontSize: SIZES.h2,
               fontWeight: 'bold',
+              marginTop: 25,
             }}>
-            Upload Bijli ka bill (image of pdf) (tumhara papa nai dega)
+            Bijli ka bil
           </Text>
-          <TouchableOpacity
-            style={{
-              marginTop: 15,
-              borderColor: COLORS.mobile_theme,
-              // borderWidth: SIZES.form_button_borderWidth,
-              borderRadius: SIZES.form_button_borderRadius,
-              minWidth: SIZES.form_button_minWidth,
-              maxWidth: SIZES.form_button_maxWidth,
-              maxHeight: SIZES.form_button_maxHeight,
-              padding: SIZES.form_button_padding,
-              alignItems: SIZES.form_button_alignItems,
-              justifyContent: SIZES.form_button_justifyContent,
-              backgroundColor: COLORS.mobile_theme_back,
-            }}
-            onPress={() => {
-              selectDoc();
-              console.log('doc clicked');
-            }}>
+        </View>
+        {imgUri === undefined && (
+          <View style={{marginTop: 15}}>
             <Text
               style={{
-                fontSize: SIZES.form_button_text_fontSize,
-                fontWeight: SIZES.form_button_text_fontWeight,
-                color: COLORS.font_color,
+                fontSize: SIZES.h2,
+                color: COLORS.mobile_theme_back,
+                //   fontWeight: 'bold',
               }}>
-              Select fles
+              Select Adhar(image or pdf form)
             </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={{
+                marginTop: 15,
+                borderColor: COLORS.mobile_theme,
+                borderWidth: SIZES.form_button_borderWidth,
+                borderRadius: SIZES.form_button_borderRadius,
+                minWidth: SIZES.form_button_minWidth,
+                maxWidth: SIZES.form_button_maxWidth,
+                maxHeight: SIZES.form_button_maxHeight,
+                padding: SIZES.form_button_padding,
+                alignItems: SIZES.form_button_alignItems,
+                justifyContent: SIZES.form_button_justifyContent,
+                backgroundColor: COLORS.mobile_theme_back,
+              }}
+              onPress={() => {
+                selectDoc();
+                console.log('doc clicked');
+              }}>
+              <Text
+                style={{
+                  fontSize: SIZES.h2,
+                  fontWeight: SIZES.form_button_text_fontWeight,
+                  color: COLORS.font_color,
+                }}>
+                Select file
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {/* Show Uploaded */}
+        {/* <Image
+          source={{uri: imgUri}}
+          style={{
+            height: 300,
+            width: SIZES.width - 45,
+            borderRadius: 10,
+            marginTop: 7,
+            alignSelf: 'center',
+          }}
+        /> */}
+        {imgUri !== undefined && (
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: COLORS.mobile_theme_back,
+              // minWidth: 100,
+              // width: '100%',
+              minHeight: 40,
+              borderRadius: 10,
+              marginTop: 15,
+              maxHeight: 200,
+              // alignItems: 'center',
+              padding: 5,
+            }}>
+            <Text style={{flex: 5, color: COLORS.white, fontSize: SIZES.h2}}>
+              {imgUri.name}
+            </Text>
+            <TouchableOpacity
+              style={{
+                // marginTop: 18,
+                flex: 1,
+                left: 20,
+                color: COLORS.white,
+                fontSize: SIZES.h2,
+              }}
+              onPress={() => {
+                setimgUri(undefined);
+              }}>
+              <Ionicons
+                name="close-circle-outline"
+                size={35}
+                color={true ? COLORS.white : 'lightgray'}
+                style={{}}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         {/* Videos of Images
         <View style={{marginTop: 25}}>
           <Text
@@ -338,7 +304,7 @@ const Location = ({
               console.log('ckicked');
             }
           }}
-        /> 
+        />
       </View>*/}
     </ScrollView>
   );

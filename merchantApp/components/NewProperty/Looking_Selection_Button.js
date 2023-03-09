@@ -7,9 +7,8 @@ import {
   ScrollView,
 } from 'react-native';
 import {Button} from 'react-native';
-// import {Button} from 'react-native-paper';
 import {COLORS, FONTS, SIZES} from '../../constants';
-import {connect, useSelector} from 'react-redux';
+import {connect} from 'react-redux';
 import * as newproperty_actions from '../../store/Newproperty/newproperty_action';
 const Looking_Selection_Button = ({looking_form, update_looking}) => {
   let [looking_form_copy, setLooking] = useState(looking_form);
@@ -87,7 +86,7 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
             </TouchableOpacity>
           </View>
           {/* mess */}
-          <View>
+          {/* <View>
             <TouchableOpacity
               style={{
                 borderColor: COLORS.mobile_theme_back,
@@ -124,6 +123,46 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
                 Mess
               </Text>
             </TouchableOpacity>
+          </View> */}
+          {/* Hostel */}
+          <View style={{}}>
+            <TouchableOpacity
+              style={{
+                borderColor: COLORS.mobile_theme_back,
+                borderWidth: SIZES.form_button_borderWidth,
+                borderRadius: SIZES.form_button_borderRadius,
+                minWidth: SIZES.form_button_minWidth,
+                maxWidth: SIZES.form_button_maxWidth,
+                maxHeight: SIZES.form_button_maxHeight,
+                padding: SIZES.form_button_padding,
+                alignItems: SIZES.form_button_alignItems,
+                justifyContent: SIZES.form_button_justifyContent,
+                backgroundColor: Hostel ? COLORS.mobile_theme_back : 'white',
+              }}
+              onPress={async () => {
+                if (!Hostel) {
+                  looking_form_copy.rent = false;
+                  looking_form_copy.mess = false;
+                  looking_form_copy.pg = false;
+                  looking_form_copy.Hostel = true;
+                  setrent(false);
+                  setmess(false);
+                  setpg(false);
+                  setHostel(true);
+                  await update_looking(looking_form_copy);
+                }
+
+                console.log('Pressed0');
+              }}>
+              <Text
+                style={{
+                  fontSize: SIZES.form_button_text_fontSize,
+                  fontWeight: SIZES.form_button_text_fontWeight,
+                  color: Hostel ? COLORS.font_color : COLORS.lightGray3,
+                }}>
+                Hostel
+              </Text>
+            </TouchableOpacity>
           </View>
           {/* PG */}
           <View>
@@ -133,7 +172,7 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
                 borderWidth: SIZES.form_button_borderWidth,
                 borderRadius: SIZES.form_button_borderRadius,
                 minWidth: SIZES.form_button_minWidth,
-                maxWidth: SIZES.form_button_maxWidth,
+                maxWidth: SIZES.form_button_maxWidth + 20,
                 maxHeight: SIZES.form_button_maxHeight,
                 padding: SIZES.form_button_padding,
                 alignItems: SIZES.form_button_alignItems,
@@ -164,54 +203,6 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
-        {/* Hostel */}
-        <View
-          style={{
-            marginTop: 15,
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 14,
-            marginTop: 12,
-            position: 'relative',
-          }}>
-          <TouchableOpacity
-            style={{
-              borderColor: COLORS.mobile_theme_back,
-              borderWidth: SIZES.form_button_borderWidth,
-              borderRadius: SIZES.form_button_borderRadius,
-              minWidth: SIZES.form_button_minWidth,
-              maxWidth: SIZES.form_button_maxWidth,
-              maxHeight: SIZES.form_button_maxHeight,
-              padding: SIZES.form_button_padding,
-              alignItems: SIZES.form_button_alignItems,
-              justifyContent: SIZES.form_button_justifyContent,
-              backgroundColor: Hostel ? COLORS.mobile_theme_back : 'white',
-            }}
-            onPress={async () => {
-              if (!Hostel) {
-                looking_form_copy.rent = false;
-                looking_form_copy.mess = false;
-                looking_form_copy.pg = false;
-                looking_form_copy.Hostel = true;
-                setrent(false);
-                setmess(false);
-                setpg(false);
-                setHostel(true);
-                await update_looking(looking_form_copy);
-              }
-
-              console.log('Pressed0');
-            }}>
-            <Text
-              style={{
-                fontSize: SIZES.form_button_text_fontSize,
-                fontWeight: SIZES.form_button_text_fontWeight,
-                color: Hostel ? COLORS.font_color : COLORS.lightGray3,
-              }}>
-              Hostel
-            </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

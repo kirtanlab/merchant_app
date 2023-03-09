@@ -30,7 +30,7 @@ const Basic3 = ({navigation}) => {
     <ScrollView style={{backgroundColor: 'white'}}>
       <StatusBar
         animated={true}
-        backgroundColor={COLORS.progress_bar}
+        backgroundColor={COLORS.mobile_theme_back}
         barStyle={'light-content'}
       />
       <SafeAreaView

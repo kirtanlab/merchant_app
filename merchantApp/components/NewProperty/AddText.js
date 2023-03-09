@@ -89,6 +89,7 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
                 <TouchableOpacity
                   onPress={async () => {
                     setModalVisible(false);
+                    setTerms('');
                   }}>
                   <Text
                     style={{
@@ -108,14 +109,18 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
                 }}>
                 <TouchableOpacity
                   onPress={async () => {
-                    console.log('selected_term_id', selected_term_id);
-
-                    const id = generateID();
-                    terms_pg_copy.push({id: id, text: term});
-                    console.log('terms_pg_copy', terms_pg_copy);
-                    setTerms_pg_copy(terms_pg_copy);
-                    await setTerms_pg(terms_pg_copy);
-                    setModalVisible(false);
+                    if (term !== '') {
+                      console.log('selected_term_id', selected_term_id);
+                      const id = generateID();
+                      terms_pg_copy.push({id: id, text: term});
+                      console.log('terms_pg_copy', terms_pg_copy);
+                      setTerms('');
+                      setTerms_pg_copy(terms_pg_copy);
+                      await setTerms_pg(terms_pg_copy);
+                      setModalVisible(false);
+                    } else {
+                      setModalVisible(false);
+                    }
                   }}>
                   <Text
                     style={{
@@ -150,7 +155,7 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
                     console.log('changed');
                     setonfocused(false);
                   }}
-                  value={selected_term ? selected_term : term}
+                  value={term}
                   onChange={async e => {
                     setTerms(e.nativeEvent.text);
 
@@ -175,8 +180,8 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
             fontSize: 19,
             // paddingRight: 10,
             lineHeight: 23,
-            maxHeight: 100,
-            width: SIZES.width * 0.82,
+            maxHeight: 200,
+            width: SIZES.width * 0.849,
             //   borderRadius: SIZES.form_button_borderRadius,
             backgroundColor: COLORS.white,
             //   borderTopWidth: 0.5,
@@ -184,14 +189,14 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
             borderColor: COLORS.mobile_theme_back,
             flexDirection: 'row',
           }}>
-          <View style={{flex: 1}}>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={true}>
             <TouchableOpacity
               style={{
                 marginTop: 3,
+                // padding: 2,
+                width: SIZES.width * 0.7,
 
-                width: SIZES.width * 0.9,
-
-                maxHeight: SIZES.form_button_maxHeight,
+                maxHeight: 200,
               }}
               onPress={async () => {
                 console.log('temselected');
@@ -216,7 +221,7 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
               style={{marginTop: 18}}
             /> */}
             </TouchableOpacity>
-          </View>
+          </ScrollView>
           <View style={{flex: 0.1}}>
             <TouchableOpacity
               onPress={async () => {
@@ -250,12 +255,12 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
 
   const headerComponent = () => (
     <View style={{height: 0}}>
-      <Text style={{fontSize: 0}}></Text>
+      <Text style={{fontSize: 0}} />
     </View>
   );
   const footerComponent = () => (
     <View style={{height: 0}}>
-      <Text></Text>
+      <Text />
     </View>
   );
   const emptyComponent = () => (
@@ -352,7 +357,7 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
         <View style={{marginTop: 15}}>
           <KeyboardAvoidingView>
             <InputField
-              // label={'Add About pg Here'}
+              label={'Add More About PG Here'}
               type={'About_pg'}
               keyboardType={'default'}
               // value={aboutpg}

@@ -7,10 +7,13 @@ import * as NewPropertyActions from '../store/Newproperty/newproperty_action';
 import * as NewRoomActions from '../store/NewRooms/Newrooms_actions';
 function InputField({
   label,
+  value,
   icon,
   inputType,
+  defaultValue,
   onChange,
   keyboardType,
+  updateAboutRoom,
   fieldButtonLabel,
   type,
   multiline,
@@ -121,11 +124,13 @@ function InputField({
           onBlur={() => {
             sign_password_focused(false);
           }}
+          value={value}
+          defaultValue={defaultValue}
           placeholder={label}
           keyboardType={keyboardType}
           style={{
             height: 40,
-            marginLeft: 4,
+            left: 12,
             flex: 1,
             borderBottomWidth: 1,
             borderColor: '#d1cfcf',
@@ -143,12 +148,12 @@ function InputField({
             validate_conf_password();
             setPassword(value.nativeEvent.text);
             console.log(_pass, 'clear');
+            updatesign_password(value.nativeEvent.text);
             // console.log('handeled', value.nativeEvent.text);
             if (validate_password(value.nativeEvent.text)) {
               sign_pass_checked(true);
               // gen_sign_err_method(false);
               // sign_password_focused(false);
-              updatesign_password(value.nativeEvent.text);
             } else {
               sign_pass_checked(false);
             }
@@ -157,6 +162,34 @@ function InputField({
       );
     }
     if (type == 'new_password') {
+      return (
+        <TextInput
+          // pointerEvents="
+          onFocus={onFocus}
+          onBlur={onBlur}
+          placeholder={label}
+          keyboardType={keyboardType}
+          style={{
+            height: 40,
+            marginLeft: 4,
+            flex: 1,
+            borderBottomWidth: 1,
+            borderColor: '#d1cfcf',
+            marginTop: 5,
+            borderRadius: 8,
+            paddingHorizontal: 10,
+            paddingBottom: 9,
+            fontSize: 18,
+            color: '#212121',
+          }}
+          // editable={false}
+          contextMenuHidden={true}
+          // selectTextOnFocus={false}
+          onChange={onChange}
+        />
+      );
+    }
+    if (type == 'new_conf_password') {
       return (
         <TextInput
           // pointerEvents="
@@ -199,7 +232,7 @@ function InputField({
           keyboardType={keyboardType}
           style={{
             height: 40,
-            marginLeft: 4,
+            left: 12,
             flex: 1,
             borderBottomWidth: 1,
             borderColor: '#d1cfcf',
@@ -210,11 +243,15 @@ function InputField({
             fontSize: 18,
             color: '#212121',
           }}
+          value={value}
+          defaultValue={defaultValue}
           onChange={value => {
-            if (validate_email(value.nativeEvent.text)) {
+            value = value.nativeEvent.text;
+            value = value.trimEnd();
+            updatesign_email(value);
+            if (validate_email(value)) {
               sign_email_checked(true);
               // sign_email_focused(false);
-              updatesign_email(value.nativeEvent.text);
             } else {
               sign_email_checked(false);
             }
@@ -232,11 +269,14 @@ function InputField({
           onBlur={() => {
             sign_name_focused(false);
           }}
+          value={value}
+          defaultValue={defaultValue}
           placeholder={label}
           keyboardType={keyboardType}
           style={{
             height: 40,
-            marginLeft: 4,
+            // marginLeft: 20,
+            left: 12,
             flex: 1,
             borderBottomWidth: 1,
             borderColor: '#d1cfcf',
@@ -248,10 +288,10 @@ function InputField({
             color: '#212121',
           }}
           onChange={value => {
+            updatesign_name(value.nativeEvent.text);
             if (validate_name(value.nativeEvent.text)) {
               sign_name_checked(true);
               // sign_name_focused(false);
-              updatesign_name(value.nativeEvent.text);
             } else {
               sign_name_checked(false);
             }
@@ -270,11 +310,13 @@ function InputField({
           onBlur={() => {
             sign_conf_pass_focused(false);
           }}
+          value={value}
+          defaultValue={defaultValue}
           placeholder={label}
           keyboardType={keyboardType}
           style={{
             height: 40,
-            marginLeft: 4,
+            left: 12,
             flex: 1,
             borderBottomWidth: 1,
             borderColor: '#d1cfcf',
@@ -286,11 +328,11 @@ function InputField({
             color: '#212121',
           }}
           onChange={value => {
+            updatesign_conf_password(value.nativeEvent.text);
             console.log(_pass, 'maybe');
             if (validate_conf_password(value.nativeEvent.text, _pass)) {
               sign_conf_pass_checked(true);
               // sign_conf_pass_focused(false);
-              updatesign_conf_password(value.nativeEvent.text);
             } else {
               sign_conf_pass_checked(false);
             }
@@ -312,18 +354,24 @@ function InputField({
             marginTop: 5,
             borderRadius: 8,
             paddingHorizontal: 10,
-            paddingBottom: 9,
+            // paddingBottom: 9,
             fontSize: 18,
             color: '#212121',
           }}
+          value={value}
+          defaultValue={defaultValue}
           onChange={value => {
-            // console.log('handeled', value.nativeEvent.text);
-            // updatesign_email(value.nativeEvent.text);
-            if (value != '') {
+            onChange,
+              // coole.log('handeled', value.nativeEvent.text);
+              // updatesign_email(value.nativeEvent.text);
+              (value = value.nativeEvent.text);
+            value = value.trimEnd();
+            console.log('cliekd');
+            updatelogin_email(value);
+            if (validate_email(value)) {
               login_email_checked(true);
-              updatelogin_email(value.nativeEvent.text);
             } else {
-              login_pass_checked(false);
+              login_email_checked(false);
             }
           }}
         />
@@ -355,8 +403,10 @@ function InputField({
     if (type == 'login_password') {
       return (
         <TextInput
+          value={value}
           placeholder={label}
           keyboardType={keyboardType}
+          defaultValue={defaultValue}
           style={{
             height: 40,
             marginLeft: 4,
@@ -372,12 +422,14 @@ function InputField({
           }}
           secureTextEntry={true}
           onChange={value => {
-            // console.log('handeled', value.nativeEvent.text);
-            value = value.nativeEvent.text;
-            // updatesign_password(value.nativeEvent.text);
-            if (value !== '') {
-              login_pass_checked(true);
+            onChange,
+              // console.log('handeled', value.nativeEvent.text);
+              (value = value.nativeEvent.text),
+              // updatesign_password(value.nativeEvent.text);
               updatelogin_pass(value);
+            if (validate_password(value)) {
+              login_pass_checked(true);
+              console.log(true);
             } else {
               login_pass_checked(false);
             }
@@ -522,11 +574,13 @@ function InputField({
             console.log('!Entering focued');
             phone_focused(false);
           }}
+          value={value}
+          defaultValue={defaultValue}
           placeholder={label}
           keyboardType={keyboardType}
           style={{
             height: 40,
-            marginLeft: 4,
+            left: 4,
             flex: 1,
             borderBottomWidth: 1,
             borderColor: '#d1cfcf',
@@ -541,12 +595,12 @@ function InputField({
           onChange={value => {
             // console.log('handeled', value.nativeEvent.text);
             value = Number(value.nativeEvent.text);
+            update_phone(value);
             if (validate_phone(value)) {
               console.log('etnereed green');
               phone_checked(true);
               // gen_sign_err_method(false);
               // sign_password_focused(false);
-              update_phone(value);
             } else {
               phone_checked(false);
             }
@@ -655,6 +709,7 @@ function InputField({
           }}
           placeholder={label}
           keyboardType={keyboardType}
+          value={value}
           style={{
             flex: 1,
             paddingVertical: 0,
@@ -669,12 +724,12 @@ function InputField({
             // console.log('hande
             // console.log('handeled', value.nativeEvent.text);
             // value = Number(value.nativeEvent.text);
+            update_house_no(value);
             if (value !== '') {
               console.log('etnereed house no');
               checked_house_no(true);
               // gen_sign_err_method(false);
               // sign_password_focused(false);
-              update_house_no(value);
             } else {
               checked_house_no(false);
             }
@@ -744,16 +799,17 @@ function InputField({
             paddingBottom: 4,
             fontSize: 19,
           }}
+          value={value}
           // secureTextEntry={true}
           onChange={value => {
             // console.log('handeled', value.nativeEvent.text);
             value = value.nativeEvent.text;
+            update_landmark(value);
             if (value !== '') {
               console.log('etnereed landmark');
               checked_landmark(true);
               // gen_sign_err_method(false);
               // sign_password_focused(false);
-              update_landmark(value);
             } else {
               checked_landmark(false);
             }
@@ -824,6 +880,46 @@ function InputField({
           }}
           // secureTextEntry={true}
           onChange={onChange}
+        />
+      );
+    }
+    if (type == 'About_room') {
+      return (
+        <TextInput
+          // onFocus={() => {
+          //   console.log('Entering focued landmark');
+          //   focused_landmark(true);
+          //   // gen_sign_err_method(false);
+          // }}
+          // onBlur={() => {
+          //   console.log('!Entering focued landmark');
+          //   focused_landmark(false);
+          // }}
+          placeholder={label}
+          keyboardType={keyboardType}
+          multiline={multiline ? true : false}
+          style={{
+            paddingVertical: -2,
+            borderBottomColor: COLORS.lighupdate_house_notGray4,
+            borderBottomWidth: 1,
+            fontSize: 19,
+            lineHeight: 23,
+            width: SIZES.width * 0.88,
+            textAlignVertical: 'top',
+            minHeight: 50,
+            maxHeight: 180,
+            fontWeight: 'bold',
+            borderWidth: 1,
+            borderColor: COLORS.lightGray4,
+          }}
+          // secureTextEntry={true}
+          onChange={() => {
+            value => {
+              value = value.nativeEvent.text;
+              // console.log('handeled', value.nativeEvent.text);
+              updateAboutRoom(value);
+            };
+          }}
         />
       );
     }
@@ -953,6 +1049,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    updateAboutRoom: value => {
+      dispatch(NewRoomActions.updateAboutRoom(value));
+    },
     //NewRoom
     updateExtraDescription: value => {
       dispatch(NewRoomActions.updateExtraDescription(value));

@@ -163,7 +163,7 @@ const AC_attached = ({updateAttached, attached, updateAC, AC}) => {
                 fontWeight: SIZES.form_button_text_fontWeight,
                 color: !_attched ? COLORS.font_color : COLORS.lightGray3,
               }}>
-              Unattached
+              Non attached
             </Text>
           </TouchableOpacity>
         </View>
