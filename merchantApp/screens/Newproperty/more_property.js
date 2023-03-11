@@ -10,6 +10,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/NewProperty/Header';
 import * as Progress from 'react-native-progress';
+import {Button, Dialog, Portal, Provider} from 'react-native-paper';
 import {COLORS, SIZES} from '../../constants';
 import {connect} from 'react-redux';
 import DocumentPicker from 'react-native-document-picker';
@@ -18,13 +19,16 @@ import Amneties from '../../components/NewProperty/Amneties';
 import Nav_Header from '../../components/NewProperty/Nav_Header';
 import AddText from '../../components/NewProperty/AddText';
 import Toast from 'react-native-toast-message';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   toastConfig,
   showErrorToast,
 } from '../../components/NewProperty/ToastConfig';
 const more_property = ({navigation}) => {
+  const [imgUri, setimgUri] = React.useState(undefined);
+  const [vidUri, setvidUri] = React.useState(undefined);
   function next_page() {
-    navigation.navigate('Thankyou');
+    navigation.navigate('vidImage');
     console.log('next pagee');
   }
   function onPress_for() {
@@ -60,6 +64,7 @@ const more_property = ({navigation}) => {
         type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
       });
       console.log(res);
+      setimgUri(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled images', err);
@@ -74,6 +79,7 @@ const more_property = ({navigation}) => {
         type: [DocumentPicker.types.video],
       });
       console.log(res);
+      setvidUri(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled videos', err);
@@ -83,135 +89,62 @@ const more_property = ({navigation}) => {
     }
   };
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
-      {/* <KeyboardAvoidingView
+    <Provider>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={{backgroundColor: 'white'}}>
+        {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
-      <View style={{right: 12}}>
-        <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
-      </View>
-      <StatusBar
-        animated={true}
-        backgroundColor={COLORS.mobile_theme_back}
-        barStyle={'light-content'}
-      />
+        <View style={{right: 12}}>
+          <Toast config={toastConfig} ref={ref => Toast.setRef(ref)} />
+        </View>
+        <StatusBar
+          animated={true}
+          backgroundColor={COLORS.mobile_theme_back}
+          barStyle={'light-content'}
+        />
 
-      <SafeAreaView
-        style={{
-          height: SIZES.height * 0.03,
-          backgroundColor: COLORS.mobile_theme_back,
-          elevation: 1,
-        }}
-      />
-      <View>
-        <Progress.Bar
-          progress={0.75}
-          color={COLORS.progress_bar}
-          width={SIZES.width}
-          height={SIZES.height * 0.01}
-          style={{position: 'absolute', top: -1}}
+        <SafeAreaView
+          style={{
+            height: SIZES.height * 0.03,
+            backgroundColor: COLORS.mobile_theme_back,
+            elevation: 1,
+          }}
         />
-        <Nav_Header
-          onPress_forward={onPress_for}
-          onPress_back={back_page}
-          color={COLORS.mobile_theme_back}
-          icon_color={COLORS.mobile_theme_back}
-          back={true}
-        />
-      </View>
-      <View style={{padding: 15, marginTop: 25}}>
         <View>
-          <Header
-            step={3}
-            subtitle={"Propertie's amneties,image,video,description"}
-            title={'More about Property'}
+          <Progress.Bar
+            progress={0.75}
+            color={COLORS.progress_bar}
+            width={SIZES.width}
+            height={SIZES.height * 0.01}
+            style={{position: 'absolute', top: -1}}
+          />
+          <Nav_Header
+            onPress_forward={onPress_for}
+            onPress_back={back_page}
+            color={COLORS.mobile_theme_back}
+            icon_color={COLORS.mobile_theme_back}
+            back={true}
           />
         </View>
-        <View style={{marginTop: 30}}>
-          <Amneties />
-        </View>
+        <View style={{padding: 15, marginTop: 25}}>
+          <View>
+            <Header
+              step={3}
+              subtitle={"Propertie's amneties, description"}
+              title={'More about Property'}
+            />
+          </View>
+          <View style={{marginTop: 30}}>
+            <Amneties />
+          </View>
 
-        <View>
-          <AddText />
-        </View>
+          <View>
+            <AddText />
+          </View>
 
-        {/* Images */}
-        <View style={{marginTop: 0}}>
-          <Text
-            style={{
-              color: COLORS.black,
-              fontSize: SIZES.custom1,
-              fontWeight: 'bold',
-            }}>
-            Select Images
-          </Text>
-          <TouchableOpacity
-            style={{
-              marginTop: 15,
-              borderColor: COLORS.mobile_theme,
-              // borderWidth: SIZES.form_button_borderWidth,
-              borderRadius: SIZES.form_button_borderRadius,
-              minWidth: SIZES.form_button_minWidth,
-              maxWidth: SIZES.form_button_maxWidth,
-              maxHeight: SIZES.form_button_maxHeight,
-              padding: SIZES.form_button_padding,
-              alignItems: SIZES.form_button_alignItems,
-              justifyContent: SIZES.form_button_justifyContent,
-              backgroundColor: COLORS.mobile_theme_back,
-            }}
-            onPress={() => {
-              selectDoc_multiple_image();
-              console.log('doc clicked');
-            }}>
-            <Text
-              style={{
-                fontSize: SIZES.form_button_text_fontSize,
-                fontWeight: SIZES.form_button_text_fontWeight,
-                color: COLORS.font_color,
-              }}>
-              Select fles
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {/* Videos */}
-        <View style={{marginTop: 25}}>
-          <Text
-            style={{
-              color: COLORS.black,
-              fontSize: SIZES.custom1,
-              fontWeight: 'bold',
-            }}>
-            Select Videos
-          </Text>
-          <TouchableOpacity
-            style={{
-              marginTop: 15,
-              borderColor: COLORS.mobile_theme,
-              // borderWidth: SIZES.form_button_borderWidth,
-              borderRadius: SIZES.form_button_borderRadius,
-              minWidth: SIZES.form_button_minWidth,
-              maxWidth: SIZES.form_button_maxWidth,
-              maxHeight: SIZES.form_button_maxHeight,
-              padding: SIZES.form_button_padding,
-              alignItems: SIZES.form_button_alignItems,
-              justifyContent: SIZES.form_button_justifyContent,
-              backgroundColor: COLORS.mobile_theme_back,
-            }}
-            onPress={() => {
-              selectDoc_multiple_video();
-              console.log('doc clicked');
-            }}>
-            <Text
-              style={{
-                fontSize: SIZES.form_button_text_fontSize,
-                fontWeight: SIZES.form_button_text_fontWeight,
-                color: COLORS.font_color,
-              }}>
-              Select fles
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {/* Videos of Images
+          {/* Videos of Images
         <View style={{marginTop: 25}}>
           <Text
             style={{
@@ -249,9 +182,9 @@ const more_property = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View> */}
-      </View>
+        </View>
 
-      {/* <View style={{marginTop: '15%'}}>
+        {/* <View style={{marginTop: '15%'}}>
         <CustomButton_form
           fontColor={true ? COLORS.font_color : COLORS.lightGray3}
           backgroundColor={true ? COLORS.mobile_theme_back : COLORS.lightGray4}
@@ -267,7 +200,8 @@ const more_property = ({navigation}) => {
           }}
         />
       </View> */}
-    </ScrollView>
+      </ScrollView>
+    </Provider>
   );
 };
 function mapStateToProps(state) {

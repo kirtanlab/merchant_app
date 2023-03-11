@@ -24,7 +24,7 @@ const Amneties = ({amneties, setAmneties}) => {
         <Text
           style={{
             color: COLORS.black,
-            fontSize: SIZES.custom1,
+            fontSize: SIZES.h2,
             fontWeight: 'bold',
           }}>
           Select Amneties

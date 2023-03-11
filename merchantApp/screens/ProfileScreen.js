@@ -235,7 +235,7 @@ const ProfileScreen = ({auth_states, logout, navigation}) => {
           </View> */}
 
           {/* Status : Verified*/}
-          <Profile_About />
+          {/* <Profile_About /> */}
         </View>
 
         {/* APP */}
@@ -309,7 +309,7 @@ const ProfileScreen = ({auth_states, logout, navigation}) => {
           title="Change Password"
           type="button"
           onPress={() => {
-            navigation.navigate('Root', {screen: 'ForgetPassword'}),
+            navigation.push('Root', {screen: 'ForgetPassword'}),
               console.log('OnPressed');
             // navigation.navigate('Nested Navigator 2', { screen: 'screen D' });
           }}
@@ -348,7 +348,7 @@ const ProfileScreen = ({auth_states, logout, navigation}) => {
           title="Logout"
           type="button"
           onPress={() => {
-            logout();
+            // logout();
             navigation.navigate('LoginScreen');
           }}
         />

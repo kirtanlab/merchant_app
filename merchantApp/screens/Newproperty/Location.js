@@ -6,10 +6,15 @@ import {
   ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  SafeAreaView,
+  Image,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import * as Ele_Bill_actions from '../../store/Ele_Bill/Ele_Bill_actions';
+// import {} from 'react-native-safe-area-context';
+import * as Newpropert_ext_actions from '../../store/Newproperty_ext/Newproperty_ext_actions';
 import Header from '../../components/NewProperty/Header';
 import * as Progress from 'react-native-progress';
+// import * as newproperty_actions from '../../store/Newproperty/newproperty_action';
 import {COLORS, SIZES} from '../../constants';
 import Looking_Selection_Button from '../../components/NewProperty/Looking_Selection_Button';
 import {connect} from 'react-redux';
@@ -32,14 +37,23 @@ const Location = ({
   navigation,
   checked_house_no,
   checked_Landmark,
+  checked_ele_bill,
+  elebill,
+  checkedElebill,
+  updateElebill,
 }) => {
-  const [imgUri, setimgUri] = React.useState(undefined);
+  useEffect(() => {
+    checked_ele_bill && console.log('checked_ele_bill', checked_ele_bill);
+  }, [checked_ele_bill]);
+
+  // const [imgUri, setimgUri] = React.useState(undefined);
+  const [img_url, setimg_url] = React.useState('');
   function next_page() {
     navigation.navigate('MoreProperty');
     console.log('next pagee');
   }
   function onPress_for() {
-    if (checked_Landmark && checked_house_no) {
+    if (checked_Landmark && checked_house_no && checked_ele_bill) {
       console.log('Done');
       next_page();
     } else {
@@ -54,17 +68,20 @@ const Location = ({
 
   const selectDoc = async () => {
     try {
-      const res = await DocumentPicker.pickSingle({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
       });
       console.log(res);
-      setimgUri(res);
+      setimg_url(res[0].uri);
+      checkedElebill(true);
+      updateElebill(res[0].uri);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled', err);
       } else {
         console.log(err);
       }
+      checkedElebill(false);
     }
   };
   const selectDoc_multiple = async () => {
@@ -114,12 +131,12 @@ const Location = ({
           onPress_forward={onPress_for}
           onPress_back={back_page}
           color={
-            checked_Landmark && checked_house_no
+            checked_Landmark && checked_house_no && checked_ele_bill
               ? COLORS.mobile_theme_back
               : COLORS.lightGray3
           }
           icon_color={
-            checked_Landmark && checked_house_no
+            checked_Landmark && checked_house_no && checked_ele_bill
               ? COLORS.mobile_theme_back
               : COLORS.lightGray3
           }
@@ -130,38 +147,81 @@ const Location = ({
         <View>
           <Header
             step={2}
-            subtitle={'Your House Number,Landmark,Location & Documents'}
+            subtitle={'Your House Number,Landmark,Location & Document'}
             title={'Add Location Details'}
           />
         </View>
         <View style={{marginTop: 30}}>
           <NumericInput navigation={navigation} />
         </View>
-        {/* Bijli ka bil */}
-        <View>
+        {/* Bijli ka bil*/}
+        <View
+          style={{
+            flexDirection: 'row',
+            // backgroundColor: COLORS.mobile_theme_back,
+            // minWidth: 100,
+            // width: '100%',
+            minHeight: 40,
+            borderRadius: 10,
+            // marginTop: 25,
+            maxHeight: 200,
+            // alignItems: 'center',
+            padding: 5,
+            marginBottom: 10,
+          }}>
           <Text
             style={{
-              color: COLORS.black,
               fontSize: SIZES.h2,
-              fontWeight: 'bold',
-              marginTop: 25,
+              color: COLORS.black,
+              //   bottom: 8,
+              marginTop: 5,
+              flex: 1,
             }}>
-            Bijli ka bil
+            Electricity Bill
           </Text>
+          {img_url !== '' && (
+            <TouchableOpacity
+              style={{
+                // marginTop: 18,
+                height: 36,
+                width: 40,
+                // padding: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                // paddingTop: 5,
+                // left: 20,
+                backgroundColor: COLORS.white,
+                borderRadius: 10,
+                color: COLORS.mobile_theme_back,
+                fontSize: SIZES.h2,
+                // marginTop: 25,
+              }}
+              onPress={() => {
+                setimg_url('');
+                checkedElebill(false);
+              }}>
+              <Ionicons
+                name="close-circle-outline"
+                size={35}
+                color={true ? COLORS.mobile_theme_back : 'lightgray'}
+                style={{flex: 1}}
+              />
+            </TouchableOpacity>
+          )}
         </View>
-        {imgUri === undefined && (
-          <View style={{marginTop: 15}}>
-            <Text
+        {img_url === '' && (
+          <View style={{top: -10}}>
+            {/* <Text
               style={{
                 fontSize: SIZES.h2,
                 color: COLORS.mobile_theme_back,
                 //   fontWeight: 'bold',
               }}>
-              Select Adhar(image or pdf form)
-            </Text>
+              Upload Adhar(image or pdf form)
+            </Text> */}
             <TouchableOpacity
               style={{
-                marginTop: 15,
+                // marginTop: 15,
                 borderColor: COLORS.mobile_theme,
                 borderWidth: SIZES.form_button_borderWidth,
                 borderRadius: SIZES.form_button_borderRadius,
@@ -179,15 +239,16 @@ const Location = ({
               }}>
               <Text
                 style={{
-                  fontSize: SIZES.h2,
+                  fontSize: SIZES.form_button_text_fontSize,
                   fontWeight: SIZES.form_button_text_fontWeight,
                   color: COLORS.font_color,
                 }}>
-                Select file
+                Select fles
               </Text>
             </TouchableOpacity>
           </View>
         )}
+
         {/* Show Uploaded */}
         {/* <Image
           source={{uri: imgUri}}
@@ -199,127 +260,48 @@ const Location = ({
             alignSelf: 'center',
           }}
         /> */}
-        {imgUri !== undefined && (
+        {img_url !== '' && (
           <View
             style={{
-              flexDirection: 'row',
-              backgroundColor: COLORS.mobile_theme_back,
-              // minWidth: 100,
-              // width: '100%',
-              minHeight: 40,
+              // marginTop: 30,
+              borderWidth: 1,
+              borderColor: COLORS.lightGray3,
               borderRadius: 10,
-              marginTop: 15,
-              maxHeight: 200,
-              // alignItems: 'center',
-              padding: 5,
+              width: SIZES.width - 50,
+              // height: 300,
+              marginLeft: 5,
+              top: -10,
             }}>
-            <Text style={{flex: 5, color: COLORS.white, fontSize: SIZES.h2}}>
-              {imgUri.name}
-            </Text>
-            <TouchableOpacity
-              style={{
-                // marginTop: 18,
-                flex: 1,
-                left: 20,
-                color: COLORS.white,
-                fontSize: SIZES.h2,
-              }}
-              onPress={() => {
-                setimgUri(undefined);
-              }}>
-              <Ionicons
-                name="close-circle-outline"
-                size={35}
-                color={true ? COLORS.white : 'lightgray'}
-                style={{}}
-              />
-            </TouchableOpacity>
+            <Image
+              source={{uri: elebill}}
+              style={{height: 300, borderRadius: 10, width: SIZES.width - 50}}
+            />
           </View>
         )}
-        {/* Videos of Images
-        <View style={{marginTop: 25}}>
-          <Text
-            style={{
-              color: COLORS.black,
-              fontSize: SIZES.custom1,
-              fontWeight: 'bold',
-            }}>
-            Upload Outer Photo of PG
-          </Text>
-          <TouchableOpacity
-            style={{
-              marginTop: 15,
-              borderColor: COLORS.mobile_theme,
-              // borderWidth: SIZES.form_button_borderWidth,
-              borderRadius: SIZES.form_button_borderRadius,
-              minWidth: SIZES.form_button_minWidth,
-              maxWidth: SIZES.form_button_maxWidth,
-              maxHeight: SIZES.form_button_maxHeight,
-              padding: SIZES.form_button_padding,
-              alignItems: SIZES.form_button_alignItems,
-              justifyContent: SIZES.form_button_justifyContent,
-              backgroundColor: COLORS.mobile_theme_back,
-            }}
-            onPress={() => {
-              selectDoc_multiple();
-              console.log('doc clicked');
-            }}>
-            <Text
-              style={{
-                fontSize: SIZES.form_button_text_fontSize,
-                fontWeight: SIZES.form_button_text_fontWeight,
-                color: COLORS.font_color,
-              }}>
-              Select fles
-            </Text>
-          </TouchableOpacity>
-        </View> */}
       </View>
-
-      {/* <View style={{marginTop: '55%'}}>
-        <CustomButton_form
-          fontColor={
-            checked_Landmark && checked_house_no
-              ? COLORS.font_color
-              : COLORS.lightGray3
-          }
-          backgroundColor={
-            checked_Landmark && checked_house_no
-              ? COLORS.mobile_theme_back
-              : COLORS.lightGray4
-          }
-          label={'Go for Next Step '}
-          _borderColor={
-            checked_Landmark && checked_house_no
-              ? COLORS.mobile_theme_back
-              : COLORS.lightGray4
-          }
-          borderRadius
-          onPress={() => {
-            if (checked_Landmark && checked_house_no) {
-              console.log('Done');
-              next_page();
-            } else {
-              // gen_login_err_method(true);
-              console.log('ckicked');
-            }
-          }}
-        />
-      </View>*/}
     </ScrollView>
   );
 };
 function mapStateToProps(state) {
   return {
+    elebill: state.Ele_Bill_reducer.elebill,
+    checked_ele_bill: state.Ele_Bill_reducer.checked_ele_bill,
     checked_house_no: state.newproperty_reducer.checked_house_no,
-    checked_Location: state.newproperty_reducer.checked_Location,
+    checked_Location: state.Newproperty_ext_reducer.checked_Location,
     checked_Landmark: state.newproperty_reducer.checked_Landmark,
     checked_Description_pg: state.newproperty_reducer.checked_Description_pg,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    checkedElebill: value => {
+      dispatch(Ele_Bill_actions.checkedElebill(value));
+    },
+    updateElebill: value => {
+      dispatch(Ele_Bill_actions.updateElebill(value));
+    },
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Location);

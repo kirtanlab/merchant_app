@@ -3,7 +3,7 @@ import {FlatList, View, Text, Image, TouchableOpacity} from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 import icons from '../../constants/icons';
 
-const Property_Listing = () => {
+const Property_Listing = ({navigation}) => {
   return (
     <View>
       <View style={{paddingHorizontal: 14}}>
@@ -21,7 +21,7 @@ const Property_Listing = () => {
 
       <View style={{paddingHorizontal: 14}}>
         {/* property id */}
-        <View style={{marginTop: 5}}>
+        {/* <View style={{marginTop: 5}}>
           <Text
             style={{
               color: COLORS.lightGray3,
@@ -30,7 +30,7 @@ const Property_Listing = () => {
             }}>
             Property ID: 1231131
           </Text>
-        </View>
+        </View> */}
         {/* Name and price */}
         <View style={{marginTop: 5, flexDirection: 'row'}}>
           <View>
@@ -94,6 +94,7 @@ const Property_Listing = () => {
             }}
             onPress={async () => {
               console.log('Pressed0');
+              navigation.navigate('Newproperty');
             }}>
             <Text
               style={{

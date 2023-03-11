@@ -112,38 +112,69 @@ export const setWhoyou = whoyou => {
     }
   };
 };
+export const UPDATE_PROPERTY_VALUE = 'UPDATE_PROPERTY_VALUE';
+export const update_property_values = value => ({
+  type: UPDATE_PROPERTY_VALUE,
+  value: value,
+});
 
 //Location
 // SECOND_FORM
 // Location Form
 export const CHECKED_HOUSE_NO = 'CHECKED_HOUSE_NO';
-export const CHECKED_LOCATION = 'CHECKED_LOCATION';
+
 export const CHECKED_LANDMARK = 'CHECKED_LANDMARK';
 export const CHECKED_DESCRIPTION_PG = 'CHECKED_DESCRIPTION_PG';
+export const CHECKED_PROPERTY_NAME = 'CHECKED_PROPERTY_NAME';
+
 // Location Form
 export const FOCUSED_HOUSE_NO = 'FOCUSED_HOUSE_NO';
-export const FOCUSED_LOCATION = 'FOCUSED_LOCATION';
+
 export const FOCUSED_LANDMARK = 'FOCUSED_LANDMARK';
 export const FOCUSED_DESCRIPTION_PG = 'FOCUSED_DESCRIPTION_PG';
+export const FOCUSED_PROPERTY_NAME = 'FOCUSED_PROPERTY_NAME';
 
 // Location Form
+
 export const UPDATE_HOUSE_NO = 'UPDATE_HOUSE_NO';
-export const UPDATE_LOCATION = 'UPDATE_LOCATION';
+
 export const UPDATE_LANDMARK = 'UPDATE_LANDMARK';
 export const UPDATE_DESCRIPTION_PG = 'UPDATE_DESCRIPTION_PG';
-
-export const update_landmark = value => ({
-  type: UPDATE_LANDMARK,
+export const UPDATE_PROPERTY_NAME = 'UPDATE_PROPERTY_NAME';
+export const UPDATE_ADHAR_CARD = 'UPDATE_ADHAR_CARD';
+export const CHECKED_ADHAR_CARD = 'CHECKED_ADHAR_CARD';
+export const updateAdharCard = value => ({
+  type: UPDATE_ADHAR_CARD,
   value: value,
 });
+export const checkedAdharCard = value => ({
+  type: CHECKED_ADHAR_CARD,
+  value: value,
+});
+
+export const update_PropertyName = value => ({
+  type: UPDATE_PROPERTY_NAME,
+  value: value,
+});
+export const focused_PropertyName = value => ({
+  type: FOCUSED_PROPERTY_NAME,
+  value: value,
+});
+export const checked_PropertyName = value => ({
+  type: CHECKED_PROPERTY_NAME,
+  value: value,
+});
+
+export const update_landmark = value => {
+  console.log('update_landmark');
+  return {
+    type: UPDATE_LANDMARK,
+    value: value,
+  };
+};
 
 export const update_house_no = value => ({
   type: UPDATE_HOUSE_NO,
-  value: value,
-});
-
-export const update_location = value => ({
-  type: UPDATE_LOCATION,
   value: value,
 });
 
@@ -161,11 +192,6 @@ export const focused_house_no = value => ({
   value: value,
 });
 
-export const focused_location = value => ({
-  type: FOCUSED_LOCATION,
-  value: value,
-});
-
 export const focused_description_pg = value => ({
   type: FOCUSED_DESCRIPTION_PG,
   value: value,
@@ -174,10 +200,7 @@ export const checked_house_no = value => ({
   type: CHECKED_HOUSE_NO,
   value: value,
 });
-export const checked_location = value => ({
-  type: CHECKED_LOCATION,
-  value: value,
-});
+
 export const checked_landmark = value => ({
   type: CHECKED_LANDMARK,
   value: value,

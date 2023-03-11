@@ -27,7 +27,7 @@ const NavHeader_Maps = ({
       }}>
       <View
         style={{
-          left: SIZES.width * 0.05,
+          left: SIZES.width * 0.03,
           width: SIZES.width * 0.22,
           top: 14,
           height: 47,
@@ -40,14 +40,14 @@ const NavHeader_Maps = ({
               <Ionicons
                 name="arrow-back-outline"
                 size={30}
-                color={COLORS.mobile_theme_back}
+                color={COLORS.white}
                 style={{}}
               />
             </View>
             <View style={{}}>
               <Text
                 style={{
-                  color: COLORS.mobile_theme_back,
+                  color: COLORS.white,
                   fontSize: 23,
                 }}>
                 Back
@@ -75,7 +75,7 @@ const NavHeader_Maps = ({
           flex: 1,
           // width: 100,
         }}>
-        <TouchableOpacity onPress={onPress_back} style={{height: 100}}>
+        <TouchableOpacity onPress={onPress_forward} style={{height: 100}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View style={{}}>
               <Text

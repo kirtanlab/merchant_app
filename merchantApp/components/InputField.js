@@ -15,6 +15,9 @@ function InputField({
   keyboardType,
   updateAboutRoom,
   fieldButtonLabel,
+  checked_PropertyName,
+  focused_PropertyName,
+  update_PropertyName,
   type,
   multiline,
   password,
@@ -76,6 +79,12 @@ function InputField({
   updatetotalAval,
   checkedAvailableRoom,
   checkedoccupancy,
+  adhar_name,
+  phone,
+  about_pg,
+  propertyName,
+  house_no,
+  Landmark,
 }) {
   let [sign_name_color, set_sign_name_color] = useState('#ccc');
   let err = false;
@@ -459,6 +468,7 @@ function InputField({
             paddingBottom: -10,
             fontSize: 19,
           }}
+          value={adhar_name}
           // secureTextEntry={true}
           onChange={value => {
             console.log('handeled', value.nativeEvent.text);
@@ -469,6 +479,45 @@ function InputField({
               update_adhar_name(value);
             } else {
               checked_adhar_name(false);
+            }
+          }}
+        />
+      );
+    }
+    if (type == 'PropertyName') {
+      return (
+        <TextInput
+          onFocus={() => {
+            console.log('Entering focued');
+            focused_PropertyName(true);
+            // gen_sign_err_method(false);
+          }}
+          onBlur={() => {
+            console.log('!Entering focued');
+            focused_PropertyName(false);
+          }}
+          placeholder={label}
+          keyboardType={keyboardType}
+          style={{
+            flex: 1,
+            paddingVertical: 0,
+            borderBottomColor: '#ccc',
+            borderBottomWidth: 1,
+            paddingBottom: -10,
+            fontSize: 19,
+          }}
+          value={propertyName}
+          // secureTextEntry={true}
+          onChange={value => {
+            console.log('handeled', value.nativeEvent.text);
+
+            // updatesign_password(value.nativeEvent.text);
+            value = value.nativeEvent.text;
+            update_PropertyName(value);
+            if (value !== '') {
+              checked_PropertyName(true);
+            } else {
+              checked_PropertyName(false);
             }
           }}
         />
@@ -574,7 +623,7 @@ function InputField({
             console.log('!Entering focued');
             phone_focused(false);
           }}
-          value={value}
+          value={phone.toString()}
           defaultValue={defaultValue}
           placeholder={label}
           keyboardType={keyboardType}
@@ -709,7 +758,7 @@ function InputField({
           }}
           placeholder={label}
           keyboardType={keyboardType}
-          value={value}
+          value={house_no}
           style={{
             flex: 1,
             paddingVertical: 0,
@@ -799,7 +848,7 @@ function InputField({
             paddingBottom: 4,
             fontSize: 19,
           }}
-          value={value}
+          value={Landmark}
           // secureTextEntry={true}
           onChange={value => {
             // console.log('handeled', value.nativeEvent.text);
@@ -825,6 +874,7 @@ function InputField({
           multiline={multiline ? true : false}
           style={{
             // flex: 1,
+            marginTop: 10,
             paddingVertical: 5,
             // borderBottomColor: COLORS.lightGray4,
             // borderBottomWidth: 1,
@@ -834,7 +884,7 @@ function InputField({
             lineHeight: 23,
             flex: 2,
             textAlignVertical: 'top',
-            height: 64,
+            height: 200,
             borderRadius: SIZES.form_button_borderRadius,
             borderWidth: 1,
             borderColor: COLORS.lightGray4,
@@ -872,14 +922,14 @@ function InputField({
             lineHeight: 23,
             width: SIZES.width * 0.88,
             textAlignVertical: 'top',
-            minHeight: 50,
-            maxHeight: 180,
+            height: 100,
             fontWeight: 'bold',
             borderWidth: 1,
             borderColor: COLORS.lightGray4,
           }}
           // secureTextEntry={true}
           onChange={onChange}
+          value={about_pg}
         />
       );
     }
@@ -912,6 +962,8 @@ function InputField({
             borderWidth: 1,
             borderColor: COLORS.lightGray4,
           }}
+          returnKeyType="done"
+          returnKeyLabel="done"
           // secureTextEntry={true}
           onChange={() => {
             value => {
@@ -919,94 +971,6 @@ function InputField({
               // console.log('handeled', value.nativeEvent.text);
               updateAboutRoom(value);
             };
-          }}
-        />
-      );
-    }
-    if (type == 'Extra_description') {
-      return (
-        <TextInput
-          // onFocus={() => {
-          //   console.log('Entering focued landmark');
-          //   focused_landmark(true);
-          //   // gen_sign_err_method(false);
-          // }}
-          // onBlur={() => {
-          //   console.log('!Entering focued landmark');
-          //   focused_landmark(false);
-          // }}
-          placeholder={label}
-          keyboardType={keyboardType}
-          multiline={multiline ? true : false}
-          style={{
-            // flex: 1,
-            paddingVertical: -2,
-            borderBottomColor: COLORS.lightGray4,
-            borderBottomWidth: 1,
-            // paddingBottom: 4,
-            fontSize: 19,
-            // paddingRight: 10,
-            lineHeight: 23,
-            flex: 2,
-            textAlignVertical: 'top',
-            minHeight: 50,
-            maxHeight: 200,
-            borderWidth: 1,
-            borderColor: COLORS.lightGray4,
-          }}
-          // secureTextEntry={true}
-          onChange={value => {
-            // console.log('handeled', value.nativeEvent.text);
-            value = value.nativeEvent.text;
-            if (value !== '') {
-              console.log('etnereed landmark');
-              checked_landmark(true);
-              // gen_sign_err_method(false);
-              // sign_password_focused(false);
-              update_landmark(value);
-            } else {
-              checked_landmark(false);
-            }
-          }}
-        />
-      );
-    }
-
-    if (type == 'Search_Location') {
-      return (
-        <TextInput
-          onFocus={() => {
-            console.log('Entering focued House No');
-            focused_house_no(true);
-            // gen_sign_err_method(false);
-          }}
-          onBlur={() => {
-            console.log('!Entering focued House No');
-            focused_house_no(false);
-          }}
-          placeholder={label}
-          keyboardType={keyboardType}
-          style={{
-            flex: 1,
-            paddingVertical: 0,
-            borderBottomColor: '#ccc',
-            borderBottomWidth: 1,
-            paddingBottom: 4,
-            fontSize: 19,
-          }}
-          // secureTextEntry={true}
-          onChange={value => {
-            // console.log('handeled', value.nativeEvent.text);
-            value = Number(value.nativeEvent.text);
-            if (value !== '') {
-              console.log('etnereed house no');
-              checked_house_no(true);
-              // gen_sign_err_method(false);
-              // sign_password_focused(false);
-              update_house_no(value);
-            } else {
-              checked_house_no(false);
-            }
           }}
         />
       );
@@ -1041,6 +1005,14 @@ function InputField({
 function mapStateToProps(state) {
   return {
     password: state.authReducer.sign_password,
+    adhar_name: state.authReducer.adhar_name,
+    phone: state.authReducer.phone,
+    about_pg: state.newproperty_reducer.about_pg,
+    propertyName: state.newproperty_reducer.propertyName,
+    house_no: state.newproperty_reducer.house_no,
+    Landmark: state.newproperty_reducer.Landmark,
+    // propertyName: state.newproperty_reducer.propertyName,
+    // propertyName: state.newproperty_reducer.propertyName,
 
     checked_sign_name: state.authReducer.checked_sign_name,
     focused_sign_name: state.authReducer.focused_sign_name,
@@ -1093,7 +1065,16 @@ function mapDispatchToProps(dispatch) {
     updatePrices: value => {
       return dispatch(NewRoomActions.updatePrices(value));
     },
-
+    //Newproperty Name
+    checked_PropertyName: value => {
+      return dispatch(NewPropertyActions.checked_PropertyName(value));
+    },
+    focused_PropertyName: value => {
+      return dispatch(NewPropertyActions.focused_PropertyName(value));
+    },
+    update_PropertyName: value => {
+      return dispatch(NewPropertyActions.update_PropertyName(value));
+    },
     // location
     checked_house_no: value => {
       return dispatch(NewPropertyActions.checked_house_no(value));

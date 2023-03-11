@@ -22,7 +22,7 @@ const dummy_data = [
   },
 ];
 
-const MyRooms = () => {
+const MyRooms = ({navigation}) => {
   return (
     <View style={{marginTop: 4}}>
       <View style={{paddingHorizontal: 15}}>
@@ -46,7 +46,9 @@ const MyRooms = () => {
           keyExtractor={item => item.room_id}
           renderItem={({item}) => (
             <Rooms_Listing
-              onPress={() => console.log(item.image_source)}
+              onPress={() => {
+                console.log(item.image_source), navigation.navigate('NewRooms');
+              }}
               room_name={item.room_name}
               type={item.type}
               price={item.price}

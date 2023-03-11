@@ -7,9 +7,26 @@ import DocumentPicker from 'react-native-document-picker';
 import Nav_Header from '../components/NewProperty/Nav_Header';
 import NAVHeader_BLOB from '../components/NavHeader_BLOB';
 const ChangeProfile = ({navigation}) => {
-  const [name, setName] = React.useState(undefined);
+  const data = {
+    name: 'kirtan',
+    number: 9998099893,
+    email: 'kirtan@gmail.com',
+    adhar: {
+      fileCopyUri: null,
+      name: 'Screenshot_20230309-141450_merchantApp.jpg',
+      size: 754363,
+      type: 'image/jpeg',
+      uri: 'https://cdn.dribbble.com/users/1092261/screenshots/14701547/media/7ab1fda1209b0c9c7508a38a6a52b4d0.png?compress=1&resize=400x300',
+    },
+  };
+  const [name, setName] = React.useState(data.name);
+  const [number, setNumber] = React.useState(data.number);
+  const [email, setEmail] = React.useState(data.email);
+  const [adhar, setAdhar] = React.useState(data.adhar);
   const [_default, setDefault] = React.useState('kirta');
-  const [imgUri, setimgUri] = React.useState(undefined);
+  const [imgUri, setimgUri] = React.useState(data.adhar.uri);
+  const [img_uri, setIMGURI] = React.useState(data.adhar.uri);
+  // console.log(imgUri.uri);
   function validate_phone(val) {
     var regex = /^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$/;
     // var regex = /^[6-9][0-9]{9}$/;
@@ -18,11 +35,13 @@ const ChangeProfile = ({navigation}) => {
   function validate_name(val) {
     var regex = /^(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*]{5,16}$/;
     return regex.test(val);
-  }
+  } //
   const selectDoc = async () => {
     try {
       const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+        mode: 'import',
+        copyTo: 'documentDirectory',
       });
       console.log(res);
       setimgUri(res);
@@ -48,6 +67,12 @@ const ChangeProfile = ({navigation}) => {
         height: SIZES.height,
         backgroundColor: 'white',
       }}>
+      <NAVHeader_BLOB
+        screen_name={'Change Profile'}
+        onPress_back={() => {
+          navigation.navigate('ProfileScreen');
+        }}
+      />
       <View
         style={{
           // flex: 1,
@@ -58,12 +83,6 @@ const ChangeProfile = ({navigation}) => {
 
         {/* <HeaderBar title="Change Profile" /> */}
         {/* <Nav_Header /> */}
-        <NAVHeader_BLOB
-          screen_name={'Change Profile'}
-          onPress_back={() => {
-            navigation.navigate('ProfileScreen');
-          }}
-        />
       </View>
       <View style={{paddingHorizontal: 18, marginTop: 10}}>
         {/* New Name */}
@@ -99,6 +118,7 @@ const ChangeProfile = ({navigation}) => {
                   onBlur={() => {
                     // sign_name_focused(false);
                   }}
+                  value={name}
                   placeholder="Enter Name"
                   keyboardType="default"
                   style={{
@@ -107,11 +127,11 @@ const ChangeProfile = ({navigation}) => {
                     flex: 1,
                     borderBottomWidth: 1,
                     borderColor: '#d1cfcf',
-                    // marginTop: 5,
+                    marginTop: 5,
                     borderRadius: 8,
                     paddingHorizontal: 10,
-                    paddingBottom: 9,
-                    fontSize: 18,
+                    paddingBottom: 0,
+                    fontSize: 22,
                     color: '#212121',
                   }}
                   onChange={value => {
@@ -126,12 +146,12 @@ const ChangeProfile = ({navigation}) => {
                 />
               </View>
               <TouchableOpacity>
-                <Ionicons
+                {/* <Ionicons
                   name="checkmark-done-outline"
                   size={20}
                   color={true ? COLORS.mobile_theme_back : 'lightgray'}
                   style={{marginTop: 18}}
-                />
+                /> */}
               </TouchableOpacity>
             </View>
           </View>
@@ -173,7 +193,7 @@ const ChangeProfile = ({navigation}) => {
                 <Text
                   style={{
                     color: COLORS.mobile_theme_back,
-                    fontSize: 19,
+                    fontSize: 22,
                     fontWeight: 'bold',
                   }}>
                   +91
@@ -191,19 +211,20 @@ const ChangeProfile = ({navigation}) => {
                   console.log('!Entering focued');
                   // phone_focused(false);
                 }}
+                value={number.toString()}
                 placeholder="Enter Phone Number"
                 keyboardType="phone-pad"
                 style={{
                   height: 40,
                   marginLeft: 4,
-                  flex: 1,
+                  // flex: 1,
                   borderBottomWidth: 1,
                   borderColor: '#d1cfcf',
                   marginTop: 5,
                   borderRadius: 8,
                   paddingHorizontal: 10,
-                  paddingBottom: 9,
-                  fontSize: 18,
+                  paddingBottom: 0,
+                  fontSize: 22,
                   color: '#212121',
                 }}
                 // secureTextEntry={true}
@@ -223,12 +244,12 @@ const ChangeProfile = ({navigation}) => {
               />
             </View>
             <TouchableOpacity>
-              <Ionicons
+              {/* <Ionicons
                 name="checkmark-done-outline"
                 size={20}
                 color={true ? COLORS.mobile_theme_back : 'lightgray'}
                 style={{marginTop: 18}}
-              />
+              /> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -265,6 +286,7 @@ const ChangeProfile = ({navigation}) => {
                   onBlur={() => {
                     // sign_name_focused(false);
                   }}
+                  value={email}
                   placeholder="Enter Email"
                   keyboardType="email-address"
                   style={{
@@ -273,11 +295,11 @@ const ChangeProfile = ({navigation}) => {
                     flex: 1,
                     borderBottomWidth: 1,
                     borderColor: '#d1cfcf',
-                    // marginTop: 5,
+                    marginTop: 5,
                     borderRadius: 8,
                     paddingHorizontal: 10,
-                    paddingBottom: 9,
-                    fontSize: 18,
+                    paddingBottom: 0,
+                    fontSize: 22,
                     color: '#212121',
                   }}
                   onChange={value => {
@@ -292,30 +314,81 @@ const ChangeProfile = ({navigation}) => {
                 />
               </View>
               <TouchableOpacity>
-                <Ionicons
+                {/* <Ionicons
                   name="checkmark-done-outline"
                   size={20}
                   color={true ? COLORS.mobile_theme_back : 'lightgray'}
                   style={{marginTop: 18}}
-                />
+                /> */}
               </TouchableOpacity>
             </View>
           </View>
         </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // backgroundColor: COLORS.mobile_theme_back,
+            // minWidth: 100,
+            // width: '100%',
+            minHeight: 40,
+            borderRadius: 10,
+            marginTop: 25,
+            maxHeight: 200,
+            // alignItems: 'center',
+            padding: 5,
+            marginBottom: 10,
+          }}>
+          <Text
+            style={{
+              fontSize: SIZES.h2,
+              color: COLORS.mobile_theme_back,
+              //   bottom: 8,
+              // marginTop: 25,
+              flex: 1,
+            }}>
+            Addhar card
+          </Text>
+          <TouchableOpacity
+            style={{
+              // marginTop: 18,
+              height: 36,
+              width: 40,
+              // padding: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingTop: 5,
+              // left: 20,
+              backgroundColor: COLORS.mobile_theme_back,
+              borderRadius: 10,
+              color: COLORS.white,
+              fontSize: SIZES.h2,
+              // marginTop: 25,
+            }}
+            onPress={() => {
+              setimgUri(undefined);
+            }}>
+            <Ionicons
+              name="close-circle-outline"
+              size={25}
+              color={true ? COLORS.white : 'lightgray'}
+              style={{flex: 1}}
+            />
+          </TouchableOpacity>
+        </View>
         {/* upload adhaar */}
         {imgUri === undefined && (
-          <View style={{marginTop: 25}}>
-            <Text
+          <View style={{top: -10}}>
+            {/* <Text
               style={{
                 fontSize: SIZES.h2,
                 color: COLORS.mobile_theme_back,
                 //   fontWeight: 'bold',
               }}>
               Upload Adhar(image or pdf form)
-            </Text>
+            </Text> */}
             <TouchableOpacity
               style={{
-                marginTop: 15,
+                // marginTop: 15,
                 borderColor: COLORS.mobile_theme,
                 borderWidth: SIZES.form_button_borderWidth,
                 borderRadius: SIZES.form_button_borderRadius,
@@ -356,38 +429,35 @@ const ChangeProfile = ({navigation}) => {
         {imgUri !== undefined && (
           <View
             style={{
-              flexDirection: 'row',
-              backgroundColor: COLORS.mobile_theme_back,
-              // minWidth: 100,
-              // width: '100%',
-              minHeight: 40,
+              // marginTop: 30,
+              borderWidth: 1,
+              borderColor: COLORS.lightGray3,
               borderRadius: 10,
-              marginTop: 25,
-              maxHeight: 200,
-              // alignItems: 'center',
-              padding: 5,
+              width: SIZES.width - 50,
+              // height: 300,
+              marginLeft: 5,
             }}>
-            <Text style={{flex: 5, color: COLORS.white, fontSize: SIZES.h2}}>
-              {imgUri.name}
-            </Text>
-            <TouchableOpacity
+            <Image
+              source={{uri: img_uri}}
+              style={{height: 300, borderRadius: 10, width: SIZES.width - 50}}
+            />
+
+            {/* <View
               style={{
-                // marginTop: 18,
-                flex: 1,
-                left: 20,
-                color: COLORS.white,
-                fontSize: SIZES.h2,
-              }}
-              onPress={() => {
-                setimgUri(undefined);
+                flexDirection: 'row',
+                backgroundColor: COLORS.mobile_theme_back,
+                // minWidth: 100,
+                // width: '100%',
+                minHeight: 40,
+                borderRadius: 10,
+                marginTop: 25,
+                maxHeight: 200,
+                // alignItems: 'center',
+                padding: 5,
               }}>
-              <Ionicons
-                name="close-circle-outline"
-                size={35}
-                color={true ? COLORS.white : 'lightgray'}
-                style={{}}
-              />
-            </TouchableOpacity>
+              {/* <Text style={{flex: 5, color: COLORS.white, fontSize: SIZES.h2}}>
+              {imgUri.name}
+            </Text> */}
           </View>
         )}
       </View>

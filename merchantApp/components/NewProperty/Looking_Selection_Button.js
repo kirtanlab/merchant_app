@@ -12,18 +12,18 @@ import {connect} from 'react-redux';
 import * as newproperty_actions from '../../store/Newproperty/newproperty_action';
 const Looking_Selection_Button = ({looking_form, update_looking}) => {
   let [looking_form_copy, setLooking] = useState(looking_form);
-  let [pg, setpg] = useState(looking_form_copy.pg);
-  let [mess, setmess] = useState(looking_form_copy.mess);
-  let [rent, setrent] = useState(looking_form_copy.rent);
-  let [Hostel, setHostel] = useState(looking_form_copy.Hostel);
+  let [pg, setpg] = useState(looking_form_copy?.pg);
+  let [mess, setmess] = useState(looking_form_copy?.mess);
+  let [rent, setrent] = useState(looking_form_copy?.rent);
+  let [Hostel, setHostel] = useState(looking_form_copy?.Hostel);
   return (
     <SafeAreaView>
       <View>
         <Text
           style={{
             color: COLORS.black,
-            fontSize: SIZES.custom1,
-            fontWeight: 'bold',
+            fontSize: SIZES.h2,
+            // fontWeight: 'bold',
           }}>
           What You're upto?
         </Text>
@@ -78,7 +78,7 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
               <Text
                 style={{
                   fontSize: SIZES.form_button_text_fontSize,
-                  fontWeight: SIZES.form_button_text_fontWeight,
+                  //
                   color: rent ? COLORS.font_color : COLORS.lightGray3,
                 }}>
                 Rent
@@ -117,7 +117,7 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
               <Text
                 style={{
                   fontSize: SIZES.form_button_text_fontSize,
-                  fontWeight: SIZES.form_button_text_fontWeight,
+                  //
                   color: mess ? COLORS.font_color : COLORS.lightGray3,
                 }}>
                 Mess
@@ -157,7 +157,7 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
               <Text
                 style={{
                   fontSize: SIZES.form_button_text_fontSize,
-                  fontWeight: SIZES.form_button_text_fontWeight,
+                  //
                   color: Hostel ? COLORS.font_color : COLORS.lightGray3,
                 }}>
                 Hostel
@@ -172,7 +172,7 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
                 borderWidth: SIZES.form_button_borderWidth,
                 borderRadius: SIZES.form_button_borderRadius,
                 minWidth: SIZES.form_button_minWidth,
-                maxWidth: SIZES.form_button_maxWidth + 20,
+                maxWidth: SIZES.form_button_maxWidth + 50,
                 maxHeight: SIZES.form_button_maxHeight,
                 padding: SIZES.form_button_padding,
                 alignItems: SIZES.form_button_alignItems,
@@ -196,7 +196,7 @@ const Looking_Selection_Button = ({looking_form, update_looking}) => {
               <Text
                 style={{
                   fontSize: SIZES.form_button_text_fontSize,
-                  fontWeight: SIZES.form_button_text_fontWeight,
+                  //
                   color: pg ? COLORS.font_color : COLORS.lightGray3,
                 }}>
                 Paying Guest(PG)

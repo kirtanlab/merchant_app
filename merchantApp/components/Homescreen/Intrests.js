@@ -5,13 +5,13 @@ import {COLORS} from '../../constants';
 {
   /* <ion-icon name="notifications-outline"></ion-icon> */
 }
-const Notifications = ({navigation}) => {
+const Intrests = ({navigation}) => {
   return (
     <View
       style={{
         paddingHorizontal: 12,
         // paddingVertical: 10,
-        // paddingBottom: 50,
+        paddingBottom: 50,
         // bottom: 10,
         minHeight: 110,
         maxHeight: 200,
@@ -24,8 +24,8 @@ const Notifications = ({navigation}) => {
             height: 100,
           }}>
           <Ionicons
-            name="notifications-circle-outline"
-            size={80}
+            name="heart"
+            size={65}
             color={true ? COLORS.mobile_theme_back : 'red'}
             style={{
               alignItems: 'center',
@@ -42,28 +42,15 @@ const Notifications = ({navigation}) => {
             0{' '}
           </Text>
           <Text style={{color: COLORS.lightGray2, fontSize: 30, top: '7%'}}>
-            Views
+            Interests
           </Text>
         </View>
       </View>
-      <View
-        style={{
-          borderBottomColor: COLORS.lightGray6,
-          borderBottomWidth: 15,
-        }}
-      />
-      <View
-        style={{
-          top: -10,
-          borderBottomColor: COLORS.lightGray7,
-          borderBottomWidth: 1,
-          paddingBottom: 10,
-        }}
-      />
-      {/* <View style={{flexDirection: 'row', left: 10, top: -10}}>
-        <TouchableOpacity onPress={() => navigation.navigate('NotificationsScreen')}>
+      <View style={{flexDirection: 'row', left: 10, top: -10}}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('NotificationsScreen')}>
           <Text style={{color: COLORS.lightGray2, fontSize: 20}}>
-            View Total Interested Users{' '}
+            View Interested Users{' '}
           </Text>
         </TouchableOpacity>
         <View>
@@ -73,8 +60,8 @@ const Notifications = ({navigation}) => {
             style={{color: COLORS.lightGray2, top: -2}}
           />
         </View>
-      </View> */}
+      </View>
     </View>
   );
 };
-export default Notifications;
+export default Intrests;

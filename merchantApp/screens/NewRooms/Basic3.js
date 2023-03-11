@@ -23,11 +23,13 @@ import NumericInput from '../../components/NewProperty/NumericInput';
 import Custom_Animation from '../../components/NewProperty/Custom_Animation';
 const Basic3 = ({navigation}) => {
   function next_page() {
-    navigation.navigate('NewRooms');
+    navigation.navigate('MainScreens');
     console.log('next pagee');
   }
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      style={{backgroundColor: 'white'}}>
       <StatusBar
         animated={true}
         backgroundColor={COLORS.mobile_theme_back}

@@ -37,7 +37,7 @@ const Floor_price = ({
             style={{
               color: COLORS.black,
               fontSize: SIZES.custom1,
-              fontWeight: 'bold',
+              // fontWeight: 'bold',
             }}>
             Enter title for room
           </Text>
@@ -63,9 +63,7 @@ const Floor_price = ({
             </View>
             {focused_title && !checked_title && (
               <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
-                <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
-                  Fill this
-                </Text>
+                <Text style={{color: COLORS.lightGray3}}>Fill this</Text>
               </View>
             )}
           </View>
@@ -76,7 +74,7 @@ const Floor_price = ({
             style={{
               color: COLORS.black,
               fontSize: SIZES.custom1,
-              fontWeight: 'bold',
+              // fontWeight: 'bold',
             }}>
             Enter Total Number of this type of Rooms
           </Text>
@@ -100,9 +98,7 @@ const Floor_price = ({
           </View>
           {focused_totalRooms && !checked_totalRooms && (
             <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
-              <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
-                Enter Valid Number
-              </Text>
+              <Text style={{color: COLORS.lightGray3}}>Enter Valid Number</Text>
             </View>
           )}
         </View>
@@ -112,7 +108,7 @@ const Floor_price = ({
             style={{
               color: COLORS.black,
               fontSize: SIZES.custom1,
-              fontWeight: 'bold',
+              // fontWeight: 'bold',
             }}>
             Enter Occupancy of Rooms
           </Text>
@@ -136,9 +132,7 @@ const Floor_price = ({
           </View>
           {focused_occpancy && !checked_occpancy && (
             <View style={{marginTop: -30, marginBottom: 20, left: 15}}>
-              <Text style={{color: COLORS.lightGray3, fontWeight: 'bold'}}>
-                Enter Valid Number
-              </Text>
+              <Text style={{color: COLORS.lightGray3}}>Enter Valid Number</Text>
             </View>
           )}
         </View>

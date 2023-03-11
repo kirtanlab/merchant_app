@@ -58,6 +58,7 @@ const HomeScreen_Header = ({navigation, username}) => {
           }}
           onPress={async () => {
             console.log('Pressed1');
+            navigation.navigate('NewRooms');
           }}>
           <Text
             style={{

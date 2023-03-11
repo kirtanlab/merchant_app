@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react';
+var qs = require('qs');
 import {
   SafeAreaView,
   ScrollView,
   View,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 // import SvgUri from 'react-native-svg-uri';
 import InputField from '../../components/InputField';
@@ -16,11 +19,12 @@ import RegistrationSVG from '../../assets/icons/registration.svg';
 import CustomButton from '../../components/CustomeButton';
 import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
-
+import axios from 'axios';
 // import {auth} from '../../firebase';
 // import {createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
-
+import {REACT_APP_OWNER_API} from '@env';
 import * as AuthActions from '../../store/auth/authActions';
+import AppLoader from '../../components/AppLoader';
 const SignupScreen = ({
   navigation,
   updateUser,
@@ -49,7 +53,13 @@ const SignupScreen = ({
   reset_checked,
 }) => {
   let err = true;
-  let checked = false;
+  // let checked = false;
+  const [loading, setLoading] = useState(false);
+  const [_err, setError] = useState(false);
+  const [_email, setEmail] = useState('');
+  const [_password, setPass] = useState('');
+  const [verified, setVerified] = useState(false);
+  const [posted, setPosted] = useState(true);
 
   // const persistUserData = user => {
   //   return new Promise(function (resolve, reject) {
@@ -60,403 +70,335 @@ const SignupScreen = ({
   // };
   async function handleSignUp() {
     if (email && password && confirmPassword && name) {
-      // setLoading(true);
+      try {
+        setLoading(true);
+        const obj = {
+          email: email,
+          password: password,
+          name: name,
+        };
+        console.log(JSON.stringify(obj));
+        // console.log(obj);
+        const data = await axios.post(
+          `http://13.233.240.199:8000/api/v1/owner/register`,
+          obj,
+          {
+            headers: {'Content-Type': 'application/json'},
+          },
+        );
+        console.log(data.data.token);
+        setLoading(false);
+        // fetch('http://13.233.240.199:8000/api/v1/owner/register', {
+        //   method: 'POST',
+        //   mode: 'cors',
+        //   headers: {
+        //     Accept: 'application/json, text/plain, */*',
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(obj),
+        // })
+        //   .then(response => {
+        //     setLoading(false);
+        //     if (response.ok) {
+        //       return response.json();
+        //     } else {
+        //       throw new Error('Something went wrong ...');
+        //     }
+        //   })
+        //   .catch(error => {
+        //     setLoading(false);
+        //     console.log('err', error);
+        //   });
 
-      // await createUserWithEmailAndPassword(auth, email, password)
-      //   .then(userCredentials => {
-      //     const fire_user = userCredentials.user;
-      //     let user = {
-      //       displayName: fire_user.displayName,
-      //       email: fire_user.email,
-      //     };
-
-      //     let userData = {
-      //       Apperance: 'White', //Default Apperance
-      //     };
-      //     updateProfile(auth.currentUser, {
-      //       displayName: name,
-      //     });
-      //     console.log('usercreated', user);
-      //     Async;
-      //     let auth_states = {
-      //       user: user,
-      //       userData: userData,
-      //       status: 'loggedIn',
-      //       error: null,
-      //     };
-      // updateUser(auth_states);
-      navigation.navigate('LoginScreen');
-      // })
-      // .catch(err => {
-      //   alert(err.message);
-      // });
-      // .finally();
+        // const data = await axios.get(
+        //   `${API.admin_server}/api/v1/admin/customers?name=${e.target.value}`,
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token_main}`,
+        //   },
+        // }
+        // );
+      } catch (err) {
+        setLoading(false);
+        console.log(err);
+        setError('Already Registered');
+        Alert.alert('Already Registered');
+      }
+      // console.log(data);
+      // gen_sign_err_method(false);
+      // setError(err.response.data.msg);
     } else {
-      // setLoading(false);
+      setLoading(false);
       console.error('else part');
     }
   }
-  // useEffect(() => {
-  //   reset_checked();
-  // }, []);
-  // React.useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', async e => {
-  //     console.log(e);
-  //     function validate_email(val) {
-  //       var regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-  //       return regex.test(val);
-  //     }
-  //     function validate_password(val) {
-  //       var regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-  //       return regex.test(val);
-  //     }
-  //     if (validate_email(email) && validate_password(password)) {
-  //       console.log('entered good', email, password);
-  //       setDone(true);
-  //       await login_email_checked(true);
-  //       await login_pass_checked(true);
-  //       // console.log('entered good', checked_login_email, checked_login_pass);
-  //     } else {
-  //       // console.log('entered bad', email, password);
-  //       setDone(false);
-  //       await login_email_checked(false);
-  //     }
-
-  //     //Put your Data loading function here instead of my loadData()
-  //   });
-
-  //   return unsubscribe;
-  // }, [navigation]);
-  console.log(phone);
+  // console.log(phone);
   return (
     // <SafeAreaView
     //   style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
-    <SafeAreaView
-      style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
-      <StatusBar
-        animated={true}
-        backgroundColor={COLORS.mobile_theme_back}
-        barStyle={'light-content'}
-      />
-
+    <>
       <SafeAreaView
-        style={{
-          height: SIZES.height * 0.03,
-          backgroundColor: COLORS.mobile_theme_back,
-          elevation: 1,
-        }}
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{paddingHorizontal: 15}}>
-        <View style={{marginTop: 0, alignItems: 'center'}}>
-          <Image
-            source={icons.logo_rent}
-            style={{
-              height: 232,
-              width: 232,
-              borderRadius: 20,
-              marginTop: 30,
-              alignSelf: 'center',
-            }}
-          />
-        </View>
+        style={{flex: 1, backgroundColor: 'white', justifyContent: 'center'}}>
+        <StatusBar
+          animated={true}
+          backgroundColor={COLORS.mobile_theme_back}
+          barStyle={'light-content'}
+        />
 
-        <Text
+        <SafeAreaView
           style={{
-            fontFamily: 'Roboto-Medium',
-            fontSize: 35,
-            fontWeight: 'bold',
-            color: COLORS.mobile_theme_back,
-            marginTop: 40,
-            marginBottom: 30,
-          }}>
-          Register
-        </Text>
-        {/* UserName */}
-        <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
-            <InputField
-              label={'User Name'}
-              type={'sign_name'}
-              value={name}
-              // style={{left: 10}}
-              icon={
-                <Ionicons
-                  name="person-outline"
-                  size={26}
-                  color={err ? COLORS.mobile_theme_back : 'red'}
-                  style={{marginTop: 18, marginLeft: 7}}
-                />
-              }
-            />
-          </View>
-          <TouchableOpacity>
-            <Ionicons
-              name="checkmark-done-outline"
-              size={20}
-              color={checked_sign_name ? COLORS.mobile_theme_back : 'lightgray'}
-              style={{marginTop: 18}}
-            />
-          </TouchableOpacity>
-        </View>
-        {focused_sign_name === true && checked_sign_name == false && (
-          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
-            <Text style={{color: COLORS.lightGray3}}>
-              Enter Minimum 5 Letter{'\n'}Include at least one alphabet
-            </Text>
-          </View>
-        )}
-        {/* Mobile_no */}
-        <View
-          style={{
-            flexDirection: 'row',
-            width: SIZES.width,
-            marginTop: -10,
-            marginLeft: 7,
-          }}>
-          <View style={{marginTop: 8, flexDirection: 'row'}}>
-            <View
+            height: SIZES.height * 0.03,
+            backgroundColor: COLORS.mobile_theme_back,
+            elevation: 1,
+          }}
+        />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{paddingHorizontal: 15}}>
+          <View style={{marginTop: 0, alignItems: 'center'}}>
+            <Image
+              source={icons.logo_rent}
               style={{
-                borderColor: COLORS.mobile_theme_back,
-                borderWidth: 1,
-                borderTopEndRadius: 5,
-                borderTopStartRadius: 5,
-                borderBottomStartRadius: 5,
-                borderBottomEndRadius: 5,
-                backgroundColor: COLORS.white,
-                height: 30,
-                width: 40,
-                marginTop: 4,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginLeft: -6,
-              }}>
-              <Text
-                style={{
-                  color: COLORS.mobile_theme_back,
-                  fontSize: 17,
-                  fontWeight: 'bold',
-                }}>
-                +91
-              </Text>
+                height: 232,
+                width: 232,
+                borderRadius: 20,
+                marginTop: 30,
+                alignSelf: 'center',
+              }}
+            />
+          </View>
+
+          <Text
+            style={{
+              fontFamily: 'Roboto-Medium',
+              fontSize: 35,
+              fontWeight: 'bold',
+              color: COLORS.mobile_theme_back,
+              marginTop: 40,
+              marginBottom: 30,
+            }}>
+            Register
+          </Text>
+          {/* UserName */}
+          <View style={{flexDirection: 'row'}}>
+            <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
+              <InputField
+                label={'User Name'}
+                type={'sign_name'}
+                value={name}
+                // style={{left: 10}}
+                icon={
+                  <Ionicons
+                    name="person-outline"
+                    size={26}
+                    color={err ? COLORS.mobile_theme_back : 'red'}
+                    style={{marginTop: 18, marginLeft: 7}}
+                  />
+                }
+              />
             </View>
+            <TouchableOpacity>
+              <Ionicons
+                name="checkmark-done-outline"
+                size={20}
+                color={
+                  checked_sign_name ? COLORS.mobile_theme_back : 'lightgray'
+                }
+                style={{marginTop: 18}}
+              />
+            </TouchableOpacity>
           </View>
-          <View style={{width: SIZES.width * 0.75, left: 2}}>
-            <InputField
-              label={'Enter Phone Number'}
-              type={'phone'}
-              keyboardType={'phone-pad'}
-              value={phone.toString()}
-              //   icon={
-              //     <Ionicons
-              //       name="call-outline"
-              //       size={20}
-              //       color={err ? '#666' : 'red'}
-              //       style={{marginRight: 5, marginTop: 5}}
-              //     />
-              //   }
-            />
-          </View>
-          <TouchableOpacity>
-            <Ionicons
-              name="checkmark-done-outline"
-              size={20}
-              color={checked_phone ? COLORS.mobile_theme_back : 'lightgray'}
-              style={{marginTop: 18, right: 9}}
-            />
-          </TouchableOpacity>
-        </View>
-
-        {focused_phone && !checked_phone && (
-          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
-            <Text style={{color: COLORS.lightGray3}}>
-              Enter 10 Digit Phone Number
-            </Text>
-          </View>
-        )}
-        {/* EmailSection */}
-        <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.81, marginLeft: 8}}>
-            <InputField
-              label={'Email ID'}
-              type={'sign_email'}
-              value={email}
-              icon={
-                <MaterialIcons
-                  name="alternate-email"
-                  size={26}
-                  color={err ? COLORS.mobile_theme_back : 'red'}
-                  style={{marginTop: 18}}
-                />
-              }
-              keyboardType="email-address"
-            />
-          </View>
-          <TouchableOpacity>
-            <Ionicons
-              name="checkmark-done-outline"
-              size={20}
-              color={
-                checked_sign_email ? COLORS.mobile_theme_back : 'lightgray'
-              }
-              style={{marginTop: 18}}
-            />
-          </TouchableOpacity>
-        </View>
-        {focused_sign_email && !checked_sign_email && (
-          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
-            <Text style={{color: COLORS.lightGray3}}>
-              Enter Your Valid Email ID
-            </Text>
-          </View>
-        )}
-
-        {/* PasswordField */}
-        <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
-            <InputField
-              label={'Password'}
-              type={'sign_password'}
-              value={password}
-              icon={
-                <Ionicons
-                  name="ios-lock-closed-outline"
-                  size={26}
-                  color={err ? COLORS.mobile_theme_back : 'red'}
-                  style={{marginTop: 18}}
-                />
-              }
-              inputType="password"
-            />
-          </View>
-
-          <TouchableOpacity>
-            <Ionicons
-              name="checkmark-done-outline"
-              size={20}
-              color={checked_sign_pass ? COLORS.mobile_theme_back : 'lightgray'}
-              style={{marginTop: 18}}
-            />
-          </TouchableOpacity>
-        </View>
-        {focused_sign_pass && !checked_sign_pass && (
-          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
-            <Text style={{color: COLORS.lightGray3}}>
-              Enter Atleast one number{'\n'}Enter Atleast One Symbol(!@#$%^&*)
-              {'\n'}Enter atleast 6 letters
-            </Text>
-          </View>
-        )}
-
-        {/* ConfirmPassword */}
-        <View style={{flexDirection: 'row'}}>
-          <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
-            <InputField
-              label={'Confirm Password'}
-              type={'sign_conf_password'}
-              value={confirmPassword}
-              icon={
-                <Ionicons
-                  name="ios-lock-closed-outline"
-                  size={26}
-                  color={err ? COLORS.mobile_theme_back : 'red'}
-                  style={{marginTop: 18}}
-                />
-              }
-              inputType="password"
-            />
-          </View>
-
-          <TouchableOpacity>
-            <Ionicons
-              name="checkmark-done-outline"
-              size={20}
-              color={
-                password == confirmPassword &&
-                checked_sign_conf_pass &&
-                checked_sign_pass
-                  ? COLORS.mobile_theme_back
-                  : 'lightgray'
-              }
-              style={{marginTop: 18}}
-            />
-          </TouchableOpacity>
-        </View>
-        {focused_sign_conf_pass &&
-          checked_sign_conf_pass &&
-          checked_sign_pass &&
-          !(password == confirmPassword) && (
-            <View style={{marginTop: -30, left: 40, marginBottom: 20}}>
-              <Text style={{color: COLORS.lightGray3s}}>
-                Shouldn't be empty {'\n'}Should match password entered above
+          {focused_sign_name === true && checked_sign_name == false && (
+            <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
+              <Text style={{color: COLORS.lightGray3}}>
+                Enter Minimum 5 Letter{'\n'}Include at least one alphabet
               </Text>
             </View>
           )}
-        {gen_sign_err && (
-          <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
-            <Text style={{color: 'red'}}>
-              Fill all the blanks appropriately
-            </Text>
-          </View>
-        )}
 
-        {/* RegisterButton */}
-        <CustomButton
-          label={'Register'}
-          color={
-            checked_sign_email &&
-            checked_sign_name &&
-            checked_sign_pass &&
-            password == confirmPassword &&
+          {/* EmailSection */}
+          <View style={{flexDirection: 'row'}}>
+            <View style={{width: SIZES.width * 0.81, marginLeft: 8}}>
+              <InputField
+                label={'Email ID'}
+                type={'sign_email'}
+                value={email}
+                icon={
+                  <MaterialIcons
+                    name="alternate-email"
+                    size={26}
+                    color={err ? COLORS.mobile_theme_back : 'red'}
+                    style={{marginTop: 18}}
+                  />
+                }
+                keyboardType="email-address"
+              />
+            </View>
+            <TouchableOpacity>
+              <Ionicons
+                name="checkmark-done-outline"
+                size={20}
+                color={
+                  checked_sign_email ? COLORS.mobile_theme_back : 'lightgray'
+                }
+                style={{marginTop: 18}}
+              />
+            </TouchableOpacity>
+          </View>
+          {focused_sign_email && !checked_sign_email && (
+            <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
+              <Text style={{color: COLORS.lightGray3}}>
+                Enter Your Valid Email ID
+              </Text>
+            </View>
+          )}
+
+          {/* PasswordField */}
+          <View style={{flexDirection: 'row'}}>
+            <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
+              <InputField
+                label={'Password'}
+                type={'sign_password'}
+                value={password}
+                icon={
+                  <Ionicons
+                    name="ios-lock-closed-outline"
+                    size={26}
+                    color={true ? COLORS.mobile_theme_back : 'red'}
+                    style={{marginTop: 18}}
+                  />
+                }
+                inputType="password"
+              />
+            </View>
+
+            <TouchableOpacity>
+              <Ionicons
+                name="checkmark-done-outline"
+                size={20}
+                color={
+                  checked_sign_pass ? COLORS.mobile_theme_back : 'lightgray'
+                }
+                style={{marginTop: 18}}
+              />
+            </TouchableOpacity>
+          </View>
+          {focused_sign_pass && !checked_sign_pass && (
+            <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
+              <Text style={{color: COLORS.lightGray3}}>
+                Enter Atleast one number{'\n'}Enter Atleast One Symbol(!@#$%^&*)
+                {'\n'}Enter atleast 6 letters
+              </Text>
+            </View>
+          )}
+
+          {/* ConfirmPassword */}
+          <View style={{flexDirection: 'row'}}>
+            <View style={{width: SIZES.width * 0.82, marginLeft: 4}}>
+              <InputField
+                label={'Confirm Password'}
+                type={'sign_conf_password'}
+                value={confirmPassword}
+                icon={
+                  <Ionicons
+                    name="ios-lock-closed-outline"
+                    size={26}
+                    color={err ? COLORS.mobile_theme_back : 'red'}
+                    style={{marginTop: 18}}
+                  />
+                }
+                inputType="password"
+              />
+            </View>
+
+            <TouchableOpacity>
+              <Ionicons
+                name="checkmark-done-outline"
+                size={20}
+                color={
+                  password == confirmPassword &&
+                  checked_sign_conf_pass &&
+                  checked_sign_pass
+                    ? COLORS.mobile_theme_back
+                    : 'lightgray'
+                }
+                style={{marginTop: 18}}
+              />
+            </TouchableOpacity>
+          </View>
+          {focused_sign_conf_pass &&
             checked_sign_conf_pass &&
-            checked_phone
-              ? COLORS.mobile_theme_back
-              : 'gray'
-          }
-          onPress={() => {
-            if (
-              password == confirmPassword &&
+            checked_sign_pass &&
+            !(password == confirmPassword) && (
+              <View style={{marginTop: -30, left: 40, marginBottom: 20}}>
+                <Text style={{color: COLORS.lightGray3}}>
+                  Shouldn't be empty {'\n'}Should match password entered above
+                </Text>
+              </View>
+            )}
+          {gen_sign_err && (
+            <View style={{marginTop: -30, left: 55, marginBottom: 20}}>
+              <Text style={{color: 'red'}}>{_err}</Text>
+            </View>
+          )}
+
+          {/* RegisterButton */}
+          <CustomButton
+            label={'Register'}
+            color={
               checked_sign_email &&
               checked_sign_name &&
               checked_sign_pass &&
-              checked_sign_conf_pass &&
-              checked_phone
-            ) {
-              console.log('Done');
-              handleSignUp();
-            } else {
-              gen_sign_err_method(true);
+              password == confirmPassword &&
+              checked_sign_conf_pass
+                ? COLORS.mobile_theme_back
+                : 'gray'
             }
-          }}
-        />
+            onPress={() => {
+              if (
+                password == confirmPassword &&
+                checked_sign_email &&
+                checked_sign_name &&
+                checked_sign_pass &&
+                checked_sign_conf_pass
+              ) {
+                console.log('Done');
+                handleSignUp();
+              } else {
+                gen_sign_err_method(true);
+              }
+            }}
+          />
 
-        {/* Login Redirect */}
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginBottom: 30,
-          }}>
-          <Text>Already registered?</Text>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('LoginScreen', {
-                __email: login_email,
-                __password: login_password,
-                _checked_login_email: checked_login_email,
-                _checked_login_pass: checked_login_pass,
-                _gen_login_err: gen_login_err,
-              })
-            }>
-            <Text style={{color: COLORS.mobile_theme_back, fontWeight: '700'}}>
-              {' '}
-              Login
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          {/* Login Redirect */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginBottom: 30,
+            }}>
+            <Text>Already registered?</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('LoginScreen', {
+                  __email: login_email,
+                  __password: login_password,
+                  _checked_login_email: checked_login_email,
+                  _checked_login_pass: checked_login_pass,
+                  _gen_login_err: gen_login_err,
+                })
+              }>
+              <Text
+                style={{color: COLORS.mobile_theme_back, fontWeight: '700'}}>
+                {' '}
+                Login
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+      {loading && <AppLoader />}
+    </>
   );
 };
 

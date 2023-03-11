@@ -39,9 +39,9 @@ export const SIZES = {
   form_button_borderWidth: 1,
   form_button_borderRadius: 12,
   form_button_minWidth: 80,
-  form_button_maxWidth: 140,
+  form_button_maxWidth: 160,
   form_button_maxHeight: 37,
-  form_button_padding: 7,
+  form_button_padding: 5,
   form_button_alignItems: 'center',
   form_button_justifyContent: 'center',
 

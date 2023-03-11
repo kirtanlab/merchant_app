@@ -6,9 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
+  SafeAreaView,
   Platform,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/NewProperty/Header';
 import * as Progress from 'react-native-progress';
 import {COLORS, SIZES} from '../../constants';
@@ -44,7 +44,7 @@ const Basic2 = ({
   price,
 }) => {
   function next_page() {
-    navigation.navigate('Basic3');
+    navigation.navigate('Basic25');
   }
   function onPress_for() {
     if (checked_price && checked_base_terms) {
@@ -78,7 +78,9 @@ const Basic2 = ({
     }
   };
   return (
-    <ScrollView style={{backgroundColor: 'white'}}>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      style={{backgroundColor: 'white'}}>
       {/* <KeyboardAvoidingView */}
       {/* // behavior="position" */}
       {/* <ScrollView style={{backgroundColor: 'white'}}> */}
@@ -100,7 +102,7 @@ const Basic2 = ({
       />
       <View>
         <Progress.Bar
-          progress={0.67}
+          progress={0.5}
           color={COLORS.progress_bar}
           width={SIZES.width}
           height={SIZES.height * 0.006}
@@ -134,8 +136,9 @@ const Basic2 = ({
           <View>
             <Header
               step={2}
-              subtitle={'Photo/Videos of Rooms,T&Cs'}
-              title={'Add Room Details'}
+              total={4}
+              subtitle={'Price,Description of Room,T&Cs'}
+              title={'More About Room'}
             />
           </View>
           {/* Prices */}

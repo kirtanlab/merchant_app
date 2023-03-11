@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {COLORS, SIZES} from '../../constants';
 import Property_Listing from './Property_Listings';
 
-const MyProperty = () => {
+const MyProperty = ({navigation}) => {
   return (
     <View style={{marginTop: 15}}>
       <View style={{paddingHorizontal: 14}}>
@@ -23,7 +23,7 @@ const MyProperty = () => {
           borderBottomWidth: 1,
           paddingBottom: 10,
         }}>
-        <Property_Listing />
+        <Property_Listing navigation={navigation} />
       </View>
       <View
         style={{

@@ -9,8 +9,10 @@ import {
   ToastAndroid,
   Platform,
   AlertIOS,
+  Image,
   Alert,
 } from 'react-native';
+import * as Newproperty_ext_actions from '../../store/Newproperty_ext/Newproperty_ext_actions';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../../components/NewProperty/Header';
 import * as Progress from 'react-native-progress';
@@ -31,18 +33,29 @@ import {
 } from '../../components/NewProperty/ToastConfig';
 import Nav_Header from '../../components/NewProperty/Nav_Header';
 
-const BasicDetails = ({change_state, checked_adhar_name, navigation}) => {
-  const [imgUri, setimgUri] = React.useState(undefined);
-  useEffect(() => {
-    change_state();
-    // console.log('test',test)
-  }, []);
+const BasicDetails = ({
+  checked_adhar_card,
+  adharcard,
+  updateAdharCard,
+  checkedAdharCard,
+  change_state,
+  checked_adhar_name,
+  navigation,
+  checked_propertyName,
+}) => {
+  const [imgUri, setimgUri] = React.useState([{}]);
+  const [_img_url, _setimg_url] = React.useState(adharcard);
+  // console.log(imgUri.length);
+  //    change_state();s
+  //   // console.log('test',test)
+  // }, []);useEffect(() => {
+
   function next_page() {
     navigation.navigate('Location');
     console.log('next pagee');
   }
   function onPress_for() {
-    if (checked_adhar_name) {
+    if (checked_adhar_name && checked_propertyName && checked_adhar_card) {
       console.log('Done');
       next_page();
     } else {
@@ -54,17 +67,21 @@ const BasicDetails = ({change_state, checked_adhar_name, navigation}) => {
 
   const selectDoc = async () => {
     try {
-      const res = await DocumentPicker.pickSingle({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.images],
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
       });
       console.log(res);
-      setimgUri(res);
+      // setimgUri(res[0]);
+      _setimg_url(res[0].uri);
+      await checkedAdharCard(true);
+      updateAdharCard(res[0].uri);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled', err);
       } else {
         console.log(err);
       }
+      checkedAdharCard(false);
     }
   };
   return (
@@ -99,10 +116,14 @@ const BasicDetails = ({change_state, checked_adhar_name, navigation}) => {
       </View>
       <Nav_Header
         icon_color={
-          checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray3
+          checked_propertyName && checked_adhar_name && checked_adhar_card
+            ? COLORS.mobile_theme_back
+            : COLORS.lightGray3
         }
         color={
-          checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray3
+          checked_propertyName && checked_adhar_name && checked_adhar_card
+            ? COLORS.mobile_theme_back
+            : COLORS.lightGray3
         }
         back={false}
         onPress_forward={onPress_for}
@@ -129,30 +150,72 @@ const BasicDetails = ({change_state, checked_adhar_name, navigation}) => {
           <Who_you />
         </View> */}
         {/* upload adhaar */}
-        <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // backgroundColor: COLORS.mobile_theme_back,
+            // minWidth: 100,
+            // width: '100%',
+            minHeight: 40,
+            borderRadius: 10,
+            marginTop: 25,
+            maxHeight: 200,
+            // alignItems: 'center',
+            padding: 5,
+            marginBottom: 10,
+          }}>
           <Text
             style={{
-              color: COLORS.black,
-              fontSize: SIZES.custom1,
-              fontWeight: 'bold',
-              marginTop: 25,
+              fontSize: SIZES.h2,
+              color: COLORS.mobile_theme_back,
+              //   bottom: 8,
+              // marginTop: 25,
+              flex: 1,
             }}>
-            Adhaar Card
+            Addhar card
           </Text>
-        </View>
-        {imgUri === undefined && (
-          <View style={{marginTop: 15}}>
-            <Text
+          {_img_url !== '' && (
+            <TouchableOpacity
               style={{
-                fontSize: SIZES.custom1,
+                // marginTop: 18,
+                height: 36,
+                width: 40,
+                // padding: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: 5,
+                // left: 20,
+                backgroundColor: COLORS.mobile_theme_back,
+                borderRadius: 10,
+                color: COLORS.white,
+                fontSize: SIZES.h2,
+                // marginTop: 25,
+              }}
+              onPress={() => {
+                _setimg_url('');
+              }}>
+              <Ionicons
+                name="close-circle-outline"
+                size={25}
+                color={true ? COLORS.white : 'lightgray'}
+                style={{flex: 1}}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+        {_img_url === '' && (
+          <View style={{top: -10}}>
+            {/* <Text
+              style={{
+                fontSize: SIZES.h2,
                 color: COLORS.mobile_theme_back,
                 //   fontWeight: 'bold',
               }}>
-              Select Adhar(image or pdf form)
-            </Text>
+              Upload Adhar(image or pdf form)
+            </Text> */}
             <TouchableOpacity
               style={{
-                marginTop: 15,
+                // marginTop: 15,
                 borderColor: COLORS.mobile_theme,
                 borderWidth: SIZES.form_button_borderWidth,
                 borderRadius: SIZES.form_button_borderRadius,
@@ -170,15 +233,16 @@ const BasicDetails = ({change_state, checked_adhar_name, navigation}) => {
               }}>
               <Text
                 style={{
-                  fontSize: SIZES.custom1,
+                  fontSize: SIZES.form_button_text_fontSize,
                   fontWeight: SIZES.form_button_text_fontWeight,
                   color: COLORS.font_color,
                 }}>
-                Select file
+                Select fles
               </Text>
             </TouchableOpacity>
           </View>
         )}
+
         {/* Show Uploaded */}
         {/* <Image
           source={{uri: imgUri}}
@@ -190,75 +254,36 @@ const BasicDetails = ({change_state, checked_adhar_name, navigation}) => {
             alignSelf: 'center',
           }}
         /> */}
-        {imgUri !== undefined && (
+        {_img_url !== '' && (
           <View
             style={{
-              flexDirection: 'row',
-              backgroundColor: COLORS.mobile_theme_back,
-              // minWidth: 100,
-              // width: '100%',
-              minHeight: 40,
+              // marginTop: 30,
+              borderWidth: 1,
+              borderColor: COLORS.lightGray3,
               borderRadius: 10,
-              marginTop: 15,
-              maxHeight: 200,
-              // alignItems: 'center',
-              padding: 5,
+              width: SIZES.width - 50,
+              // height: 300,
+              marginLeft: 5,
             }}>
-            <Text
-              style={{flex: 5, color: COLORS.white, fontSize: SIZES.custom1}}>
-              {imgUri.name}
-            </Text>
-            <TouchableOpacity
-              style={{
-                // marginTop: 18,
-                flex: 1,
-                left: 20,
-                color: COLORS.white,
-                fontSize: SIZES.custom1,
-              }}
-              onPress={() => {
-                setimgUri(undefined);
-              }}>
-              <Ionicons
-                name="close-circle-outline"
-                size={35}
-                color={true ? COLORS.white : 'lightgray'}
-                style={{}}
-              />
-            </TouchableOpacity>
+            <Image
+              source={{uri: _img_url}}
+              style={{height: 300, borderRadius: 10, width: SIZES.width - 50}}
+            />
           </View>
         )}
       </View>
-      {/* <View style={{marginTop: '30%'}}>
-        <CustomButton_form
-          // fontColor={checked_adhar_name ? COLORS.font_color : COLORS.lightGray3}
-          // backgroundColor={
-          //   checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray4
-          // }
-          // label={'Go for Next Step '}
-          // _borderColor={
-          //   checked_adhar_name ? COLORS.mobile_theme_back : COLORS.lightGray4
-          // }
-          // borderRadius
-          // onPress={() => {
-          //   if (checked_adhar_name) {
-          //     console.log('Done');
-          //     next_page();
-          //   } else {
-          //     // gen_login_err_method(true);
-          //     console.log('ckicked');
-          //   }
-          // }}
-        />
-      </View> */}
-      {/* </KeyboardAvoidingView> */}
     </ScrollView>
   );
 };
 
 function mapStateToProps(state) {
   return {
+    checked_propertyName: state.newproperty_reducer.checked_propertyName,
+    focused_propertyName: state.newproperty_reducer.focused_propertyName,
+    propertyName: state.newproperty_reducer.propertyName,
     test: state.newproperty_reducer.new_test,
+    adharcard: state.newproperty_reducer.adharcard,
+    checked_adhar_card: state.newproperty_reducer.checked_adhar_card,
     checked_adhar_name: state.authReducer.checked_adhar_name,
     checked_phone: state.authReducer.checked_phone,
   };
@@ -268,6 +293,12 @@ function mapDispatchToProps(dispatch) {
   return {
     change_state: () => {
       dispatch(newproperty_actions.setTest());
+    },
+    checkedAdharCard: value => {
+      dispatch(newproperty_actions.checkedAdharCard(value));
+    },
+    updateAdharCard: value => {
+      dispatch(newproperty_actions.updateAdharCard(value));
     },
   };
 }

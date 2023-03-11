@@ -3,6 +3,7 @@ import {View, Text, ScrollView, FlatList, LogBox} from 'react-native';
 import NotificationBox from '../components/NotificationScreen/NotificationBox';
 import {COLORS, SIZES} from '../constants';
 const dummy_data = [
+  //username,userphoneno,useremail,roomtitle,createAt
   {
     name: 'kirtan',
     room_type: 'Delux Room',

@@ -29,7 +29,9 @@ import CustomButton from '../../components/CustomeButton';
 import InputField from '../../components/InputField';
 import {COLORS, SIZES} from '../../constants';
 import {StatusBar} from 'react-native';
-
+import AppLoader from '../../components/AppLoader';
+import {REACT_APP_OWNER_API} from '@env';
+import axios from 'axios';
 import {
   CodeField,
   Cursor,

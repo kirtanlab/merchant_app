@@ -71,7 +71,9 @@ const Basic1 = ({
     }
   };
   return (
-    <ScrollView style={{backgroundColor: 'white', padding: 0}}>
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      style={{backgroundColor: 'white', padding: 0}}>
       {/* <KeyboardAvoidingView
         behavior="position"
         style={{backgroundColor: 'white'}}> */}
@@ -93,7 +95,7 @@ const Basic1 = ({
       />
       <View>
         <Progress.Bar
-          progress={0.33}
+          progress={0.25}
           color={COLORS.progress_bar}
           width={SIZES.width}
           height={SIZES.height * 0.01}
@@ -119,7 +121,8 @@ const Basic1 = ({
         <View>
           <Header
             step={1}
-            subtitle={'Room Title, Ac/Non AC, images/Videos, prices'}
+            total={4}
+            subtitle={'Room Title, Ac/Non AC, occupancy,Available rooms'}
             title={'Add Room Details'}
           />
         </View>
@@ -135,7 +138,7 @@ const Basic1 = ({
             style={{
               color: COLORS.black,
               fontSize: SIZES.custom1,
-              fontWeight: 'bold',
+              fontWeight: '//',
             }}>
             Upload Outer Photo & Videos of Rooms
           </Text>

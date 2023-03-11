@@ -43,8 +43,20 @@ export const CHECKED_LOGIN_PASS = 'CHECKED_LOGIN_PASS';
 export const CHECKED_FIRST_FORM = 'CHECKED_FIRST_FORM';
 
 export const RESET_TOKEN = 'RESET_TOKEN';
+export const UPDATE_TOKEN = 'UPDATE_TOKEN';
+
+export const updateToken = value => ({
+  type: UPDATE_TOKEN,
+  value: value,
+});
 
 export const RESET_CHECKED = 'RESET_CHECKED';
+
+export const UPDATE_PROPERTY_VALUE_AUTH = 'UPDATE_PROPERTY_VALUE_AUTH';
+export const updatePropertyValueAuth = value => ({
+  type: UPDATE_PROPERTY_VALUE_AUTH,
+  value: value,
+});
 
 export const checked_first_form = value => ({
   type: CHECKED_FIRST_FORM,

@@ -9,6 +9,7 @@ const initialState = {
     status: 'loading',
     error: 'error',
   },
+  token: '',
   login_email: '',
   login_password: '',
   sign_name: '',
@@ -38,6 +39,20 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    // case
+    case authActions.UPDATE_TOKEN: {
+      return {
+        ...state,
+        token: action.value,
+      };
+    }
+
+    case authActions.UPDATE_PROPERTY_VALUE_AUTH: {
+      return {
+        ...state,
+        adhar_name: action.value.adhar_name,
+      };
+    }
     case authActions.CHECKED_FIRST_FORM: {
       return {
         ...state,

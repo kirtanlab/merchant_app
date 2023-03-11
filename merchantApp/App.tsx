@@ -32,6 +32,11 @@ import ChangeProfile from './screens/ChangeProfile';
 import AppTerms from './screens/AppTerms';
 import GovtTerms from './screens/GovtTerms';
 import MapTest from './screens/MapsTest';
+import mobile_otp from './screens/AuthScreens/mobile_otp';
+import mobile_input from './screens/AuthScreens/mobile_input';
+import Basic25 from './screens/NewRooms/Basic25';
+import vidImage from './screens/Newproperty/vidImage';
+
 const Loading = () => {
   return <Text>Loading New</Text>;
 };
@@ -48,6 +53,11 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen
           options={{headerShown: false}}
+          name="vidImage"
+          component={vidImage}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
           name="BasicDetails"
           component={BasicDetails}
         />
@@ -61,6 +71,7 @@ const App = () => {
           name="MoreProperty"
           component={more_property}
         />
+
         <Stack.Screen
           options={{headerShown: false}}
           name="Thankyou"
@@ -90,7 +101,11 @@ const App = () => {
           name="Basic2"
           component={Basic2}
         />
-
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="Basic25"
+          component={Basic25}
+        />
         <Stack.Screen
           options={{headerShown: false}}
           name="Basic3"
@@ -122,6 +137,11 @@ const App = () => {
         />
         <Stack.Screen
           options={{headerShown: false}}
+          name="mobile_input"
+          component={mobile_input}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
           name="ForgetPassword"
           component={ForgetPass}
         />
@@ -146,7 +166,12 @@ const App = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={'Root'}>
+          initialRouteName={'Newproperty'}>
+          <Stack.Screen
+            options={{headerShown: false}}
+            name="MobileOTP"
+            component={mobile_otp}
+          />
           <Stack.Screen
             name="Root"
             component={Root}
@@ -172,6 +197,7 @@ const App = () => {
           <Stack.Screen name="Appterms" component={AppTerms} />
           <Stack.Screen name="GovtTerms" component={GovtTerms} />
           <Stack.Screen name="ChangeProfile" component={ChangeProfile} />
+          {/* <Stack.Screen name="TestScreen" component={TestScreen} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

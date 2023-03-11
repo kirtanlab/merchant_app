@@ -19,7 +19,7 @@ const Rooms_Listing = ({
         // minWidth: 300,
         width: 296,
         borderColor: COLORS.lightGray6,
-        minHeight: 230,
+        minHeight: 200,
         maxHeight: 250,
         marginTop: 10,
         marginLeft: 10,
@@ -42,7 +42,7 @@ const Rooms_Listing = ({
 
       <View style={{paddingHorizontal: 15}}>
         {/* property id */}
-        <View style={{marginTop: 5}}>
+        {/* <View style={{marginTop: 5}}>
           <Text
             style={{
               color: COLORS.lightGray3,
@@ -51,7 +51,7 @@ const Rooms_Listing = ({
             }}>
             Room ID: {room_id}
           </Text>
-        </View>
+        </View> */}
         {/* Name and price */}
         <View style={{marginTop: 5, flexDirection: 'row'}}>
           <View>

@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {value} from 'react-native-extended-stylesheet';
 import * as newproperty_actions from './newproperty_action';
 let initialState = {
   looking_form: {
     pg: false,
-    mess: false,
+    // mess: false,
     rent: true,
     Hostel: false,
   },
@@ -25,23 +26,92 @@ let initialState = {
   },
   about_pg: '',
   terms_pg: [],
+  propertyName: '',
+
   //Location Form
   house_no: '',
-  Location: '',
+
   Landmark: '',
   Description_pg: '',
+  checked_propertyName: false,
   checked_house_no: false,
-  checked_Location: false,
+  adharcard: '',
+  checked_adhar_card: false,
   checked_Landmark: false,
   checked_Description_pg: false,
   focused_house_no: false,
-  focused_Location: false,
+
+  focused_propertyName: false,
   focused_Landmark: false,
   focused_Description_pg: false,
 };
 
 const newproperty_reducer = (state = initialState, action) => {
   switch (action.type) {
+    case newproperty_actions.UPDATE_ADHAR_CARD:
+      return {
+        ...state,
+        adharcard: action.value,
+      };
+    case newproperty_actions.CHECKED_ADHAR_CARD:
+      return {
+        ...state,
+        checked_adhar_card: action.value,
+      };
+    case newproperty_actions.UPDATE_LOCATION_ADDRESS:
+      return {
+        Location_address: action.value,
+      };
+    case newproperty_actions.UPDATE_ELE_BILL:
+      return {
+        elebill: action.value,
+      };
+    case newproperty_actions.CHECKED_ELE_BILL:
+      return {
+        ...state,
+        checked_ele_bill: action.value,
+      };
+    //Property vaue   bijlikabil, adhar name,location, outer vid,img
+    case newproperty_actions.UPDATE_PROPERTY_VALUE:
+      console.log('called all set fun');
+      return {
+        ...state,
+        gender: action.value.gender,
+        amneties: action.value.amneties,
+        who: action.value.who,
+        looking_form: action.value.looking_form,
+        about_pg: action.value.about_pg,
+        terms_pg: action.value.terms_pg,
+        // about_pg: action.value.about_pg,
+        propertyName: action.value.propertyName,
+        house_no: action.value.house_no,
+        Landmark: action.value.Landmark,
+        adharcard: action.value.adharcard,
+        checked_propertyName: true,
+        house_no: true,
+        Landmark: true,
+        adharcard: true,
+
+        // adharcard: action.value.adharcard,
+      };
+
+    //PropertName
+
+    case newproperty_actions.UPDATE_PROPERTY_NAME:
+      return {
+        ...state,
+        propertyName: action.value,
+      };
+    case newproperty_actions.CHECKED_PROPERTY_NAME:
+      return {
+        ...state,
+        checked_propertyName: action.value,
+      };
+    case newproperty_actions.FOCUSED_PROPERTY_NAME:
+      return {
+        ...state,
+        focused_propertyName: action.value,
+      };
     //about_pg
     case newproperty_actions.SET_ABOUT_PG:
       return {
@@ -82,11 +152,7 @@ const newproperty_reducer = (state = initialState, action) => {
         ...state,
         checked_Landmark: action.value,
       };
-    case newproperty_actions.CHECKED_LOCATION:
-      return {
-        ...state,
-        checked_Location: action.value,
-      };
+
     case newproperty_actions.FOCUSED_DESCRIPTION_PG:
       return {
         ...state,
@@ -102,11 +168,11 @@ const newproperty_reducer = (state = initialState, action) => {
         ...state,
         focused_Landmark: action.value,
       };
-    case newproperty_actions.FOCUSED_LOCATION:
-      return {
-        ...state,
-        focused_Location: action.value,
-      };
+    // case newproperty_actions.FOCUSED_LOCATION:
+    //   return {
+    //     ...state,
+    //     focused_Location: action.value,
+    //   };
     case newproperty_actions.UPDATE_DESCRIPTION_PG:
       return {
         ...state,
@@ -121,11 +187,6 @@ const newproperty_reducer = (state = initialState, action) => {
       return {
         ...state,
         Landmark: action.value,
-      };
-    case newproperty_actions.UPDATE_LOCATION:
-      return {
-        ...state,
-        Location: action.value,
       };
 
     case newproperty_actions.SET_LOOKING:

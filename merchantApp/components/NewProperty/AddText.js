@@ -14,14 +14,18 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import ShowDialog from '../ShowDialog';
 import {COLORS, SIZES} from '../../constants/theme';
 import InputField from '../InputField';
 import {connect} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as newproperty_actions from '../../store/Newproperty/newproperty_action';
+import {Button, Dialog, Portal, Provider} from 'react-native-paper';
+import {white} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 // import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [visible, setVisible] = React.useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [terms_pg_copy, setTerms_pg_copy] = useState(terms_pg);
   const [term, setTerms] = useState();
@@ -47,127 +51,132 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
   }, []);
   const render_modeal = () => {
     return (
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View
-            style={{
-              height: focused ? '25.4%' : '15.6%',
-              backgroundColor: 'white',
-              borderRadius: 20,
-              width: '80%',
-
-              borderWidth: 2,
-              borderColor: COLORS.mobile_theme_back,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 4,
-              elevation: 5,
+      <Provider>
+        <Portal>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setModalVisible(!modalVisible);
             }}>
-            {/* <Text style={styles.modalText}>Hello World!</Text>
+            <View style={styles.centeredView}>
+              <View
+                style={{
+                  height: focused ? '25.4%' : '15.6%',
+                  backgroundColor: 'white',
+                  borderRadius: 20,
+                  width: '80%',
+
+                  borderWidth: 2,
+                  borderColor: COLORS.mobile_theme_back,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 5,
+                }}>
+                {/* <Text style={styles.modalText}>Hello World!</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
               <Text style={styles.textStyle}>Hide Modal</Text>
             </Pressable>
             <TextInput keyboardType="default" /> */}
-            <View style={{padding: 20, display: 'flex', flexDirection: 'row'}}>
-              <View
-                style={{
-                  left: 5,
-                }}>
-                <TouchableOpacity
-                  onPress={async () => {
-                    setModalVisible(false);
-                    setTerms('');
-                  }}>
-                  <Text
+                <View
+                  style={{padding: 20, display: 'flex', flexDirection: 'row'}}>
+                  <View
                     style={{
-                      fontSize: SIZES.h2,
-                      color: COLORS.mobile_theme_back,
-                      fontWeight: 'bold',
-                      textDecorationLine: 'underline',
-                      //   alignContent: 'flex-start',
+                      left: 5,
                     }}>
-                    CANCEL
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  left: 165,
-                }}>
-                <TouchableOpacity
-                  onPress={async () => {
-                    if (term !== '') {
-                      console.log('selected_term_id', selected_term_id);
-                      const id = generateID();
-                      terms_pg_copy.push({id: id, text: term});
-                      console.log('terms_pg_copy', terms_pg_copy);
-                      setTerms('');
-                      setTerms_pg_copy(terms_pg_copy);
-                      await setTerms_pg(terms_pg_copy);
-                      setModalVisible(false);
-                    } else {
-                      setModalVisible(false);
-                    }
-                  }}>
-                  <Text
+                    <TouchableOpacity
+                      onPress={async () => {
+                        setModalVisible(false);
+                        setTerms('');
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: SIZES.h2,
+                          color: COLORS.mobile_theme_back,
+                          fontWeight: 'bold',
+                          textDecorationLine: 'underline',
+                          //   alignContent: 'flex-start',
+                        }}>
+                        CANCEL
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View
                     style={{
-                      fontSize: SIZES.h2,
-                      color: COLORS.mobile_theme_back,
-                      fontWeight: 'bold',
-                      textDecorationLine: 'underline',
-                      alignContent: 'flex-end',
+                      left: 165,
                     }}>
-                    DONE
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            {/* TextBox */}
-            <View
-              style={{
-                marginBottom: 0,
-                height: '50%',
-                borderRadius: SIZES.form_button_borderRadius,
-              }}>
-              <KeyboardAvoidingView>
-                <InputField
-                  label={'Add Terms Here'}
-                  type={'Terms_pg'}
-                  keyboardType={'default'}
-                  onFocus={() => {
-                    console.log('changed');
-                    setonfocused(true);
-                  }}
-                  onBlur={() => {
-                    console.log('changed');
-                    setonfocused(false);
-                  }}
-                  value={term}
-                  onChange={async e => {
-                    setTerms(e.nativeEvent.text);
+                    <TouchableOpacity
+                      onPress={async () => {
+                        if (term !== '') {
+                          console.log('selected_term_id', selected_term_id);
+                          const id = generateID();
+                          terms_pg_copy.push({id: id, text: term});
+                          console.log('terms_pg_copy', terms_pg_copy);
+                          setTerms('');
+                          setTerms_pg_copy(terms_pg_copy);
+                          await setTerms_pg(terms_pg_copy);
+                          setModalVisible(false);
+                        } else {
+                          setModalVisible(false);
+                        }
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: SIZES.h2,
+                          color: COLORS.mobile_theme_back,
+                          fontWeight: 'bold',
+                          textDecorationLine: 'underline',
+                          alignContent: 'flex-end',
+                        }}>
+                        DONE
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {/* TextBox */}
+                <View
+                  style={{
+                    marginBottom: 0,
+                    height: '50%',
+                    borderRadius: SIZES.form_button_borderRadius,
+                  }}>
+                  {/* <KeyboardAvoidingView>
+                    <InputField
+                      label={'Add Terms Here'}
+                      type={'Terms_pg'}
+                      keyboardType={'default'}
+                      onFocus={() => {
+                        console.log('changed');
+                        setonfocused(true);
+                      }}
+                      onBlur={() => {
+                        console.log('changed');
+                        setonfocused(false);
+                      }}
+                      value={term}
+                      onChange={async e => {
+                        setTerms(e.nativeEvent.text);
 
-                    console.log('hey', e.nativeEvent.text);
-                  }}
-                  multiline
-                />
-              </KeyboardAvoidingView>
+                        console.log('hey', e.nativeEvent.text);
+                      }}
+                      multiline
+                    />
+                  </KeyboardAvoidingView> */}
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-      </Modal>
+          </Modal>
+        </Portal>
+      </Provider>
     );
   };
   const RenderBox = item => {
@@ -268,15 +277,18 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
       <Text style={{fontSize: SIZES.custom1, fontWeight: 'bold'}}>Empty</Text>
     </View>
   );
+
   return (
     // <ScrollView style={{backgroundColor: 'white'}}>
-    <View style={{marginTop: 30}}>
+
+    <ScrollView keyboardShouldPersistTaps="handled" style={{marginTop: 30}}>
+      {/* <Portal> */}
       <View style={{flexDirection: 'row'}}>
         <View style={{flex: 1, marginTop: 8}}>
           <Text
             style={{
               color: COLORS.black,
-              fontSize: SIZES.custom1,
+              fontSize: SIZES.h2,
               fontWeight: 'bold',
             }}>
             Terms
@@ -302,7 +314,8 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
             }}
             onPress={async () => {
               setSelected_term('');
-              setModalVisible(true);
+              // setModalVisible(true);
+              setVisible(true);
               console.log('Pressed0');
             }}>
             <Text
@@ -341,37 +354,64 @@ const AddText = ({terms_pg, setTerms_pg, about_pg, setAbout_pg}) => {
           />
         </ScrollView>
       </View>
-      {render_modeal()}
+      {/* {render_modeal()} */}
+      {/* <View>
+          
+        </View> */}
       {/* Add ABout */}
+
+      <ShowDialog
+        visible={visible}
+        onChange={async e => {
+          setTerms(e.nativeEvent.text);
+          console.log('hey', e.nativeEvent.text);
+        }}
+        setonfocused={setonfocused}
+        term={term}
+        _showDialog={() => setVisible(true)}
+        _hideDialog={async () => {
+          if (term !== '') {
+            console.log('selected_term_id', selected_term_id);
+            const id = generateID();
+            terms_pg_copy.push({id: id, text: term});
+            console.log('terms_pg_copy', terms_pg_copy);
+            setTerms('');
+            setTerms_pg_copy(terms_pg_copy);
+            await setTerms_pg(terms_pg_copy);
+            setVisible(false);
+          } else {
+            setVisible(false);
+          }
+        }}
+      />
+
       <View style={{marginTop: 30}}>
         <View style={{marginTop: 0}}>
           <Text
             style={{
               color: COLORS.black,
-              fontSize: SIZES.custom1,
+              fontSize: SIZES.h2,
               fontWeight: 'bold',
             }}>
             About PG
           </Text>
         </View>
-        <View style={{marginTop: 15}}>
-          <KeyboardAvoidingView>
-            <InputField
-              label={'Add More About PG Here'}
-              type={'About_pg'}
-              keyboardType={'default'}
-              // value={aboutpg}
-              defaultValue={aboutpg}
-              onChange={e => {
-                setAbout_pg(e.nativeEvent.text);
-                console.log('hey', e.nativeEvent.text);
-              }}
-              multiline
-            />
-          </KeyboardAvoidingView>
-        </View>
+        <ScrollView keyboardShouldPersistTaps="handled" style={{marginTop: 15}}>
+          <InputField
+            label={'Add More About PG Here'}
+            type={'About_pg'}
+            keyboardType={'default'}
+            // value={aboutpg}
+            defaultValue={aboutpg}
+            onChange={e => {
+              setAbout_pg(e.nativeEvent.text);
+              console.log('hey', e.nativeEvent.text);
+            }}
+            multiline
+          />
+        </ScrollView>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

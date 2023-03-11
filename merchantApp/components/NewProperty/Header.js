@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {COLORS, SIZES} from '../../constants';
-const Header = ({step, title, subtitle}) => {
+const Header = ({step, title, subtitle, total}) => {
   return (
     <View>
       <Text
@@ -11,7 +11,7 @@ const Header = ({step, title, subtitle}) => {
           //   fontFamily: 'Roboto-Bold',
           fontSize: SIZES.h4,
         }}>
-        STEP {step} OF 4
+        STEP {step} OF {total ? total : 4}
       </Text>
       <Text
         style={{

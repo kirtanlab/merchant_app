@@ -13,9 +13,9 @@ import {connect, useSelector} from 'react-redux';
 import * as newproperty_actions from '../../store/Newproperty/newproperty_action';
 const Gender = ({gender, udpate_gender}) => {
   let [gender_form_copy, setLooking] = useState(gender);
-  let [male, setmale] = useState(gender_form_copy.male);
-  let [female, setfemale] = useState(gender_form_copy.female);
-  let [both, setboth] = useState(gender_form_copy.both);
+  let [male, setmale] = useState(gender_form_copy?.male);
+  let [female, setfemale] = useState(gender_form_copy?.female);
+  let [both, setboth] = useState(gender_form_copy?.both);
 
   return (
     <SafeAreaView>
@@ -23,8 +23,8 @@ const Gender = ({gender, udpate_gender}) => {
         <Text
           style={{
             color: COLORS.black,
-            fontSize: SIZES.custom1,
-            fontWeight: 'bold',
+            fontSize: SIZES.h2,
+            // fontWeight: 'bold',
           }}>
           Select The reserved gender for your property
         </Text>
@@ -77,7 +77,7 @@ const Gender = ({gender, udpate_gender}) => {
               <Text
                 style={{
                   fontSize: SIZES.form_button_text_fontSize,
-                  fontWeight: SIZES.form_button_text_fontWeight,
+                  // fontWeight: SIZES.form_button_text_fontWeight,
                   color: male ? COLORS.font_color : COLORS.lightGray3,
                 }}>
                 Male
@@ -114,7 +114,7 @@ const Gender = ({gender, udpate_gender}) => {
               <Text
                 style={{
                   fontSize: SIZES.form_button_text_fontSize,
-                  fontWeight: SIZES.form_button_text_fontWeight,
+                  // fontWeight: SIZES.form_button_text_fontWeight,
                   color: female ? COLORS.font_color : COLORS.lightGray3,
                 }}>
                 Female
@@ -151,7 +151,7 @@ const Gender = ({gender, udpate_gender}) => {
               <Text
                 style={{
                   fontSize: SIZES.form_button_text_fontSize,
-                  fontWeight: SIZES.form_button_text_fontWeight,
+                  // fontWeight: SIZES.form_button_text_fontWeight,
                   color: both ? COLORS.font_color : COLORS.lightGray3,
                 }}>
                 Both

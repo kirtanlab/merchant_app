@@ -14,6 +14,7 @@ import HomeScreen_Header from '../components/Homescreen/HomeScreen_Header';
 import MyProperty from '../components/Homescreen/MyProperty';
 import MyRooms from '../components/Homescreen/MyRooms';
 import Notifications from '../components/Homescreen/Notifications';
+import Intrests from '../components/Homescreen/Intrests';
 
 const HomeScreen = ({navigation}) => {
   return (
@@ -43,13 +44,14 @@ const HomeScreen = ({navigation}) => {
 
       /> */}
 
-      <HomeScreen_Header username={'Kirtan'} />
-      <MyProperty />
+      <HomeScreen_Header username={'Kirtan'} navigation={navigation} />
+      <MyProperty navigation={navigation} />
       {/* <View>
         <Text> Kirtan here</Text>
       </View> */}
-      <MyRooms />
-      <Notifications />
+      <MyRooms navigation={navigation} />
+      <Notifications navigation={navigation} />
+      <Intrests navigation={navigation} />
     </ScrollView>
   );
 };
